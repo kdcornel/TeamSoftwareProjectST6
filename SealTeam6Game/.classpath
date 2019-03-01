@@ -7,5 +7,10 @@
 	<classpathentry kind="lib" path="C:/Users/Kevin/Documents/LibGDXLibraries/gdx-backend-lwjgl-natives.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Kevin/Documents/LibGDXLibraries/gdx-natives.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Kevin/Documents/LibGDXLibraries/gdx-setup.jar"/>
+	<classpathentry kind="lib" path="C:/Users/joshj/workspace/Libraries/libgdx/gdx.jar"/>
+	<classpathentry kind="lib" path="C:/Users/joshj/workspace/Libraries/libgdx/gdx-backend-lwjgl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/joshj/workspace/Libraries/libgdx/gdx-backend-lwjgl-natives.jar"/>
+	<classpathentry kind="lib" path="C:/Users/joshj/workspace/Libraries/libgdx/gdx-natives.jar"/>
+	<classpathentry kind="lib" path="C:/Users/joshj/workspace/Libraries/libgdx/gdx-setup.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
