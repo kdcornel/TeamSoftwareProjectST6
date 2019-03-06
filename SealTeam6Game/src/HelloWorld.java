@@ -6,7 +6,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class HelloWorld extends ApplicationAdapter {
@@ -37,52 +39,13 @@ public class HelloWorld extends ApplicationAdapter {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
-            Random r = new Random();
-            Random rand = new Random();
-            int xPos = r.nextInt(400)+100;
-            int yPos = r.nextInt(400)+100;
-            font.draw(batch, "Seal Team Six", xPos, yPos);
-            
-            int c = rand.nextInt(5);
-            if ( c == 0 ) {
-                font.setColor(Color.RED);
-            } else if ( c== 1 ) {
-                font.setColor(Color.GREEN);
-            } else if ( c== 2 ) {
-                font.setColor(Color.BLUE);
-            } else if ( c== 3 ) {
-                font.setColor(Color.MAGENTA);
-            } else {
-                font.setColor(Color.MAROON);
-            }
-            
-            xPos = r.nextInt(400)+100;
-            yPos = r.nextInt(400)+100;
-            font.draw(batch, "(Extra Text)", xPos, yPos);
-            
-            
-            c = rand.nextInt(5);
-            if ( c == 0 ) {
-                font.setColor(Color.RED);
-            } else if ( c== 1 ) {
-                font.setColor(Color.GREEN);
-            } else if ( c== 2 ) {
-                font.setColor(Color.BLUE);
-            } else if ( c== 3 ) {
-                font.setColor(Color.MAGENTA);
-            } else {
-                font.setColor(Color.MAROON);
-            }
-            
-            //xPos++; yPos++;
-            try {
-                Thread.sleep(800);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            batch.end();
+        Texture texture = new Texture(Gdx.files.internal("C:/Users/joshj/workspace/SealTeam6Game/src/Goomba.png"));
+        Sprite sprite = new Sprite(texture, 10, 10, 400, 400);
+        sprite.setPosition(80, 25);
+        
+        batch.begin();        
+        sprite.draw(batch);
+        batch.end();
     }
 
     @Override
