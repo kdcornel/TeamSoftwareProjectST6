@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class HelloWorld extends ApplicationAdapter {
 
     public static void main(String[] args) {
-        new LwjglApplication(new HelloWorld()); 
+        new LwjglApplication(new HelloWorld());
     }
 
     private SpriteBatch batch;
