@@ -65,7 +65,7 @@ public class HelloWorld extends ApplicationAdapter {
     	    	
     	Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Texture texture = new Texture(Gdx.files.internal("C:/Libraries/Textures/Goomba.png"));
+        Texture texture = new Texture(Gdx.files.internal("Assets/Goomba.png"));
         Sprite sprite = new Sprite(texture);
         
       
