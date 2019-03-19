@@ -18,8 +18,8 @@ public class HelloWorld extends ApplicationAdapter {
     
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.width = 1800;
-		cfg.height = 900;
+		cfg.width = 2000;
+		cfg.height = 1800;
 		LwjglApplication app = new LwjglApplication(new HelloWorld(), cfg); 
 	}
 	
@@ -45,7 +45,7 @@ public class HelloWorld extends ApplicationAdapter {
     }
     
     //Speed for key press
-    float goombaSpeed = 150.0f;
+    float goombaSpeed = 400.0f;
     float goombaX;
     float goombaY;
     
