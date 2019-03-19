@@ -33,9 +33,13 @@ public class HelloWorld extends ApplicationAdapter {
         batch = new SpriteBatch();    
         font = new BitmapFont();
         
-        //world = new World(new Vector2(0, -98f), true);
-        //World doesnt currently work, ill look into it
         font.setColor(Color.BLUE);
+        
+        Texture bkgTexture = new Texture(Gdx.files.internal("Assets/background.png"));
+        
+        batch.begin();
+        	batch.draw(bkgTexture, 0, 0);
+        batch.end();
     }
 
     @Override
@@ -45,16 +49,30 @@ public class HelloWorld extends ApplicationAdapter {
     }
     
     //Speed for key press
-    float goombaSpeed = 150.0f;
+    float goombaSpeed = 500.0f;
     float goombaX;
     float goombaY;
+    Physics py = new Physics();
+    
+    
+    int jumpCtr = 0;
+    
+//    public static Texture bkgTexture;
+//    public static Sprite bkgSprite;
+//    public static Texture texture;
+//    public static Sprite sprite;
+//    
+    
     
     @Override
     public void render() {  
     	
+    	
     	//Action Listeners for dpad key presses
-    	if(Gdx.input.isKeyPressed(Keys.DPAD_UP))
-    		goombaY += Gdx.graphics.getDeltaTime() * goombaSpeed;       
+    	if(Gdx.input.isKeyPressed(Keys.DPAD_UP) & jumpCtr < 12){
+    		goombaY += Gdx.graphics.getDeltaTime() * (goombaSpeed * 5);
+    		jumpCtr++;
+    	}
     	if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN))
     		goombaY -= Gdx.graphics.getDeltaTime() * goombaSpeed;
     	if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT))
@@ -62,18 +80,36 @@ public class HelloWorld extends ApplicationAdapter {
     	if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT))
     		goombaX += Gdx.graphics.getDeltaTime() * goombaSpeed;
     	
-    	    	
+    	
+    	if(goombaY >= 900 || goombaY <= 0){
+    		goombaY -= goombaY;
+    		jumpCtr = 0;
+    	}
+    	 
+    	if(goombaX >= 1800 || goombaX <= 0){
+    		goombaX -= goombaX;
+    	}
+    	
+    	goombaY = py.gravity(goombaY);
+    	
+    	
     	Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+       
         Texture texture = new Texture(Gdx.files.internal("Assets/Goomba.png"));
+        //Texture bkgTexture = new Texture(Gdx.files.internal("Assets/background.png"));
         Sprite sprite = new Sprite(texture);
-        
+        //Sprite bkgSprite = new Sprite(bkgTexture);
       
         batch.begin();  
         batch.draw(texture, (int)goombaX, (int)goombaY);
         //sprite.draw(batch);
         batch.end();
+        
+        
     }
+    
+    
     
 
 
