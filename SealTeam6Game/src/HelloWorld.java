@@ -20,8 +20,8 @@ public class HelloWorld extends ApplicationAdapter {
     
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.width = 2000;
-		cfg.height = 1800;
+		cfg.width = 400;
+		cfg.height = 350;
 		LwjglApplication app = new LwjglApplication(new HelloWorld(), cfg); 
 	}
 	
@@ -58,7 +58,7 @@ public class HelloWorld extends ApplicationAdapter {
     
     //Speed for key press
 
-    float goombaSpeed = 400.0f;
+    float goombaSpeed = 300.0f;
 
     float goombaX;
     float goombaY;
@@ -119,7 +119,7 @@ public class HelloWorld extends ApplicationAdapter {
         //Sprite bkgSprite = new Sprite(bkgTexture);
       
         batch.begin();  
-        batch.draw(getTexture(currentAnim), (int)goombaX, (int)goombaY);
+        batch.draw(getTexture(currentAnim), (int)goombaX, (int)goombaY+10);
         //sprite.draw(batch);
         batch.end();
         
