@@ -1,6 +1,7 @@
 
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,6 +27,11 @@ public class HelloWorld extends ApplicationAdapter {
 	
     private SpriteBatch batch;
     private BitmapFont font;
+    private Animation manRight;
+    private Animation manLeft;
+    private Animation manDown;
+    private float elapsed_time = 0f;
+    private static float FRAME_DURATION = 0.5f;
     //World world;
     //Body body;
     
@@ -35,11 +42,12 @@ public class HelloWorld extends ApplicationAdapter {
         
         font.setColor(Color.BLUE);
         
-        Texture bkgTexture = new Texture(Gdx.files.internal("Assets/background.png"));
-        
-        batch.begin();
-        	batch.draw(bkgTexture, 0, 0);
-        batch.end();
+        Texture man1 = new Texture(Gdx.files.internal("Assets/Man Walking Right.png"));
+        Texture man2 = new Texture(Gdx.files.internal("Assets/Man Walking Left.png"));
+        Texture man3 = new Texture(Gdx.files.internal("Assets/Man Crouching.png"));
+        manRight = new Animation(new TextureRegion(man1),4, 8);
+        manLeft = new Animation(new TextureRegion(man2),4, 8);
+        manDown = new Animation(new TextureRegion(man3),6, 8);
     }
 
     @Override
@@ -54,6 +62,7 @@ public class HelloWorld extends ApplicationAdapter {
 
     float goombaX;
     float goombaY;
+    int currentAnim = 1;
     Physics py = new Physics();
     
     
@@ -69,18 +78,24 @@ public class HelloWorld extends ApplicationAdapter {
     @Override
     public void render() {  
     	
-    	
+    	elapsed_time += Gdx.graphics.getDeltaTime();
     	//Action Listeners for dpad key presses
     	if(Gdx.input.isKeyPressed(Keys.DPAD_UP) & jumpCtr < 12){
     		goombaY += Gdx.graphics.getDeltaTime() * (goombaSpeed * 5);
     		jumpCtr++;
     	}
-    	if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN))
-    		goombaY -= Gdx.graphics.getDeltaTime() * goombaSpeed;
-    	if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT))
+    	if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
+    		//goombaY -= Gdx.graphics.getDeltaTime() * goombaSpeed;
+    	    currentAnim = 3;
+    	}
+    	if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) {
     		goombaX -= Gdx.graphics.getDeltaTime() * goombaSpeed;
-    	if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT))
+    	    currentAnim = 2;
+    	}
+    	if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
     		goombaX += Gdx.graphics.getDeltaTime() * goombaSpeed;
+    		currentAnim = 1;
+    	}
     	
     	
     	if(goombaY >= 900 || goombaY <= 0){
@@ -104,14 +119,27 @@ public class HelloWorld extends ApplicationAdapter {
         //Sprite bkgSprite = new Sprite(bkgTexture);
       
         batch.begin();  
-        batch.draw(texture, (int)goombaX, (int)goombaY);
+        batch.draw(getTexure(currentAnim), (int)goombaX, (int)goombaY);
         //sprite.draw(batch);
         batch.end();
         
         
     }
     
-    
+    public TextureRegion getTexture( int currentAnim ) {
+        if (currentAnim == 1) {
+            manRight.update(0.5f);
+            return manRight.getFrame();
+        }
+        if (currentAnim == 2) {
+            manLeft.update(0.5f);
+            return manLeft.getFrame();
+        }
+        if (currentAnim == 3) {
+            manDown.update(0.5f);
+            return manDown.getFrame();
+        }
+    }
     
 
 
