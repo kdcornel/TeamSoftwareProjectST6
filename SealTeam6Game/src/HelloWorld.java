@@ -119,7 +119,7 @@ public class HelloWorld extends ApplicationAdapter {
         //Sprite bkgSprite = new Sprite(bkgTexture);
       
         batch.begin();  
-        batch.draw(getTexure(currentAnim), (int)goombaX, (int)goombaY);
+        batch.draw(getTexture(currentAnim), (int)goombaX, (int)goombaY);
         //sprite.draw(batch);
         batch.end();
         
@@ -135,10 +135,9 @@ public class HelloWorld extends ApplicationAdapter {
             manLeft.update(0.5f);
             return manLeft.getFrame();
         }
-        if (currentAnim == 3) {
-            manDown.update(0.5f);
-            return manDown.getFrame();
-        }
+        manDown.update(0.5f);
+        return manDown.getFrame();
+        
     }
     
 
