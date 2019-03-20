@@ -12,6 +12,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import game.main.Game;
+
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,10 +22,22 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class HelloWorld extends ApplicationAdapter {
     
 	public static void main(String[] args) {
-		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+	    LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.width = 400;
 		cfg.height = 350;
 		LwjglApplication app = new LwjglApplication(new HelloWorld(), cfg); 
+		
+///////////////////////////////////////////////////////////////////////////////////////
+//		KEVIN'S STUFF PLEASE DO NOT EDIT                                             //
+///////////////////////////////////////////////////////////////////////////////////////
+//	    LwjglApplicationConfiguration cfg = 
+//                new LwjglApplicationConfiguration();
+//        
+//        cfg.title = Game.title;
+//        cfg.width = Game.screenWidth * Game.scale;
+//        cfg.height = Game.screenHeight * Game.scale;
+//        
+//        new LwjglApplication( new Game(), cfg);
 	}
 	
     private SpriteBatch batch;
@@ -117,7 +132,8 @@ public class HelloWorld extends ApplicationAdapter {
         //Texture bkgTexture = new Texture(Gdx.files.internal("Assets/background.png"));
         Sprite sprite = new Sprite(texture);
         //Sprite bkgSprite = new Sprite(bkgTexture);
-      
+        SpriteBatch sb = new SpriteBatch();
+        
         batch.begin();  
         batch.draw(getTexture(currentAnim), (int)goombaX, (int)goombaY+10);
         //sprite.draw(batch);
