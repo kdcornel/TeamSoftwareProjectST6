@@ -52,8 +52,6 @@ public class HelloWorld extends ApplicationAdapter {
 
     float goombaSpeed = 400.0f;
 
-    float goombaSpeed = 500.0f;
-
     float goombaX;
     float goombaY;
     Physics py = new Physics();
