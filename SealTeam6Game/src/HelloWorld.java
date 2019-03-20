@@ -22,9 +22,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class HelloWorld extends ApplicationAdapter {
     
 	public static void main(String[] args) {
+
 	    LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.width = 400;
 		cfg.height = 350;
+
+		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+		cfg.width = 1000;
+		cfg.height = 500;
+
 		LwjglApplication app = new LwjglApplication(new HelloWorld(), cfg); 
 		
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -129,14 +135,18 @@ public class HelloWorld extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
        
         Texture texture = new Texture(Gdx.files.internal("Assets/Goomba.png"));
-        //Texture bkgTexture = new Texture(Gdx.files.internal("Assets/background.png"));
+        Texture bkgTexture = new Texture(Gdx.files.internal("Assets/LowerResBkg.jpg"));
+        TextureRegion region = new TextureRegion(bkgTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Sprite sprite = new Sprite(texture);
+
         //Sprite bkgSprite = new Sprite(bkgTexture);
         SpriteBatch sb = new SpriteBatch();
         
+
+      
         batch.begin();  
+        batch.draw(region, 0,0);
         batch.draw(getTexture(currentAnim), (int)goombaX, (int)goombaY+10);
-        //sprite.draw(batch);
         batch.end();
         
         
