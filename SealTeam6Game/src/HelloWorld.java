@@ -23,10 +23,6 @@ public class HelloWorld extends ApplicationAdapter {
     
 	public static void main(String[] args) {
 
-	    LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.width = 400;
-		cfg.height = 350;
-
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.width = 1000;
 		cfg.height = 500;
@@ -101,7 +97,7 @@ public class HelloWorld extends ApplicationAdapter {
     	
     	elapsed_time += Gdx.graphics.getDeltaTime();
     	//Action Listeners for dpad key presses
-    	if(Gdx.input.isKeyPressed(Keys.DPAD_UP) & jumpCtr < 12){
+    	if(Gdx.input.isKeyPressed(Keys.DPAD_UP) && jumpCtr < 12){
     		goombaY += Gdx.graphics.getDeltaTime() * (goombaSpeed * 5);
     		jumpCtr++;
     	}
@@ -130,7 +126,6 @@ public class HelloWorld extends ApplicationAdapter {
     	
     	goombaY = py.gravity(goombaY);
     	
-    	
     	Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
        
@@ -146,7 +141,7 @@ public class HelloWorld extends ApplicationAdapter {
       
         batch.begin();  
         batch.draw(region, 0,0);
-        batch.draw(getTexture(currentAnim), (int)goombaX, (int)goombaY+10);
+        batch.draw(getTexture(currentAnim), (int)goombaX, (int)goombaY+12);
         batch.end();
         
         
