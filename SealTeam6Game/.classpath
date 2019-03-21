@@ -13,5 +13,17 @@
 	<classpathentry kind="lib" path="C:/Libraries/gdx-backend-robovm.jar"/>
 	<classpathentry kind="lib" path="C:/Libraries/gdx-natives.jar"/>
 	<classpathentry kind="lib" path="C:/Libraries/gdx-setup.jar"/>
+	<classpathentry kind="lib" path="gdx-box2d/gdx-box2d-gwt.jar"/>
+	<classpathentry kind="lib" path="gdx-box2d/gdx-box2d-natives.jar"/>
+	<classpathentry kind="lib" path="gdx-box2d/gdx-box2d.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-backend-android-sources.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-backend-gwt-sources.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-backend-headless-sources.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-backend-jglfw-sources.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-backend-lwjgl-sources.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-backend-robovm-sources.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-sources.jar"/>
+	<classpathentry kind="lib" path="gdx-box2d/sources/gdx-box2d-gwt-sources.jar"/>
+	<classpathentry kind="lib" path="gdx-box2d/sources/gdx-box2d-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

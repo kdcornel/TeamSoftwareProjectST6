@@ -1,6 +1,7 @@
 
 
 import java.util.Random;
+
 import java.util.concurrent.TimeUnit;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -20,12 +21,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class HelloWorld extends ApplicationAdapter {
+    public static int worldWidth = 750;
+    public static int worldHeight = 500;
     
 	public static void main(String[] args) {
 
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.width = 1000;
-		cfg.height = 500;
+		cfg.width = worldWidth;
+		cfg.height = worldHeight;
 
 		LwjglApplication app = new LwjglApplication(new HelloWorld(), cfg); 
 		
@@ -83,7 +86,10 @@ public class HelloWorld extends ApplicationAdapter {
     Physics py = new Physics();
     
     
-    int jumpCtr = 0;
+    boolean jumped = false;
+    int jumping = 0;
+    boolean down = false;
+    int prevAnim = 1;
     
 //    public static Texture bkgTexture;
 //    public static Sprite bkgSprite;
@@ -94,17 +100,32 @@ public class HelloWorld extends ApplicationAdapter {
     
     @Override
     public void render() {  
-    	
     	elapsed_time += Gdx.graphics.getDeltaTime();
     	//Action Listeners for dpad key presses
-    	if(Gdx.input.isKeyPressed(Keys.DPAD_UP) && jumpCtr < 12){
-    		goombaY += Gdx.graphics.getDeltaTime() * (goombaSpeed * 5);
-    		jumpCtr++;
+    	if ( jumping > 0 ) {
+            goombaY += (Gdx.graphics.getDeltaTime() * (goombaSpeed * 3))*1.5;
+            jumping--;
+        }
+    	if(Gdx.input.isKeyPressed(Keys.DPAD_UP) && jumped == false){
+    		//goombaY += Gdx.graphics.getDeltaTime() * (goombaSpeed * 5);
+    		jumped = true;
+    		jumping = 5;
     	}
     	if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
     		//goombaY -= Gdx.graphics.getDeltaTime() * goombaSpeed;
+    	    if ( currentAnim != 3 ) {
+    	        prevAnim = currentAnim;
+    	    }
     	    currentAnim = 3;
+    	    down = true;
     	}
+    	if(!Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
+            //goombaY -= Gdx.graphics.getDeltaTime() * goombaSpeed;
+    	    if ( down == true ) {
+    	        currentAnim = prevAnim;
+                down = false;
+    	    }
+        }
     	if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) {
     		goombaX -= Gdx.graphics.getDeltaTime() * goombaSpeed;
     	    currentAnim = 2;
@@ -115,13 +136,24 @@ public class HelloWorld extends ApplicationAdapter {
     	}
     	
     	
-    	if(goombaY >= 900 || goombaY <= 0){
+    	if(goombaY >= worldHeight || goombaY <= 0){
     		goombaY -= goombaY;
-    		jumpCtr = 0;
+    		if ( jumped == true ) {
+    		    if ( jumping > 0 ) {
+    		        jumping--;
+    		    } else {
+    		        jumped = false;
+    		    }
+    		}
     	}
     	 
-    	if(goombaX >= 1800 || goombaX <= 0){
+    	if( goombaX <= 0){
     		goombaX -= goombaX;
+    	    //goombaX = worldWidth-70;
+    	}
+    	if( goombaX >= worldWidth-70 ) {
+    	    goombaX -= Gdx.graphics.getDeltaTime() * goombaSpeed;
+    	    //goombaX += goombaX;
     	}
     	
     	goombaY = py.gravity(goombaY);
