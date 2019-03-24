@@ -62,7 +62,7 @@ public class HelloWorld extends ApplicationAdapter {
         Texture man1 = new Texture(Gdx.files.internal("Assets/Man Walking Right.png"));
         Texture man2 = new Texture(Gdx.files.internal("Assets/Man Walking Left.png"));
         Texture man3 = new Texture(Gdx.files.internal("Assets/Man Crouching.png"));
-        Texture goomba = new Texture(Gdx.files.internal("Assets/Goomba.png"));
+        
         manRight = new Animation(new TextureRegion(man1),4, 8);
         manLeft = new Animation(new TextureRegion(man2),4, 8);
         manDown = new Animation(new TextureRegion(man3),6, 8);
@@ -95,7 +95,7 @@ public class HelloWorld extends ApplicationAdapter {
 //    public static Texture texture;
 //    public static Sprite sprite;
 //    
-    public void getPlayerInput() {
+    public void getPlayerInput(TextureRegion region) {
         
       //Action Listeners for dpad key presses
         if ( jumping > 0 ) {
@@ -160,13 +160,34 @@ public class HelloWorld extends ApplicationAdapter {
         elapsed_time += Gdx.graphics.getDeltaTime();
     }
     
+    float enemyX = worldWidth-100;
+    float enemyY = 0;
+    float enemySpeed = 150f;
+    
+    public void getEnemyInput(TextureRegion region) {
+        //Getting distance from player X direction
+        float absDist = enemyX - playerX;
+        float actDist = enemyX - playerX;
+        if ( absDist < 0 ) {
+            absDist = absDist*-1;
+        }
+        
+        if ( absDist < 175) {
+            if ( actDist < 0) {
+                enemyX += Gdx.graphics.getDeltaTime() * enemySpeed;
+            } else {
+                enemyX -= Gdx.graphics.getDeltaTime() * enemySpeed;
+            }
+        }
+        
+    }
     
    
     @Override
     public void render() {  
     	
     	//keyPresses(currentAnim);
-    	getPlayerInput();
+    	
     	
     	Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -174,15 +195,28 @@ public class HelloWorld extends ApplicationAdapter {
         Texture texture = new Texture(Gdx.files.internal("Assets/Goomba.png"));
         Texture bkgTexture = new Texture(Gdx.files.internal("Assets/LowerResBkg.jpg"));
         TextureRegion region = new TextureRegion(bkgTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Sprite sprite = new Sprite(texture);
 
         //Sprite bkgSprite = new Sprite(bkgTexture);
-        SpriteBatch sb = new SpriteBatch();
+        Texture goomba = new Texture(Gdx.files.internal("Assets/Goomba.png"));
         
-        batch1.begin();  
+        getPlayerInput( region );
+        getEnemyInput( region );
+        
+        batch1.begin();
         batch1.draw(region, 0,0);
-        batch1.draw(getTexture(currentAnim), (int)playerX, (int)playerY+12);
+        batch1.draw(getTexture(currentAnim), (int)playerX, (int)playerY+15);
         batch1.end();
+        
+        batch2.begin();
+        batch2.draw(getTexture(1), (int)enemyX, (int)enemyY);
+        batch2.end();
+        
+        drawSprite( region, getTexture(currentAnim), (int)playerX, (int)playerY);
+        
+    }
+    
+    public void drawSprite(TextureRegion region, TextureRegion textureRegion, int playerX2, int playerY2) {
+        
     }
     
     public TextureRegion getTexture( int currentAnim ) {
