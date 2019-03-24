@@ -275,3 +275,4 @@ public class HelloWorld extends ApplicationAdapter {
     @Override
     public void resume() {
     }
+}
