@@ -46,6 +46,9 @@ public class HelloWorld extends ApplicationAdapter {
     private Animation manRight;
     private Animation manLeft;
     private Animation manDown;
+    private Animation manStand;
+    private Animation manUpR;
+    private Animation manUpL;
     private float elapsed_time = 0f;
     private static float FRAME_DURATION = 0.5f;
     //World world;
@@ -59,13 +62,19 @@ public class HelloWorld extends ApplicationAdapter {
         
         font.setColor(Color.BLUE);
         
+        Texture goomba = new Texture(Gdx.files.internal("Assets/Goomba.png"));
         Texture man1 = new Texture(Gdx.files.internal("Assets/Man Walking Right.png"));
         Texture man2 = new Texture(Gdx.files.internal("Assets/Man Walking Left.png"));
         Texture man3 = new Texture(Gdx.files.internal("Assets/Man Crouching.png"));
-        Texture goomba = new Texture(Gdx.files.internal("Assets/Goomba.png"));
+        Texture man4 = new Texture(Gdx.files.internal("Assets/Man Standing.png"));
+        Texture man5 = new Texture(Gdx.files.internal("Assets/Man Jumping.png"));
+        Texture man6 = new Texture(Gdx.files.internal("Assets/Man Jumping Left.png"));
         manRight = new Animation(new TextureRegion(man1),4, 8);
         manLeft = new Animation(new TextureRegion(man2),4, 8);
         manDown = new Animation(new TextureRegion(man3),6, 8);
+        manStand = new Animation(new TextureRegion(man4),2, 8);
+        manUpR = new Animation(new TextureRegion(man5),2, 8);
+        manUpL = new Animation(new TextureRegion(man6),2, 8);
     }
 
     @Override
@@ -89,6 +98,8 @@ public class HelloWorld extends ApplicationAdapter {
     int jumping = 0;
     boolean down = false;
     int prevAnim = 1;
+    int runAnim = 1;
+    int previous;
     
 //    public static Texture bkgTexture;
 //    public static Sprite bkgSprite;
@@ -99,14 +110,38 @@ public class HelloWorld extends ApplicationAdapter {
         
       //Action Listeners for dpad key presses
         if ( jumping > 0 ) {
+        	if(runAnim == 1) {
+    			currentAnim = 5;
+    			previous = 5;
+    		}
+    		if(runAnim == 2) {
+    			currentAnim = 6;
+    			previous = 6;
+    		}
             playerY += (Gdx.graphics.getDeltaTime() * (playerSpeed * 3))*1.5;
             jumping--;
         }
         if ( justJumped > 0 ) {
             justJumped--;
+            if(runAnim == 1) {
+    			currentAnim = 5;
+    			previous = 5;
+    		}
+    		if(runAnim == 2) {
+    			currentAnim = 6;
+    			previous = 6;
+    		}
         }
         if(Gdx.input.isKeyPressed(Keys.DPAD_UP) && jumped == false && justJumped == 0){
             //goombaY += Gdx.graphics.getDeltaTime() * (goombaSpeed * 5);
+        	if(runAnim == 1) {
+    			currentAnim = 5;
+    			previous = 5;
+    		}
+    		if(runAnim == 2) {
+    			currentAnim = 6;
+    			previous = 6;
+    		}
             jumped = true;
             jumping = 5;
             justJumped = 15;
@@ -129,11 +164,19 @@ public class HelloWorld extends ApplicationAdapter {
         if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) {
             playerX -= Gdx.graphics.getDeltaTime() * playerSpeed;
             currentAnim = 2;
+            previous = 2;
+            runAnim = 2;
         }
         if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
             playerX += Gdx.graphics.getDeltaTime() * playerSpeed;
             currentAnim = 1;
+            previous = 6;
+            runAnim = 1;
         }
+        if(!Gdx.input.isKeyPressed(Keys.DPAD_RIGHT) && !Gdx.input.isKeyPressed(Keys.DPAD_LEFT) && !Gdx.input.isKeyPressed(Keys.DPAD_UP) && !Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
+        	currentAnim = 7;
+        	previous = 7;
+        	}
         
         if(playerY >= worldHeight || playerY <= 0){
             playerY -= playerY;
@@ -164,7 +207,7 @@ public class HelloWorld extends ApplicationAdapter {
    
     @Override
     public void render() {  
-    	
+    	currentAnim = previous;
     	//keyPresses(currentAnim);
     	getPlayerInput();
     	
@@ -194,8 +237,23 @@ public class HelloWorld extends ApplicationAdapter {
             manLeft.update(0.5f);
             return manLeft.getFrame();
         }
-        manDown.update(0.5f);
-        return manDown.getFrame();
+        if (currentAnim == 3) {
+        	manDown.update(0.5f);
+        	return manDown.getFrame();
+        }
+        if (currentAnim == 5) {
+        	manStand.update(0.1f);
+        	return manUpR.getFrame();
+        }
+        if (currentAnim == 6) {
+        	manStand.update(0.1f);
+        	return manUpL.getFrame();
+        }
+        if (currentAnim == 7) {
+        	manStand.update(0.1f);
+        	return manStand.getFrame();
+        }
+        	return manStand.getFrame();
     }
     
     public int keyPresses(int currentAnim) {
@@ -221,6 +279,7 @@ public class HelloWorld extends ApplicationAdapter {
     	    playerX += Gdx.graphics.getDeltaTime() * playerSpeed;
     		currentAnim = 1;
     	}
+    	
 		return currentAnim;
     }
 
