@@ -25,23 +25,9 @@ public class HelloWorld extends ApplicationAdapter {
 		cfg.width = worldWidth;
 		cfg.height = worldHeight;
 
-		LwjglApplication app = new LwjglApplication(new HelloWorld(), cfg); 
-		
-///////////////////////////////////////////////////////////////////////////////////////
-//		KEVIN'S STUFF PLEASE DO NOT EDIT                                             //
-///////////////////////////////////////////////////////////////////////////////////////
-//	    LwjglApplicationConfiguration cfg = 
-//                new LwjglApplicationConfiguration();
-//        
-//        cfg.title = Game.title;
-//        cfg.width = Game.screenWidth * Game.scale;
-//        cfg.height = Game.screenHeight * Game.scale;
-//        
-//        new LwjglApplication( new Game(), cfg);
+		LwjglApplication app = new LwjglApplication(new HelloWorld(), cfg);
 	}
-	
     private SpriteBatch batch1;
-    private SpriteBatch batch2;
     private BitmapFont font;
     private Animation manRight;
     private Animation manLeft;
@@ -52,9 +38,9 @@ public class HelloWorld extends ApplicationAdapter {
     //Body body;
     
     @Override
-    public void create() {        
+    public void create() {       
         batch1 = new SpriteBatch();
-        batch2 = new SpriteBatch();
+        
         font = new BitmapFont();
         
         font.setColor(Color.BLUE);
@@ -71,7 +57,6 @@ public class HelloWorld extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch1.dispose();
-        batch2.dispose();
         font.dispose();
     }
     
@@ -90,16 +75,11 @@ public class HelloWorld extends ApplicationAdapter {
     boolean down = false;
     int prevAnim = 1;
     
-//    public static Texture bkgTexture;
-//    public static Sprite bkgSprite;
-//    public static Texture texture;
-//    public static Sprite sprite;
-//    
-    public void getPlayerInput(TextureRegion region) {
+    public void getPlayerInput() {
         
       //Action Listeners for dpad key presses
         if ( jumping > 0 ) {
-            playerY += (Gdx.graphics.getDeltaTime() * (playerSpeed * 3))*1.5;
+            playerY += (Gdx.graphics.getDeltaTime() * (playerSpeed * 3))*1;
             jumping--;
         }
         if ( justJumped > 0 ) {
@@ -109,7 +89,7 @@ public class HelloWorld extends ApplicationAdapter {
             //goombaY += Gdx.graphics.getDeltaTime() * (goombaSpeed * 5);
             jumped = true;
             jumping = 5;
-            justJumped = 15;
+            justJumped = 10;
         }
         if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
             //goombaY -= Gdx.graphics.getDeltaTime() * goombaSpeed;
@@ -133,6 +113,12 @@ public class HelloWorld extends ApplicationAdapter {
         if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
             playerX += Gdx.graphics.getDeltaTime() * playerSpeed;
             currentAnim = 1;
+        }
+        if(Gdx.input.isKeyPressed(Keys.SPACE) || attacking == true) {
+            getAttack();
+        }
+        if(Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+            dispose();
         }
         
         if(playerY >= worldHeight || playerY <= 0){
@@ -164,7 +150,7 @@ public class HelloWorld extends ApplicationAdapter {
     float enemyY = 0;
     float enemySpeed = 150f;
     
-    public void getEnemyInput(TextureRegion region) {
+    public void getEnemyInput() {
         //Getting distance from player X direction
         float absDist = enemyX - playerX;
         float actDist = enemyX - playerX;
@@ -182,36 +168,76 @@ public class HelloWorld extends ApplicationAdapter {
         
     }
     
+    float attackX = playerX;
+    float attackY = playerY;
+    float start = playerX;
+    float attackSpeed = 400f;
+    boolean attacking = false;
+    
+    public void getAttack() {
+        if ( attacking == false ) {
+            attackX = playerX;
+            attackY = playerY;
+            attacking = true;
+            if ( currentAnim == 1) {
+                attackSpeed = 400f;
+            } else if ( currentAnim == 2 ) {
+                attackSpeed = -400f;
+            }
+        }
+        if ( attackSpeed == 400f ) {
+            attackX += Gdx.graphics.getDeltaTime() * attackSpeed;
+        } else {
+            attackX += Gdx.graphics.getDeltaTime() * attackSpeed;
+        }
+        
+    }
+
+    
+    
+    //    Gdx.gl.glClearColor(1, 1, 1, 1);
+    //    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
    
-    @Override
-    public void render() {  
-    	
-    	//keyPresses(currentAnim);
-    	
-    	
-    	Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-       
-        Texture texture = new Texture(Gdx.files.internal("Assets/Goomba.png"));
+    Texture bkgTexture;
+    TextureRegion region;
+    Texture goomba;
+    Texture invisible;
+    
+    public void initialize() {
         Texture bkgTexture = new Texture(Gdx.files.internal("Assets/LowerResBkg.jpg"));
-        TextureRegion region = new TextureRegion(bkgTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        region = new TextureRegion(bkgTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         //Sprite bkgSprite = new Sprite(bkgTexture);
-        Texture goomba = new Texture(Gdx.files.internal("Assets/Goomba.png"));
+        goomba = new Texture(Gdx.files.internal("Assets/Goomba.png"));
+        invisible = new Texture(Gdx.files.internal("Assets/png-invisible-background-2.png"));
+    }
+    
+    boolean init = false;
+    @Override
+    public void render() {  
+        if ( init == false ) {
+            initialize();
+            init = true;
+        }
         
-        getPlayerInput( region );
-        getEnemyInput( region );
+        getPlayerInput();
+        getEnemyInput();
         
         batch1.begin();
         batch1.draw(region, 0,0);
         batch1.draw(getTexture(currentAnim), (int)playerX, (int)playerY+15);
+        batch1.draw(getTexture(currentAnim), (int)enemyX, (int)enemyY);
+        if( attacking == true) {
+            batch1.draw(goomba, (int)attackX, (int)attackY);
+            float absDist = attackX - start;
+            if ( absDist < 0) {
+                absDist = absDist*-1;
+            }
+            if (absDist > 500) {
+                attacking = false;
+            }
+        }
         batch1.end();
-        
-        batch2.begin();
-        batch2.draw(getTexture(1), (int)enemyX, (int)enemyY);
-        batch2.end();
-        
-        drawSprite( region, getTexture(currentAnim), (int)playerX, (int)playerY);
         
     }
     
