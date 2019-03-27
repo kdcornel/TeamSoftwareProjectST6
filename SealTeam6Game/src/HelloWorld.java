@@ -79,7 +79,7 @@ public class HelloWorld extends ApplicationAdapter {
         
       //Action Listeners for dpad key presses
         if ( jumping > 0 ) {
-            playerY += (Gdx.graphics.getDeltaTime() * (playerSpeed * 3))*1;
+            playerY += (Gdx.graphics.getDeltaTime() * (playerSpeed * 3))*1.5;
             jumping--;
         }
         if ( justJumped > 0 ) {
@@ -88,8 +88,8 @@ public class HelloWorld extends ApplicationAdapter {
         if(Gdx.input.isKeyPressed(Keys.DPAD_UP) && jumped == false && justJumped == 0){
             //goombaY += Gdx.graphics.getDeltaTime() * (goombaSpeed * 5);
             jumped = true;
-            jumping = 5;
-            justJumped = 10;
+            jumping = 10;
+            justJumped = 15;
         }
         if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
             //goombaY -= Gdx.graphics.getDeltaTime() * goombaSpeed;
@@ -225,7 +225,7 @@ public class HelloWorld extends ApplicationAdapter {
         
         batch1.begin();
         batch1.draw(region, 0,0);
-        batch1.draw(getTexture(currentAnim), (int)playerX, (int)playerY+15);
+        batch1.draw(getTexture(currentAnim), (int)playerX, (int)playerY+10);
         batch1.draw(getTexture(currentAnim), (int)enemyX, (int)enemyY);
         if( attacking == true) {
             batch1.draw(goomba, (int)attackX, (int)attackY);
