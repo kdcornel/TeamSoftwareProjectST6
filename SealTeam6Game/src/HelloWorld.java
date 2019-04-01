@@ -178,6 +178,7 @@ public class HelloWorld extends ApplicationAdapter {
         if ( attacking == false ) {
             attackX = playerX;
             attackY = playerY;
+            start = playerX;
             attacking = true;
             if ( currentAnim == 1) {
                 attackSpeed = 400f;
@@ -193,6 +194,16 @@ public class HelloWorld extends ApplicationAdapter {
         
     }
 
+    int pY = -20;
+    int pSpeed = 1;
+    public void platformY() {
+        if ( pY == -20 ) {
+            pSpeed = 1;
+        } else if ( pY == 100 ) {
+            pSpeed = -1;
+        }
+        pY += pSpeed;
+    }
     
     
     //    Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -201,7 +212,7 @@ public class HelloWorld extends ApplicationAdapter {
     Texture bkgTexture;
     TextureRegion region;
     Texture goomba;
-    Texture invisible;
+    Texture platform;
     
     public void initialize() {
         Texture bkgTexture = new Texture(Gdx.files.internal("Assets/LowerResBkg.jpg"));
@@ -209,7 +220,7 @@ public class HelloWorld extends ApplicationAdapter {
 
         //Sprite bkgSprite = new Sprite(bkgTexture);
         goomba = new Texture(Gdx.files.internal("Assets/Goomba.png"));
-        invisible = new Texture(Gdx.files.internal("Assets/png-invisible-background-2.png"));
+        platform = new Texture(Gdx.files.internal("Assets/platform.png"));
     }
     
     boolean init = false;
@@ -222,11 +233,14 @@ public class HelloWorld extends ApplicationAdapter {
         
         getPlayerInput();
         getEnemyInput();
+        //platformY();
         
         batch1.begin();
         batch1.draw(region, 0,0);
+        batch1.draw(platform, 150, pY);
         batch1.draw(getTexture(currentAnim), (int)playerX, (int)playerY+10);
         batch1.draw(getTexture(currentAnim), (int)enemyX, (int)enemyY);
+        
         if( attacking == true) {
             batch1.draw(goomba, (int)attackX, (int)attackY);
             float absDist = attackX - start;
