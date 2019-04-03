@@ -32,6 +32,7 @@ public class HelloWorld extends ApplicationAdapter {
     private Animation manRight;
     private Animation manLeft;
     private Animation manDown;
+    private Animation enemRight;
     private float elapsed_time = 0f;
     private static float FRAME_DURATION = 0.5f;
     //World world;
@@ -48,10 +49,13 @@ public class HelloWorld extends ApplicationAdapter {
         Texture man1 = new Texture(Gdx.files.internal("Assets/Man Walking Right.png"));
         Texture man2 = new Texture(Gdx.files.internal("Assets/Man Walking Left.png"));
         Texture man3 = new Texture(Gdx.files.internal("Assets/Man Crouching.png"));
+        Texture enem1 = new Texture(Gdx.files.internal("Assets/Hellhound Right.png"));
+        Texture enem2 = new Texture(Gdx.files.internal("Assets/Hellhound Left.png"));
         
         manRight = new Animation(new TextureRegion(man1),4, 8);
         manLeft = new Animation(new TextureRegion(man2),4, 8);
         manDown = new Animation(new TextureRegion(man3),6, 8);
+        enemRight = new Animation(new TextureRegion(enem1), 4, 40);
     }
 
     @Override
@@ -169,29 +173,24 @@ public class HelloWorld extends ApplicationAdapter {
     }
     
     float attackX = playerX;
-    float attackY = playerY;
+    float attackY = playerY+5;
     float start = playerX;
-    float attackSpeed = 400f;
+    float attackSpeed = 600f;
     boolean attacking = false;
     
     public void getAttack() {
         if ( attacking == false ) {
             attackX = playerX;
-            attackY = playerY;
+            attackY = playerY+17;
             start = playerX;
             attacking = true;
             if ( currentAnim == 1) {
-                attackSpeed = 400f;
+                attackSpeed = 600f;
             } else if ( currentAnim == 2 ) {
-                attackSpeed = -400f;
+                attackSpeed = -600f;
             }
         }
-        if ( attackSpeed == 400f ) {
-            attackX += Gdx.graphics.getDeltaTime() * attackSpeed;
-        } else {
-            attackX += Gdx.graphics.getDeltaTime() * attackSpeed;
-        }
-        
+        attackX += Gdx.graphics.getDeltaTime() * attackSpeed;
     }
 
     int pY = -20;
@@ -204,14 +203,11 @@ public class HelloWorld extends ApplicationAdapter {
         }
         pY += pSpeed;
     }
-    
-    
-    //    Gdx.gl.glClearColor(1, 1, 1, 1);
-    //    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
    
     Texture bkgTexture;
     TextureRegion region;
-    Texture goomba;
+    Texture fireball1;
+    Texture fireball2;
     Texture platform;
     
     public void initialize() {
@@ -219,7 +215,8 @@ public class HelloWorld extends ApplicationAdapter {
         region = new TextureRegion(bkgTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         //Sprite bkgSprite = new Sprite(bkgTexture);
-        goomba = new Texture(Gdx.files.internal("Assets/Goomba.png"));
+        fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
+        fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
         platform = new Texture(Gdx.files.internal("Assets/platform.png"));
     }
     
@@ -232,17 +229,25 @@ public class HelloWorld extends ApplicationAdapter {
         }
         
         getPlayerInput();
-        getEnemyInput();
+        if (enemyDead == false) {
+            getEnemyInput();
+        }
         //platformY();
         
         batch1.begin();
         batch1.draw(region, 0,0);
         batch1.draw(platform, 150, pY);
         batch1.draw(getTexture(currentAnim), (int)playerX, (int)playerY+10);
-        batch1.draw(getTexture(currentAnim), (int)enemyX, (int)enemyY);
+        if ( !getEvAcollision() || enemyDead == false ) {
+            batch1.draw(getTexture(currentAnim), (int)enemyX, (int)enemyY);
+        }
         
         if( attacking == true) {
-            batch1.draw(goomba, (int)attackX, (int)attackY);
+            if ( attackSpeed > 0 ) {
+                batch1.draw(fireball1, (int)attackX, (int)attackY);
+            } else {
+                batch1.draw(fireball2, (int)attackX, (int)attackY);
+            }
             float absDist = attackX - start;
             if ( absDist < 0) {
                 absDist = absDist*-1;
@@ -255,6 +260,16 @@ public class HelloWorld extends ApplicationAdapter {
         
     }
     
+    boolean enemyDead = false;
+    private boolean getEvAcollision() {
+        if ( enemyX-50 <= attackX && enemyX+50 >= attackX  ) {
+            if ( enemyY-50 <= attackY+17 && enemyY+40 >= attackY+17 ) {
+                enemyDead = true;
+            }
+        }
+        return enemyDead;
+    }
+
     public void drawSprite(TextureRegion region, TextureRegion textureRegion, int playerX2, int playerY2) {
         
     }
