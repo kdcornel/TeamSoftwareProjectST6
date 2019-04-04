@@ -1,3 +1,5 @@
+package tests;
+
 import static org.junit.Assert.*;
 import java.util.*;
 import org.junit.*;
@@ -20,73 +22,102 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class JTests extends GameTest {
-	
-	// Internal assets
+import main.*;
+
+public class JTests {
+	// Tests Internal assets
 	@Test
 	public void assetsExist() {
-		assertTrue("Man Walking Right does not exist.",Gdx.files.internal("Assets/Man Walking Right.png").exists());
-		assertTrue("Man Walking Left does not exist.",Gdx.files.internal("Assets/Man Walking Left.png").exists());
-		assertTrue("Man Crouching does not exist.",Gdx.files.internal("Assets/Man Crouching.png").exists());
+		assertTrue("background does not exist.", Gdx.files.internal("Assets/background.png").exists());
+		assertTrue("Coin does not exist.", Gdx.files.internal("Assets/Coin.png").exists());
+		assertTrue("Door does not exist.", Gdx.files.internal("Assets/Door.png").exists());
+		assertTrue("fireball_0 does not exist.", Gdx.files.internal("Assets/fireball_0.png").exists());
+		assertTrue("fireball_1 does not exist.", Gdx.files.internal("Assets/fireball_1.png").exists());
+		assertTrue("Goomba does not exist.", Gdx.files.internal("Assets/Goomba.png").exists());
+		assertTrue("Goomba does not exist.", Gdx.files.internal("Assets/hadouken.jpg").exists());
+		assertTrue("Hellhound Left does not exist.", Gdx.files.internal("Assets/Hellhound Left.png").exists());
+		assertTrue("Hellhound Right does not exist.", Gdx.files.internal("Assets/Hellhound Right.png").exists());
+		assertTrue("LowerResBkg does not exist.", Gdx.files.internal("Assets/LowerResBkg.jpg").exists());
+		assertTrue("Man Crouching does not exist.", Gdx.files.internal("Assets/Man Crouching.png").exists());
+		assertTrue("Man Jumping does not exist.", Gdx.files.internal("Assets/Man Jumping.png").exists());
+		assertTrue("Man Standing does not exist.", Gdx.files.internal("Assets/Man Standing.png").exists());
+		assertTrue("Man Walking Right does not exist.", Gdx.files.internal("Assets/Man Walking Right.png").exists());
+		assertTrue("Man Walking Left does not exist.", Gdx.files.internal("Assets/Man Walking Left.png").exists());
+		assertTrue("platform does not exist.", Gdx.files.internal("Assets/platform.png").exists());
+		assertTrue("Spider Left does not exist.", Gdx.files.internal("Assets/Spider Left.png").exists());
+		assertTrue("Spider Right does not exist.", Gdx.files.internal("Assets/Spider Right.png").exists());
 	}
-	// Application created
+	// Tests application creation
 	@Test
-	public void applicationLaunch() {
-		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.width = 1000;
-		cfg.height = 500;
+	public void applicationCreate() {
+		LwjglApplicationConfiguration result = HelloWorld.createApplication();
+		assertEquals(750, result.width);
+		assertEquals(500, result.height);
 
-		LwjglApplication app = new LwjglApplication(new HelloWorld(), cfg);
-		assertEquals(cfg.width, 1000);
-		assertEquals(cfg.height, 500);
-		
-		Gdx.app.exit();
 		AL.destroy();
 	}
+
 	// Tests gravity physics
 	@Test
 	public void gravity() {
 		Physics test = new Physics();
-		float goombaY = 7; 
-		goombaY = test.gravity(goombaY);
-		assertTrue("Position is greater than 0.", goombaY <= 0);
+		float player = 7;
+		player = test.gravity(player);
+		assertTrue("Position is greater than 0.", player <= 0);
 	}
-	// Tests character sprite animation
+	// Tests player controlled actions
 	@Test
-	public void currentAnimations() throws AWTException {
+	public void playerInput() throws AWTException {
 		HelloWorld test = new HelloWorld();
+		test.testStatus = true;
 		Robot r = new Robot();
-		int currentAnim = 0;
-		
-		// Down 
+		int result;
+
+		// Down
 		r.keyPress(40);
-		currentAnim = test.keyPresses(currentAnim);
-		assertTrue("Not crouch animation.", currentAnim == 3);
+		test.getPlayerInput();
+		result = test.currentAnim;
+		assertEquals(3, result);
 		r.keyRelease(40);
-		currentAnim = 0;
-				
-		// Right
-		r.keyPress(39);
-		currentAnim = test.keyPresses(currentAnim);
-		assertTrue("Not right animation.", currentAnim == 1);
-		r.keyRelease(39);
-		currentAnim = 0;
-				
+
 		// Left
 		r.keyPress(37);
-		currentAnim = test.keyPresses(currentAnim);
-		assertTrue("Not left animation.", currentAnim == 2);
+		test.getPlayerInput();
+		result = test.currentAnim;
+		assertEquals(2, result);
 		r.keyRelease(37);
-		currentAnim = 0;
+
+		// Right
+		r.keyPress(39);
+		test.getPlayerInput();
+		result = test.currentAnim;
+		assertEquals(1, result);
+		r.keyRelease(39);
 	}
-	// Tests creation of a Bitmapfont - Currently Causes Error
+	// Tests the enemy
 	@Test
-	public void fontColorTest() {	
-		HelloWorld test = new HelloWorld(); // Initialize test
-		BitmapFont result = new BitmapFont();
-		BitmapFont expected = new BitmapFont(); // New BitmapFont of what should happen
-		test.setFontColor(result); // Run setFontColor method
-		expected.setColor(Color.BLUE); // Set the expected color to blue
-	    assertEquals(expected.getColor(), result.getColor()); // Compare expected color to actual color
-    }
+	public void enemyInput() {
+		HelloWorld test = new HelloWorld();
+		float result;
+		final double DELTA = 1e-15;
+		test.enemyX = test.playerX + 2;
+		result = test.getEnemyInput();
+		// Enemy stays
+		assertEquals(0, result, DELTA);
+		test.enemyX = test.playerX + 3;
+		result = test.getEnemyInput();
+		// Enemy moves
+		assertEquals(3, result, DELTA);
+	}
+
+	// Tests player attacks
+	@Test
+	public void attacks() {
+		HelloWorld test = new HelloWorld();
+		boolean result = false;
+		test.testStatus = true;
+		test.getAttack();
+		result = test.attacking;
+		assertEquals(true, result);
+	}
 }
