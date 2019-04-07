@@ -12,14 +12,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class HelloWorld extends ApplicationAdapter {
-
-    
-    public static int worldWidth = 750;
-    public static int worldHeight = 500;    
-
 	public static int worldWidth = 750;
 	public static int worldHeight = 500;
-
 
 	public static void main(String[] args) {
 
