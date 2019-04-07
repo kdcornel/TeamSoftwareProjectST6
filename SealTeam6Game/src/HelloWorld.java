@@ -17,8 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class HelloWorld extends ApplicationAdapter {
     
     public static int worldWidth = 750;
-    public static int worldHeight = 500;
-    
+    public static int worldHeight = 500;    
 	public static void main(String[] args) {
 
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
@@ -74,9 +73,17 @@ public class HelloWorld extends ApplicationAdapter {
         font.dispose();
     }
     
+    public void playerBox(int x, int y){
+    	int playerX = x;
+    	int playerY = y;
+    	int playerBase = x + 20;
+    	int playerHeight = y + 40;
+    	int playerCorner = playerBase + playerHeight;
+    }
+    
     //Speed for key press
-
     float playerSpeed = 300.0f;
+    
 
     float playerX;
     float playerY;
@@ -91,7 +98,9 @@ public class HelloWorld extends ApplicationAdapter {
     int runAnim = 1;
     int previous;
     public void getPlayerInput() {
-        
+    	float playerYadd = 0;
+    	
+    	
       //Action Listeners for dpad key presses
         if ( jumping > 0 ) {
         	if(runAnim == 1) {
@@ -188,6 +197,20 @@ public class HelloWorld extends ApplicationAdapter {
             //goombaX += goombaX;
         }
         
+        int[][] grid = Platform.tileGrid();
+        Platform.placePlat(1, 0, grid);
+
+        
+        /**
+         * Broken platform implementation, will work on it until it works
+         */
+        
+        //playerSpeed = py.platCollisionY(grid, Platform.getGridX(grid) * 100, Platform.getGridY(grid) * 50, playerX, playerY, playerSpeed);
+        //playerSpeed = py.platCollisionX(grid, Platform.getGridX(grid) * 100, Platform.getGridY(grid) * 50, playerX, playerY, playerSpeed);
+       
+        //playerSpeed = py.platCollisionY(grid, Platform.getGridX(grid) * 100, Platform.getGridY(grid) * 50, playerX, playerY, playerY);
+        //playerX = py.platCollisionX(grid, Platform.getGridX(grid) * 100, Platform.getGridY(grid) * 50, playerX, playerY, playerX);
+        //playerY += playerYadd;
         playerY = py.gravity(playerY);
         
         elapsed_time += Gdx.graphics.getDeltaTime();
@@ -288,14 +311,25 @@ public class HelloWorld extends ApplicationAdapter {
         float xyz = getEnemyInput();
         //platformY();
         
+        
+        //Placing platform
+        int[][] grid = Platform.tileGrid();
+        
+        
+        int platCount = Platform.checkGrid(grid); 
+        
         batch1.begin();
         batch1.draw(region, 0,0);
-        batch1.draw(platform, 150, pY);
+        //batch1.draw(platform, 150, pY);
+        Platform.placePlat(1, 0, grid);
+        batch1.draw(platform, Platform.getGridX(grid) * 100, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
+//        Platform.placePlat(0, 0, grid);
+//        batch1.draw(platform, Platform.getGridX(grid) * 100, Platform.getGridY(grid) * 50);
         batch1.draw(getTexture(currentAnim), (int)playerX, (int)playerY+10);
         batch1.draw(getEnemyTexture(xyz), (int)enemyX, (int)enemyY);
         
         if( attacking == true) {
-            batch1.draw(goomba, (int)attackX, (int)attackY);
+        	batch1.draw(goomba, (int)attackX, (int)attackY, goomba.getWidth() * .15f, goomba.getHeight() * .15f);
             float absDist = attackX - start;
             if ( absDist < 0) {
                 absDist = absDist*-1;
