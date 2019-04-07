@@ -1,4 +1,4 @@
-package main;
+//package main;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -16,9 +16,6 @@ public class HelloWorld extends ApplicationAdapter {
     
     public static int worldWidth = 750;
     public static int worldHeight = 500;    
-
-	public static int worldWidth = 750;
-	public static int worldHeight = 500;
 
 
 	public static void main(String[] args) {
@@ -309,10 +306,16 @@ public class HelloWorld extends ApplicationAdapter {
 		float xyz = getEnemyInput();
 		// platformY();
 
+		int[][] grid = Platform.tileGrid();
+		
 		batch1.begin();
 		batch1.draw(region, 0, 0);
-		batch1.draw(platform, 150, pY);
-		batch1.draw(getTexture(currentAnim), (int) playerX, (int) playerY + 10);
+		Platform.placePlat(3, 2, grid);
+        batch1.draw(platform, Platform.getGridX(grid) * 100, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
+        Platform.placePlat(1, 4, grid);
+        batch1.draw(platform, Platform.getGridX(grid) * 100, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
+		
+        batch1.draw(getTexture(currentAnim), (int) playerX, (int) playerY + 10);
 
 		if (!getEvAcollision() || enemyDead == false) {
 			batch1.draw(getTexture(currentAnim), (int) enemyX, (int) enemyY);
