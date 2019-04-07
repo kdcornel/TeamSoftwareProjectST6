@@ -159,12 +159,14 @@ public class HelloWorld extends ApplicationAdapter {
             currentAnim = 2;
             previous = 2;
             runAnim = 2;
+            attackDir = 2;
         }
         if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
             playerX += Gdx.graphics.getDeltaTime() * playerSpeed;
             currentAnim = 1;
             previous = 6;
             runAnim = 1;
+            attackDir = 1;
         }
         if(Gdx.input.isKeyPressed(Keys.SPACE) || attacking == true) {
             getAttack();
@@ -177,7 +179,7 @@ public class HelloWorld extends ApplicationAdapter {
         	previous = 7;
         	}
         
-        if(playerY >= worldHeight || playerY <= 0){
+        if(playerY >= worldHeight || playerY <= 10){
             playerY -= playerY;
             if ( jumped == true ) {
                 if ( jumping > 0 ) {
@@ -235,6 +237,7 @@ public class HelloWorld extends ApplicationAdapter {
     float start = playerX;
     float attackSpeed = 600f;
     boolean attacking = false;
+    int attackDir = 1;
     
     public void getAttack() {
         if ( attacking == false ) {
@@ -242,9 +245,9 @@ public class HelloWorld extends ApplicationAdapter {
             attackY = playerY+17;
             start = playerX;
             attacking = true;
-            if ( currentAnim == 1) {
+            if ( attackDir == 1) {
                 attackSpeed = 600f;
-            } else if ( currentAnim == 2 ) {
+            } else if ( attackDir == 2 ) {
                 attackSpeed = -600f;
             }
         }
@@ -267,15 +270,19 @@ public class HelloWorld extends ApplicationAdapter {
     Texture fireball1;
     Texture fireball2;
     Texture platform;
+    //Player player;
     
     public void initialize() {
         Texture bkgTexture = new Texture(Gdx.files.internal("Assets/LowerResBkg.jpg"));
         region = new TextureRegion(bkgTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
+        
         //Sprite bkgSprite = new Sprite(bkgTexture);
         fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
         fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
         platform = new Texture(Gdx.files.internal("Assets/platform.png"));
+        
+        //For player: health, damage, x, y, immunityFrames
+        //player = new Player(5, 1, 0, 0, 15);
     }
     
     boolean init = false;
@@ -288,10 +295,6 @@ public class HelloWorld extends ApplicationAdapter {
         currentAnim = previous;
         getPlayerInput();
 
-        if (enemyDead == false) {
-            getEnemyInput();
-        }
-
         float xyz = getEnemyInput();
         //platformY();
         
@@ -301,10 +304,8 @@ public class HelloWorld extends ApplicationAdapter {
         batch1.draw(getTexture(currentAnim), (int)playerX, (int)playerY+10);
 
         if ( !getEvAcollision() || enemyDead == false ) {
-            batch1.draw(getTexture(currentAnim), (int)enemyX, (int)enemyY);
+            batch1.draw(getEnemyTexture(xyz), (int)enemyX, (int)enemyY);
         }
-
-        batch1.draw(getEnemyTexture(xyz), (int)enemyX, (int)enemyY);
         
         if( attacking == true) {
             if ( attackSpeed > 0 ) {
