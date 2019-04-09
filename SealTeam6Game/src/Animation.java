@@ -52,4 +52,12 @@ public class Animation {
     }
 
 
+    public int count(){
+    	return frame;
+    }
+    
+    public void reset(){
+    	frame = 0;
+    }
+    
 }

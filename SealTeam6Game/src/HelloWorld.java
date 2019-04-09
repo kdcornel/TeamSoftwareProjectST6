@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.audio.Music;
 
 public class HelloWorld extends ApplicationAdapter {
 
@@ -23,6 +24,7 @@ public class HelloWorld extends ApplicationAdapter {
 		createApplication();
 	}
 
+	private Music menuMusic;
 	private SpriteBatch batch1;
 	private BitmapFont font;
 	private Animation manRight;
@@ -34,6 +36,7 @@ public class HelloWorld extends ApplicationAdapter {
 	private Animation manUpL;
 	private Animation eRight;
 	private Animation eLeft;
+	private Animation blackout;
 	private float elapsed_time = 0f;
 	private static float FRAME_DURATION = 0.5f;
 
@@ -105,160 +108,59 @@ public class HelloWorld extends ApplicationAdapter {
 	int runAnim = 1;
 	int previous;
 
-	public void getPlayerInput() {
-		// Action Listeners for dpad key presses
-		if (jumping > 0) {
-			if (runAnim == 1) {
-				currentAnim = 5;
-				previous = 5;
-			}
-			if (runAnim == 2) {
-				currentAnim = 6;
-				previous = 6;
-			}
-			playerY += (Gdx.graphics.getDeltaTime() * (playerSpeed * 3)) * 1.5;
-			jumping--;
-		}
-		if (justJumped > 0) {
-			justJumped--;
-			if (runAnim == 1) {
-				currentAnim = 5;
-				previous = 5;
-			}
-			if (runAnim == 2) {
-				currentAnim = 6;
-				previous = 6;
-			}
-		}
-		if (Gdx.input.isKeyPressed(Keys.DPAD_UP) && jumped == false && justJumped == 0) {
-			// goombaY += Gdx.graphics.getDeltaTime() * (goombaSpeed * 5);
-			if (runAnim == 1) {
-				currentAnim = 5;
-				previous = 5;
-			}
-			if (runAnim == 2) {
-				currentAnim = 6;
-				previous = 6;
-			}
-			jumped = true;
-			jumping = 10;
-			justJumped = 15;
-		}
-		if (Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
-			// goombaY -= Gdx.graphics.getDeltaTime() * goombaSpeed;
-			if (currentAnim != 3) {
-				prevAnim = currentAnim;
-			}
-			currentAnim = 3;
-			down = true;
-		}
-		if (!Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
-			if (down == true) {
-				currentAnim = prevAnim;
-				down = false;
-			}
-		}
-		if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) {
-			playerX -= Gdx.graphics.getDeltaTime() * playerSpeed;
-			currentAnim = 2;
-			previous = 2;
-			runAnim = 2;
-		}
-		if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
-			playerX += Gdx.graphics.getDeltaTime() * playerSpeed;
-			currentAnim = 1;
-			previous = 6;
-			runAnim = 1;
-		}
-		if (Gdx.input.isKeyPressed(Keys.SPACE) || attacking == true) {
-			getAttack();
-		}
-		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			Gdx.app.exit();
-		}
-		if (!Gdx.input.isKeyPressed(Keys.DPAD_RIGHT) && !Gdx.input.isKeyPressed(Keys.DPAD_LEFT)
-				&& !Gdx.input.isKeyPressed(Keys.DPAD_UP) && !Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
-			currentAnim = 7;
-			previous = 7;
-		}
-		
-		if (testStatus == true)
-			return;
-
-		if (playerY >= worldHeight || playerY <= 0) {
-			playerY -= playerY;
-			if (jumped == true) {
-				if (jumping > 0) {
-					jumping--;
-				} else {
-					jumped = false;
-				}
-			}
-		}
-
-		if (playerX <= 0) {
-			playerX -= playerX;
-		}
-		if (playerX >= worldWidth - 70) {
-			playerX -= Gdx.graphics.getDeltaTime() * playerSpeed;
-		}
-
-		playerY = py.gravity(playerY);
-
-		elapsed_time += Gdx.graphics.getDeltaTime();
-
-		camera.position.x = playerX;
-	}
+	
+	Player player = new Player();
+	Enemy enemy = new Enemy(10, 1, worldWidth - 100, 0);
 
 	public float enemyX = worldWidth - 100;
 	float enemyY = 0;
 	float enemySpeed = 150f;
 
-	public float getEnemyInput() {
-		// Getting distance from player X direction
-		float absDist = enemyX - playerX;
-		float actDist = enemyX - playerX;
-		if (absDist < 0) {
-			absDist = absDist * -1;
-		}
+//	public float getEnemyInput() {
+//		// Getting distance from player X direction
+//		float absDist = enemyX - playerX;
+//		float actDist = enemyX - playerX;
+//		if (absDist < 0) {
+//			absDist = absDist * -1;
+//		}
+//
+//		if (absDist < 3) {
+//			return 0;
+//		}
+//
+//		if (absDist < 175) {
+//			if (actDist < 0) {
+//				enemyX += Gdx.graphics.getDeltaTime() * enemySpeed;
+//			} else {
+//				enemyX -= Gdx.graphics.getDeltaTime() * enemySpeed;
+//			}
+//		}
+//		return actDist;
+//	}
 
-		if (absDist < 3) {
-			return 0;
-		}
-
-		if (absDist < 175) {
-			if (actDist < 0) {
-				enemyX += Gdx.graphics.getDeltaTime() * enemySpeed;
-			} else {
-				enemyX -= Gdx.graphics.getDeltaTime() * enemySpeed;
-			}
-		}
-		return actDist;
-	}
-
-	float attackX = playerX;
-	float attackY = playerY + 5;
-	float start = playerX;
-	float attackSpeed = 600f;
-	public boolean attacking = false;
-
-	public void getAttack() {
-		if (attacking == false) {
-			attackX = playerX;
-			attackY = playerY + 17;
-			start = playerX;
-			attacking = true;
-			if (currentAnim == 1) {
-				attackSpeed = 600f;
-			} else if (currentAnim == 2) {
-				attackSpeed = -600f;
-			}
-		}
-		
-		if (testStatus == true)
-			return;
-		attackX += Gdx.graphics.getDeltaTime() * attackSpeed;
-	}
+//	float attackX = playerX;
+//	float attackY = playerY + 5;
+//	float start = playerX;
+//	float attackSpeed = 600f;
+//	public boolean attacking = false;
+//
+//	public void getAttack() {
+//		if (attacking == false) {
+//			attackX = playerX;
+//			attackY = playerY + 17;
+//			start = playerX;
+//			attacking = true;
+//			if (currentAnim == 1) {
+//				attackSpeed = 600f;
+//			} else if (currentAnim == 2) {
+//				attackSpeed = -600f;
+//			}
+//		}
+//		
+//		if (testStatus == true)
+//			return;
+//		attackX += Gdx.graphics.getDeltaTime() * attackSpeed;
+//	}
 
 	int pY = -20;
 	int pSpeed = 1;
@@ -281,13 +183,25 @@ public class HelloWorld extends ApplicationAdapter {
 	public void initialize() {
 		Texture bkgTexture = new Texture(Gdx.files.internal("Assets/LowerResBkg.jpg"));
 		region = new TextureRegion(bkgTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
+		
+		dead = false;
+		deathCount = 0;
+		enemyDead = false;
+		//blackout.reset();
+		playerX = 0; 
+		playerY = 10;
+		enemyX = 650;
+		enemyY = 0;
+		
 		// Sprite bkgSprite = new Sprite(bkgTexture);
 		fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
 		fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
 		platform = new Texture(Gdx.files.internal("Assets/platform.png"));
 	}
 
+	boolean dead = false;
+	
+	int deathCount = 0;
 	boolean init = false;
 
 	@Override
@@ -296,47 +210,63 @@ public class HelloWorld extends ApplicationAdapter {
 			initialize();
 			init = true;
 		}
-		currentAnim = previous;
-		getPlayerInput();
-
-		if (enemyDead == false) {
-			getEnemyInput();
+		
+		if (dead){ 
+			deathCount++;
+			if (deathCount > 100){
+				init = false;
+				dead = false;
+			}
 		}
+		currentAnim = previous;
+		PlayerInput.getPlayerInput(player);
 
-		float xyz = getEnemyInput();
+//		if (enemyDead == false) {
+//			getEnemyInput();
+//		}
+
+		if (-10 <= (int) enemy.getX() - (int) player.getX() && 10 >= (int) enemy.getX() - (int) player.getX() ){
+			dead = true;
+		}
+		
+		float xyz = EnemyInput.getEnemyInput(enemy, player);
 		// platformY();
 
 		int[][] grid = Platform.tileGrid();
 		
 		batch1.begin();
 		batch1.draw(region, 0, 0);
-		Platform.placePlat(3, 2, grid);
+		Platform.placePlat(0, 0, grid);
         batch1.draw(platform, Platform.getGridX(grid) * 100, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
-        Platform.placePlat(1, 4, grid);
+        Platform.placePlat(0, 1, grid);
+        batch1.draw(platform, Platform.getGridX(grid) * 100, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
+        Platform.placePlat(1, 0, grid);
+        batch1.draw(platform, Platform.getGridX(grid) * 100, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
+        Platform.placePlat(2, 2, grid);
         batch1.draw(platform, Platform.getGridX(grid) * 100, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
 		
-        batch1.draw(getTexture(currentAnim), (int) playerX, (int) playerY + 10);
+        if(!dead){
+        batch1.draw(getTexture(player.getCurrentAnim()), (int) player.getX(), (int) player.getY() + 10);
 
 		if (!getEvAcollision() || enemyDead == false) {
-			batch1.draw(getTexture(currentAnim), (int) enemyX, (int) enemyY);
+			batch1.draw(getEnemyTexture(xyz), (int) enemy.getX(), (int) enemy.getY());
 		}
 
-		batch1.draw(getEnemyTexture(xyz), (int) enemyX, (int) enemyY);
+		
 
-		if (attacking == true) {
-			if (attackSpeed > 0) {
-				batch1.draw(fireball1, (int) attackX, (int) attackY);
+		if (Attack.attacking == true) {
+			if (Attack.dir > 0) {
+				batch1.draw(fireball1, (int) Attack.curx, (int) Attack.starty + 10);
 			} else {
-				batch1.draw(fireball2, (int) attackX, (int) attackY);
-			}
-			float absDist = attackX - start;
-			if (absDist < 0) {
-				absDist = absDist * -1;
-			}
-			if (absDist > 500) {
-				attacking = false;
+				batch1.draw(fireball2, (int) Attack.curx, (int) Attack.starty + 10);
 			}
 		}
+		} else{
+        	if (blackout.count() < 18){
+        		blackout.update(.5f);
+        	}
+        	batch1.draw(blackout.getFrame(), 0, 0);
+        }
 		batch1.end();
 
 		camera.update();
@@ -346,8 +276,8 @@ public class HelloWorld extends ApplicationAdapter {
 	boolean enemyDead = false;
 
 	private boolean getEvAcollision() {
-		if (enemyX - 50 <= attackX && enemyX + 50 >= attackX) {
-			if (enemyY - 50 <= attackY + 17 && enemyY + 40 >= attackY + 17) {
+		if (enemyX - 50 <= Attack.curx && enemyX + 50 >= Attack.curx) {
+			if (enemyY - 50 <= Attack.starty + 17 && enemyY + 40 >= Attack.starty + 17) {
 				enemyDead = true;
 			}
 		}

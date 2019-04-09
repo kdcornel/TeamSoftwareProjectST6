@@ -3,17 +3,15 @@ import com.badlogic.gdx.graphics.Texture;
 public class Enemy {
     private int health;
     private int damage;
-    private Texture t;
     
-    private int x;
-    private int y;
+    private float x;
+    private float y;
     
-    public Enemy( int h, int d, int x, int y, Texture t) {
+    public Enemy( int h, int d, float x, float y) {
         health = h;
         damage = d;
         this.x = x;
         this.y = y;
-        this.t= t;
     }
     
     public void setHealth( int h ) {
@@ -32,10 +30,26 @@ public class Enemy {
         this.y = y;
     }
     
-    public int[] getPosition() {
-        int[] p = {x, y};
+    public float[] getPosition() {
+        float[] p = {x, y};
         
         return p;
+    }
+    
+    public float getX(){
+    	return x;
+    }
+    
+    public float getY(){
+    	return y;
+    }
+    
+    public void setX(float newX){
+    	x = newX;
+    }
+    
+    public void setY(float newY){
+    	y = newY;
     }
     
     public int getDamage() {

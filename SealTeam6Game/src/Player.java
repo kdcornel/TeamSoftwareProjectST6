@@ -1,3 +1,5 @@
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 
 public class Player {
     private int health;
@@ -60,6 +62,14 @@ public class Player {
         return y;
     }
     
+    public float setX(float inX){
+    	return x = inX;
+    }
+    
+    public float setY(float inY){
+    	return y = inY;
+    }
+    
     public float[] getPosition () {
         float [] pos = {x, y};
         return pos;
@@ -78,6 +88,10 @@ public class Player {
         }
         return false;
     }
+
+	public int getCurrentAnim() {
+		return PlayerInput.currentAnim;
+	}
     
-    
+	
 }
