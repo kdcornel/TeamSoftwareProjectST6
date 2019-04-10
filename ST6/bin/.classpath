@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Libraries/gdx.jar"/>
+	<classpathentry kind="lib" path="C:/Libraries/gdx-backend-android.jar"/>
+	<classpathentry kind="lib" path="C:/Libraries/gdx-backend-gwt.jar"/>
+	<classpathentry kind="lib" path="C:/Libraries/gdx-backend-headless.jar"/>
+	<classpathentry kind="lib" path="C:/Libraries/gdx-backend-jglfw.jar"/>
+	<classpathentry kind="lib" path="C:/Libraries/gdx-backend-jglfw-natives.jar"/>
+	<classpathentry kind="lib" path="C:/Libraries/gdx-backend-lwjgl.jar"/>
+	<classpathentry kind="lib" path="C:/Libraries/gdx-backend-lwjgl-natives.jar"/>
+	<classpathentry kind="lib" path="C:/Libraries/gdx-backend-robovm.jar"/>
+	<classpathentry kind="lib" path="C:/Libraries/gdx-natives.jar"/>
+	<classpathentry kind="lib" path="C:/Libraries/gdx-setup.jar"/>
+	<classpathentry kind="lib" path="gdx-box2d/gdx-box2d-gwt.jar"/>
+	<classpathentry kind="lib" path="gdx-box2d/gdx-box2d-natives.jar"/>
+	<classpathentry kind="lib" path="gdx-box2d/gdx-box2d.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-backend-android-sources.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-backend-gwt-sources.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-backend-headless-sources.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-backend-jglfw-sources.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-backend-lwjgl-sources.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-backend-robovm-sources.jar"/>
+	<classpathentry kind="lib" path="sources/gdx-sources.jar"/>
+	<classpathentry kind="lib" path="gdx-box2d/sources/gdx-box2d-gwt-sources.jar"/>
+	<classpathentry kind="lib" path="gdx-box2d/sources/gdx-box2d-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
