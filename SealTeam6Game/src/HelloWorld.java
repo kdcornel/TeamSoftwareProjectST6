@@ -119,21 +119,20 @@ public class HelloWorld extends ApplicationAdapter {
 		}
 		float xyz = enemy1.getEnemyInput(player.x());
 		// platformY();
+		
+		int[] platArr = {0,0, 3,3, 2,2, 1,1};
+		
+		
+		
+		
 		batch1.begin();
 		batch1.draw(region, 0, 0);
-		batch1.draw(region, 0, 0);
-        Platform.placePlat(0, 0, grid);
-        batch1.draw(platform, Platform.getGridX(grid) * 75, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
-        Platform.removePlat(0, 0, grid);
-        Platform.placePlat(3, 3, grid);
-        batch1.draw(platform, Platform.getGridX(grid) * 75, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
-        Platform.removePlat(3, 3, grid);
-        Platform.placePlat(1, 1, grid);
-        batch1.draw(platform, Platform.getGridX(grid) * 75, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
-        Platform.removePlat(1, 1, grid);
-        Platform.placePlat(3, 4, grid);
-        batch1.draw(platform, Platform.getGridX(grid) * 75, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
-        Platform.removePlat(3, 4, grid);
+		
+		for (int i = 0; i < platArr.length; i++){
+			batch1.draw(platform,  platArr[i]* 75, platArr[i++] * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
+		}
+		
+
 		if (!player.isDead()){
 			batch1.draw(player.getTexture(), (int) player.x(), (int) player.y() + 10);
 		if (enemy1.pulse()) {
