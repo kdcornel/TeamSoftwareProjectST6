@@ -19,7 +19,7 @@ public class HelloWorld extends ApplicationAdapter {
 
 		createApplication();
 	}
-
+	int[][] grid = Platform.tileGrid();
 	public Player player;
 	public Enemy enemy1;
 	public static int worldWidth = 750;
@@ -107,7 +107,7 @@ public class HelloWorld extends ApplicationAdapter {
 			}
 		}
 		player.cTp();
-		player.getPlayerInput(py, testStatus, elapsed_time, camera);
+		player.getPlayerInput(grid, py, testStatus, elapsed_time, camera);
 		player.life(enemy1.getEvPcollision(player.x(), player.y(), player.isDead()));
 		enemy1.getEvAcollision(player.ax(), player.ay());
 		if (!enemy1.pulse()){
@@ -121,7 +121,19 @@ public class HelloWorld extends ApplicationAdapter {
 		// platformY();
 		batch1.begin();
 		batch1.draw(region, 0, 0);
-		batch1.draw(platform, 150, pY);
+		batch1.draw(region, 0, 0);
+        Platform.placePlat(0, 0, grid);
+        batch1.draw(platform, Platform.getGridX(grid) * 75, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
+        Platform.removePlat(0, 0, grid);
+        Platform.placePlat(3, 3, grid);
+        batch1.draw(platform, Platform.getGridX(grid) * 75, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
+        Platform.removePlat(3, 3, grid);
+        Platform.placePlat(1, 1, grid);
+        batch1.draw(platform, Platform.getGridX(grid) * 75, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
+        Platform.removePlat(1, 1, grid);
+        Platform.placePlat(3, 4, grid);
+        batch1.draw(platform, Platform.getGridX(grid) * 75, Platform.getGridY(grid) * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
+        Platform.removePlat(3, 4, grid);
 		if (!player.isDead()){
 			batch1.draw(player.getTexture(), (int) player.x(), (int) player.y() + 10);
 		if (enemy1.pulse()) {

@@ -108,7 +108,7 @@ public class Player {
 		attackY = playerY + 5;
 	}
 	
-	public void getPlayerInput(Physics py, Boolean testStatus, float elapsed_time, OrthographicCamera camera) {
+	public void getPlayerInput(int[][] grid, Physics py, Boolean testStatus, float elapsed_time, OrthographicCamera camera) {
 		// Action Listeners for dpad key presses
 		if (jumping > 0) {
 			if (runAnim == 1) {
@@ -207,6 +207,7 @@ public class Player {
 		}
 
 		playerY = py.gravity(playerY);
+		playerY = py.platCollisionY(grid, 75, 50, playerX, playerY);
 
 		elapsed_time += Gdx.graphics.getDeltaTime();
 

@@ -6,6 +6,11 @@ public class Platform {
 	//Needs platform group for easier drawing????
 	
 	
+	
+	public static void removePlat(int x, int y, int[][] grid){
+	        grid[x][y] = 0;
+	    }
+	
 	public static int[] tileDim(int[][] grid, int x, int y){
 		int xPos = x * 100;
 		int yPos = y * 50;
@@ -18,7 +23,7 @@ public class Platform {
 		
 		int Width = HelloWorld.worldWidth;
 		int Height = HelloWorld.worldHeight;
-		int tileW = 100;
+		int tileW = 75;
 		int tileH = 50;
 
 		int[][] grid = new int[Width / tileW][Height / tileH];
@@ -46,7 +51,7 @@ public class Platform {
 				}
 			}
 		}
-		return 0;
+		return tileCount;
 	}
 	
 	public static int getGridX(int[][] grid){

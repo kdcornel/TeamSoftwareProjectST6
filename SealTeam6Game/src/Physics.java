@@ -40,24 +40,28 @@ public class Physics {
     }
 	
 	
-	public float platCollisionY(int[][] grid, int x, int y, float playerX, float playerY, float playerPos){
-		int[] startPos = Platform.tileDim(grid, x, y); // Start of rectangle
-		int rectTop = x + 50;
-		int rectSide = y + 100;
-		
-		
-		//bottom
-		if (playerX > x && playerX < rectSide && playerY <= y){
-			playerPos = -10;
-		}
-		
-		//top
-		if (playerX > x && playerX < rectSide && playerY == rectTop){
-			playerPos = 4;
-		}
-		
-		return playerPos;
-	}
+	public float platCollisionY(int[][] grid, int x, int y, float playerX, float playerY){
+        int[] startPos = Platform.tileDim(grid, x, y); // Start of rectangle
+        int rectTop = x + 50;
+        int rectSide = y + 100;
+        float playerPos = playerY;
+        int yTopRegion = y + 10;
+        int yBottomRegion = y - 45; // Gives a region so that the physics can be applied in time
+        int rectTopReg = rectTop + 140;
+        int rectBotReg = rectTop - 20;
+
+        //bottom
+        if (playerX > x && playerX < rectSide && playerY <= yTopRegion && playerY >= yBottomRegion){
+            playerPos = playerY - 10;
+        }
+
+        //top
+        if (playerX > x && playerX < rectSide && playerY >= rectTopReg && playerY <= rectBotReg){
+            playerPos = playerY + 60;
+        }
+
+        return playerPos;
+    }
 	
 	
 	
