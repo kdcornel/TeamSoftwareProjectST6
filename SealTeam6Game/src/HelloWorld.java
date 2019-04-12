@@ -20,6 +20,7 @@ public class HelloWorld extends ApplicationAdapter {
 		createApplication();
 	}
 	private int[] platArr = {0,0, 3,3, 2,2, 1,1, 5,6, 2,3, 4,2, 5,2};
+	private int[] coinArr = {50,50, 100,100, 150,30};
 	private int[][] grid = Platform.tileGrid();
 	public Player player;
 //	public int platHeight;
@@ -42,6 +43,9 @@ public class HelloWorld extends ApplicationAdapter {
 	Texture fireball1;
 	Texture fireball2;
 	Texture platform;
+	Texture coin;
+	TextureRegion coinRegion;
+	//TODO remove if not needed for coin animation
 	boolean init = false;
 	int deathCount = 0;
 	int killCount = 0;
@@ -92,6 +96,9 @@ public class HelloWorld extends ApplicationAdapter {
 		fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
 		fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
 		platform = new Texture(Gdx.files.internal("Assets/platform.png"));
+		coin = new Texture(Gdx.files.internal("Assets/Coin.png"));
+		coinRegion = new TextureRegion(coin, 0, 0);
+		//TODO get coin animation working
 	}
 	
 	@Override
@@ -144,9 +151,13 @@ public class HelloWorld extends ApplicationAdapter {
 			batch1.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
 		}
 		
+		for (int i = 0; i < coinArr.length; i+=2){
+			batch1.draw(coin, coinArr[i], coinArr[i+1]);
+		}
+		//Trying to draw coin animation here
 
 		if (!player.isDead()){
-			batch1.draw(player.getTexture(), (int) player.x(), (int) player.y() + 10);
+			batch1.draw(player.getTexture(), (int) player.x(), (int) player.y());
 		if (enemy1.pulse()) {
 			batch1.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY());
 		}
