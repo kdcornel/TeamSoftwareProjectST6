@@ -19,8 +19,11 @@ public class HelloWorld extends ApplicationAdapter {
 
 		createApplication();
 	}
-	int[][] grid = Platform.tileGrid();
+	private int[] platArr = {0,0, 3,3, 2,2, 1,1};
+	private int[][] grid = Platform.tileGrid();
 	public Player player;
+//	public int platHeight;
+//	public boolean abovePlat;
 	public Enemy enemy1;
 	public static int worldWidth = 750;
 	public static int worldHeight = 500;
@@ -65,6 +68,7 @@ public class HelloWorld extends ApplicationAdapter {
 		blackout = new Animation(new TextureRegion(death), 19, 35);
 		enemy1 = new Enemy(1);
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		player.setPlats(platArr, platArr.length);
 	}
 
 	@Override
@@ -120,8 +124,16 @@ public class HelloWorld extends ApplicationAdapter {
 		float xyz = enemy1.getEnemyInput(player.x());
 		// platformY();
 		
-		int[] platArr = {0,0, 3,3, 2,2, 1,1};
 		
+//		for(int i = 0; i < 4; i+=2){
+//			if ((int)player.x() > platArr[i]*75 && (int)player.x() < platArr[i]*75+75){
+//				if ((int)player.y() > platArr[i+1]*50+50){
+//					abovePlat = true;
+//					platHeight = platArr[i+1]*50+50;
+//					player.setPlat(platHeight);
+//				}
+//			}
+//		}
 		
 		
 		

@@ -2,12 +2,13 @@
 public class Physics {
 	
 	
-	public int gravity(float goombaY){
+	public int gravity(float goombaY, int killMe){
     	int g = 3;
-    	int vertSpeed = 0;
-    	
+    	int vertSpeed = -1;
+    	if ((int)goombaY > killMe){
     	vertSpeed += g;
     	goombaY -= vertSpeed * g;
+    	}
     	
     	return (int) (goombaY);
     }
@@ -56,9 +57,9 @@ public class Physics {
         }
 
         //top
-        if (playerX > x && playerX < rectSide && playerY >= rectTopReg && playerY <= rectBotReg){
-            playerPos = playerY + 60;
-        }
+//        if (playerX > x && playerX < rectSide && playerY >= rectTopReg && playerY <= rectBotReg){
+//            playerPos = playerY + 60;
+//        }
 
         return playerPos;
     }

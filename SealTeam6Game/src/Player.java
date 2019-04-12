@@ -5,6 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Player {
+	private int plats = 0;
+	private boolean platYes = false;
+	private int[] platArr;
+	private int platCount;
 	private Animation manRight;
 	private Animation manLeft;
 	private Animation manDown;
@@ -36,6 +40,14 @@ public class Player {
 	private boolean jumped = false;	
 	private boolean down = false;
 	private boolean attacking = false;
+	
+	int x;
+	int y;
+	
+	public void setPlats(int[]fuck, int me){
+		platArr = fuck;
+		platCount = me;
+	}
 	
 	public void kill(){
 	dead = true;
@@ -119,7 +131,7 @@ public class Player {
 				currentAnim = 6;
 				previous = 6;
 			}
-			playerY += (Gdx.graphics.getDeltaTime() * (playerSpeed * 3)) * 1.5;
+			playerY += (Gdx.graphics.getDeltaTime() * (playerSpeed * 3.2)) * 1.5;
 			jumping--;
 		}
 		if (justJumped > 0) {
@@ -188,6 +200,19 @@ public class Player {
 		if (testStatus == true)
 			return;
 
+		
+		
+		
+		if ((int)playerY <= plats){
+			if (jumping > 0){
+				jumping--;
+			} else {
+				jumped = false;
+			}
+		}
+		
+		
+		
 		if (playerY >= worldHeight || playerY <= 0) {
 			playerY -= playerY;
 			if (jumped == true) {
@@ -205,9 +230,26 @@ public class Player {
 		if (playerX >= worldWidth - 70) {
 			playerX -= Gdx.graphics.getDeltaTime() * playerSpeed;
 		}
-
-		playerY = py.gravity(playerY);
-		playerY = py.platCollisionY(grid, 75, 50, playerX, playerY);
+		
+		for(int i = 0; i < platCount; i+=2){
+			if ((int)playerX >= platArr[i]*75 && (int)playerX <= platArr[i]*75+75){
+				if ((int)playerY >= platArr[i+1]*50+50){
+					plats = platArr[i+1]*50+50;
+					platYes = true;
+					x = platArr[i]*75;
+//					y = platArr[i+1]*50+50;
+				}
+			}
+		}
+		
+		if ((int)playerX < x || (int)playerX > x+75){
+			plats = 0;
+		}
+		
+		
+		//playerY = py.platCollisionY(grid, 75, 50, playerX, playerY);	
+		playerY = py.gravity(playerY,plats);
+	
 
 		elapsed_time += Gdx.graphics.getDeltaTime();
 
@@ -258,5 +300,9 @@ public class Player {
 			return manStand.getFrame();
 		}
 		return manStand.getFrame();
+	}
+	
+	public void setPlat(int plat){
+		plats = plat;
 	}
 }
