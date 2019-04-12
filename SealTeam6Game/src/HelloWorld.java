@@ -1,3 +1,4 @@
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
@@ -148,6 +149,7 @@ public class HelloWorld extends ApplicationAdapter {
 		
 		batchMain.begin();
 		
+		// Changes level on player location
 		Player.playerX = lv.changeScene(batchMain, Player.playerX, pY, platform);
 		
 		for (int i = 0; i < platArr.length; i+=2){
