@@ -19,7 +19,7 @@ public class HelloWorld extends ApplicationAdapter {
 
 		createApplication();
 	}
-	private int[] platArr = {0,0, 3,3, 2,2, 1,1};
+	private int[] platArr = {0,0, 3,3, 2,2, 1,1, 5,6, 2,3, 4,2, 5,2};
 	private int[][] grid = Platform.tileGrid();
 	public Player player;
 //	public int platHeight;
@@ -140,8 +140,8 @@ public class HelloWorld extends ApplicationAdapter {
 		batch1.begin();
 		batch1.draw(region, 0, 0);
 		
-		for (int i = 0; i < platArr.length; i++){
-			batch1.draw(platform,  platArr[i]* 75, platArr[i++] * 50, platform.getWidth() * .25f, platform.getHeight() * .5f);
+		for (int i = 0; i < platArr.length; i+=2){
+			batch1.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
 		}
 		
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Player {
+	private Texture platform = new Texture(Gdx.files.internal("Assets/platform.png"));
 	private int plats = 0;
 	private boolean platYes = false;
 	private int[] platArr;
@@ -232,17 +233,17 @@ public class Player {
 		}
 		
 		for(int i = 0; i < platCount; i+=2){
-			if ((int)playerX >= platArr[i]*75 && (int)playerX <= platArr[i]*75+75){
-				if ((int)playerY >= platArr[i+1]*50+50){
-					plats = platArr[i+1]*50+50;
+			if ((int)playerX >= platArr[i] * platform.getWidth() * .25f && (int)playerX <= platArr[i]*platform.getWidth() * .25f+platform.getWidth() * .25f){
+				if ((int)playerY >= platArr[i+1]*platform.getHeight() * .5f + platform.getHeight() * .5f){
+					plats = (int)(platArr[i+1]*platform.getHeight() * .5f+platform.getHeight() * .5f);
 					platYes = true;
-					x = platArr[i]*75;
+					x = (int) (platArr[i] * platform.getWidth() * .25f);
 //					y = platArr[i+1]*50+50;
 				}
 			}
 		}
 		
-		if ((int)playerX < x || (int)playerX > x+75){
+		if ((int)playerX < x - 40 || (int)playerX > x+75){
 			plats = 0;
 		}
 		
