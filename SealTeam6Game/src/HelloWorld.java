@@ -1,40 +1,34 @@
-
-//package main;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.audio.Music;
 
-
 public class HelloWorld extends ApplicationAdapter {
-   
-	public static void main(String[] args) {
 
+	public static void main(String[] args) {
 		createApplication();
 	}
+
 	private int[] platArr = {0,0, 3,3, 2,2, 1,1, 5,6, 2,3, 4,2, 5,2};
 	private int[][] grid = Platform.tileGrid();
 	public Player player;
 //	public int platHeight;
 //	public boolean abovePlat;
 	public Enemy enemy1;
-	public static int worldWidth = 750;
-	public static int worldHeight = 500;
+	public static int worldWidth = 1920;
+	public static int worldHeight = 1000;
 	private Music menuMusic;
-	private SpriteBatch batch1;
+	private SpriteBatch batchMain;
 	private BitmapFont font;
 	private Animation blackout;
 	float elapsed_time = 0f;
-	private OrthographicCamera camera;
-	public boolean testStatus = false;
 	Physics py = new Physics();
+	Levels lv = new Levels();
 	int pY = -20;
 	int pSpeed = 1;
 	Texture bkgTexture;
@@ -42,22 +36,32 @@ public class HelloWorld extends ApplicationAdapter {
 	Texture fireball1;
 	Texture fireball2;
 	Texture platform;
+	Texture bkgTexture1;
+	public static TextureRegion region1;
+	public static TextureRegion region2;
+	public static TextureRegion introFont;
+	public static TextureRegion tutorialArrows;
 	boolean init = false;
 	int deathCount = 0;
 	int killCount = 0;
 	static LwjglApplication app;
-	
+
+	//Boolean for JUnit tests
+	public boolean testStatus = false;
+
+	// Creates application
 	public static LwjglApplicationConfiguration createApplication() {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.width = worldWidth;
 		cfg.height = worldHeight;
-		app = new LwjglApplication(new HelloWorld(), cfg);
+
+		LwjglApplication app = new LwjglApplication(new HelloWorld(), cfg);
 		return cfg;
 	}
 
 	@Override
 	public void create() {
-		batch1 = new SpriteBatch();
+		batchMain = new SpriteBatch();
 		font = new BitmapFont();
 		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("Assets/Track2.wav"));
 		menuMusic.setLooping(true);
@@ -67,13 +71,12 @@ public class HelloWorld extends ApplicationAdapter {
 		Texture death = new Texture(Gdx.files.internal("Assets/Blackout.png"));
 		blackout = new Animation(new TextureRegion(death), 19, 35);
 		enemy1 = new Enemy(1);
-		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		player.setPlats(platArr, platArr.length);
 	}
 
 	@Override
 	public void dispose() {
-		batch1.dispose();
+		batchMain.dispose();
 		font.dispose();
 	}
 
@@ -85,10 +88,18 @@ public class HelloWorld extends ApplicationAdapter {
 		}
 		pY += pSpeed;
 	}
-
+	
 	public void initialize() {
-		Texture bkgTexture = new Texture(Gdx.files.internal("Assets/LowerResBkg.jpg"));
-		region = new TextureRegion(bkgTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		Texture bkgTexture1 = new Texture(Gdx.files.internal("Assets/LowerResBkg.jpg"));
+		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/snoop.jpg"));
+		Texture font1 = new Texture(Gdx.files.internal("Assets/IntroFont.png"));
+		Texture arrows = new Texture(Gdx.files.internal("Assets/arrows.png"));
+		region1 = new TextureRegion(bkgTexture1, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		region2 = new TextureRegion(bkgTexture2, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		introFont = new TextureRegion(font1, 0, 0, 1459, 91);
+		tutorialArrows = new TextureRegion(arrows, 0, 0, 696, 564);
+		
+		// Sprite bkgSprite = new Sprite(bkgTexture);
 		fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
 		fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
 		platform = new Texture(Gdx.files.internal("Assets/platform.png"));
@@ -111,7 +122,7 @@ public class HelloWorld extends ApplicationAdapter {
 			}
 		}
 		player.cTp();
-		player.getPlayerInput(grid, py, testStatus, elapsed_time, camera);
+		player.getPlayerInput(grid, py, testStatus, elapsed_time);
 		player.life(enemy1.getEvPcollision(player.x(), player.y(), player.isDead()));
 		enemy1.getEvAcollision(player.ax(), player.ay());
 		if (!enemy1.pulse()){
@@ -135,27 +146,25 @@ public class HelloWorld extends ApplicationAdapter {
 //			}
 //		}
 		
+		batchMain.begin();
 		
-		
-		batch1.begin();
-		batch1.draw(region, 0, 0);
+		Player.playerX = lv.changeScene(batchMain, Player.playerX, pY, platform);
 		
 		for (int i = 0; i < platArr.length; i+=2){
-			batch1.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
+			batchMain.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
 		}
 		
-
 		if (!player.isDead()){
-			batch1.draw(player.getTexture(), (int) player.x(), (int) player.y() + 10);
+			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y() + 10);
 		if (enemy1.pulse()) {
-			batch1.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY());
+			batchMain.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY());
 		}
 
 		if (player.isAttacking()) {
 			if (player.attackSpeed() > 0) {
-					batch1.draw(fireball1, (int) player.ax(), (int) player.ay());
+					batchMain.draw(fireball1, (int) player.ax(), (int) player.ay());
 				} else {
-					batch1.draw(fireball2, (int) player.ax(), (int) player.ay());
+					batchMain.draw(fireball2, (int) player.ax(), (int) player.ay());
 				}
 				float absDist = player.ax() - player.start();
 				if (absDist < 0) {
@@ -169,16 +178,14 @@ public class HelloWorld extends ApplicationAdapter {
 			if (blackout.count() < 18){
 			blackout.update(0.5f);
 			}
-			batch1.draw(blackout.getFrame(), 0, 0);
+			batchMain.draw(blackout.getFrame(), 0, 0);
 		}
-		batch1.end();
-		camera.update();
+		batchMain.end();
 	}
 
 	public void drawSprite(TextureRegion region, TextureRegion textureRegion, int playerX2, int playerY2) {
-
 	}
-
+	
 	@Override
 	public void resize(int width, int height) {
 	}
