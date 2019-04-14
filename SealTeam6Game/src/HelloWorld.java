@@ -112,7 +112,9 @@ public class HelloWorld extends ApplicationAdapter {
 		}
 		player.cTp();
 		player.getPlayerInput(grid, py, testStatus, elapsed_time, camera);
+		
 		player.life(enemy1.getEvPcollision(player.x(), player.y(), player.isDead()));
+		
 		enemy1.getEvAcollision(player.ax(), player.ay());
 		if (!enemy1.pulse()){
 			killCount++;
@@ -124,19 +126,6 @@ public class HelloWorld extends ApplicationAdapter {
 		float xyz = enemy1.getEnemyInput(player.x());
 		// platformY();
 		
-		
-//		for(int i = 0; i < 4; i+=2){
-//			if ((int)player.x() > platArr[i]*75 && (int)player.x() < platArr[i]*75+75){
-//				if ((int)player.y() > platArr[i+1]*50+50){
-//					abovePlat = true;
-//					platHeight = platArr[i+1]*50+50;
-//					player.setPlat(platHeight);
-//				}
-//			}
-//		}
-		
-		
-		
 		batch1.begin();
 		batch1.draw(region, 0, 0);
 		
@@ -146,7 +135,7 @@ public class HelloWorld extends ApplicationAdapter {
 		
 
 		if (!player.isDead()){
-			batch1.draw(player.getTexture(), (int) player.x(), (int) player.y() + 10);
+			batch1.draw(player.getTexture(), (int) player.x(), (int) player.y());
 		if (enemy1.pulse()) {
 			batch1.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY());
 		}
@@ -172,6 +161,7 @@ public class HelloWorld extends ApplicationAdapter {
 			batch1.draw(blackout.getFrame(), 0, 0);
 		}
 		batch1.end();
+		
 		camera.update();
 	}
 

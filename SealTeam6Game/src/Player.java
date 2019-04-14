@@ -44,6 +44,9 @@ public class Player {
 	
 	int x;
 	int y;
+	int health = 5;
+	int maxHealth = 5;
+	int immunityFrames = 20;
 	
 	public void setPlats(int[]fuck, int me){
 		platArr = fuck;
@@ -61,12 +64,46 @@ public class Player {
 	public Boolean isDead(){
 	return dead;
 }
+	public void setHealth( int health, boolean attacked ) {
+        this.health = health;
+        if (attacked) {
+            tookDamage = true;
+        }
+    }
+	
+	private boolean tookDamage = false;
+    private int immunity = 0;
+    private boolean immune = false;
+    public void damageImmunity() {
+        if ( tookDamage == true ) {
+            immunity = immunityFrames;
+            tookDamage = false;
+            immune = true;
+        }
+        if ( immunity == 0 ) {
+            tookDamage = false;
+            immune = false;
+        }
+        if ( immunity > 0 ) {
+            immunity--;
+        }
+        
+    }
+    
+    public boolean immune() {
+        return immune;
+    }
+    
+    
+	
+	
 
 	public float attackSpeed(){
 	return attackSpeed;
 }
 
 	public void save(){
+	health = maxHealth;
 	dead = false;
 	playerX = 0;
 	playerY = 10;
