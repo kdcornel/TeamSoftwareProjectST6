@@ -19,16 +19,7 @@ public class Platform {
 		return startPos;
 	}
 	
-	public static int[][] tileGrid(){
-		
-		int Width = HelloWorld.worldWidth;
-		int Height = HelloWorld.worldHeight;
-		int tileW = 75;
-		int tileH = 50;
-
-		int[][] grid = new int[Width / tileW][Height / tileH];
-		return grid;
-	}
+	
 	
 	public static void placePlat(int x, int y, int[][] grid){
 		grid[x][y] = 1;
@@ -76,17 +67,17 @@ public class Platform {
 		return 0;
 	}
 	
-	public static void main(String[] args){
-		int[][] grid = tileGrid();
-		placePlat(2, 2, grid);
-		checkGrid(grid);
-		for (int[] x : grid)
-		{
-		   for (int y : x)
-		   {
-		        System.out.print(y + " ");
-		   }
-		   System.out.println();
-		}
-	}
+//	public static void main(String[] args){
+//		int[][] grid = tileGrid();
+//		placePlat(2, 2, grid);
+//		checkGrid(grid);
+//		for (int[] x : grid)
+//		{
+//		   for (int y : x)
+//		   {
+//		        System.out.print(y + " ");
+//		   }
+//		   System.out.println();
+//		}
+//	}
 }

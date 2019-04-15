@@ -10,6 +10,8 @@ public class Player {
 	private int plats = 0;
 	private boolean platYes = false;
 	private int[] platArr;
+	private int[] coinArr = {50,50, 100,100, 150,30};
+	private Texture coin = new Texture(Gdx.files.internal("Assets/Coin.png"));
 	private int platCount;
 	private Animation manRight;
 	private Animation manLeft;
@@ -17,7 +19,11 @@ public class Player {
 	private Animation manStand;
 	private Animation manUpR;
 	private Animation manUpL;
+
 	private float playerSpeed = 200.0f;
+
+	private float playerSpeed = 250.0f;
+
 	private float attackSpeed = 600.0f;
 	public static float playerX = 0;
 	private float playerY = 10;
@@ -42,7 +48,10 @@ public class Player {
 	private boolean jumped = false;	
 	private boolean down = false;
 	private boolean attacking = false;
+
 	private int dir = 1;
+
+	private int score = 0;
 	
 	int x;
 	int y;
@@ -283,6 +292,19 @@ public class Player {
 				}
 			}
 		}
+		
+//		for(int i = 0; i < coinArr.length; i+=2){
+//			if (playerX == coinArr[i] * coin.getWidth()){
+//				if (playerY == coinArr[i+1] * coin.getHeight()){
+//					score++;
+//					if (score > 1) {System.out.println(score);}
+//					coinArr[i] = 69;
+//					coinArr[i+1] = 420;
+//				}
+//			}
+//		}
+		
+		//Dont delet this! Just WIP for coin tracking
 		
 		if ((int)playerX < x - 40 || (int)playerX > x+75){
 			plats = 0;

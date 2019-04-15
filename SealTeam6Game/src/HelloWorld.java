@@ -17,7 +17,8 @@ public class HelloWorld extends ApplicationAdapter {
 	}
 
 	private int[] platArr = {0,0, 3,3, 2,2, 1,1, 5,6, 2,3, 4,2, 5,2};
-	private int[][] grid = Platform.tileGrid();
+	private int[] coinArr = {50,50, 100,100, 150,30};
+	private int[][] grid = Physics.tileGrid();
 	private String result;
 	private String scoreboard = "Score: ";
 	public Player player;
@@ -39,6 +40,11 @@ public class HelloWorld extends ApplicationAdapter {
 	Texture fireball1;
 	Texture fireball2;
 	Texture platform;
+
+	Texture coin;
+	TextureRegion coinRegion;
+	//TODO remove if not needed for coin animation
+
 	Texture bkgTexture1;
 	public static TextureRegion region1;
 	public static TextureRegion region2;
@@ -107,6 +113,9 @@ public class HelloWorld extends ApplicationAdapter {
 		fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
 		fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
 		platform = new Texture(Gdx.files.internal("Assets/platform.png"));
+		coin = new Texture(Gdx.files.internal("Assets/Coin.png"));
+		coinRegion = new TextureRegion(coin, 0, 0);
+		//TODO get coin animation working
 	}
 	
 	@Override
@@ -164,8 +173,22 @@ public class HelloWorld extends ApplicationAdapter {
 			batchMain.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
 		}
 		
+
+		for (int i = 0; i < coinArr.length; i+=2){
+			batchMain.draw(coin, coinArr[i], coinArr[i+1]);
+		}
+		//Trying to draw coin animation here
+
 		if (!player.isDead()){
 			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
+
+		if (!player.isDead()){
+
+			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y() + 10);
+
+
+			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
+
 		if (enemy1.pulse()) {
 			batchMain.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY());
 		}
@@ -210,6 +233,9 @@ public class HelloWorld extends ApplicationAdapter {
 		//batch1.end();
 		
 		//camera.update();
+			
+		}
+		
 		batchMain.end();
 	}
 
