@@ -14,10 +14,13 @@ public class Enemy {
    private float speed = 150f;
    private boolean alive = true;
    private Texture l;
+   private int helpx;
    private Texture r;
    private Animation left;
    private Animation right;
    private Music manHit;
+   private int plats;
+   Texture platform = new Texture(Gdx.files.internal("Assets/platform.png"));
    
    public Enemy(int k){
 	   
@@ -45,8 +48,8 @@ public class Enemy {
    
    public void reset(){
        alive = true;
-       x = ThreadLocalRandom.current().nextInt(300,1900);
-       //y = 0;
+       x = ThreadLocalRandom.current().nextInt(0,750);
+       y = ThreadLocalRandom.current().nextInt(0,1000);
    }
    
    public void kill(){
@@ -144,12 +147,11 @@ public class Enemy {
 		return death;
 	}
 	
-	public float getEnemyInput(float playerX, Physics py, int plats) {
+	public float getEnemyInput(float playerX, Physics py, int[] platArr) {
 		float absDist = x - playerX;
 		float actDist = x - playerX;
-		
-		
-		y = py.gravity(y, plats); 
+		int platCount = platArr.length;
+		 
 		
 		if (absDist < 0) {
 			absDist = absDist * -1;
@@ -166,6 +168,26 @@ public class Enemy {
 				x -= Gdx.graphics.getDeltaTime() * speed;
 			}
 		}
+		
+		
+		for(int i = 0; i < platCount; i+=2){
+			if ((int)x >= platArr[i] * platform.getWidth() * .25f && (int)x <= platArr[i]*platform.getWidth() * .25f+platform.getWidth() * .25f){
+				if ((int)y >= platArr[i+1]*platform.getHeight() * .5f + platform.getHeight() * .5f){
+					plats = (int)(platArr[i+1]*platform.getHeight() * .5f+platform.getHeight() * .5f);
+					helpx = (int) (platArr[i] * platform.getWidth() * .25f);
+//					
+				}
+			}
+		}
+		
+//		
+		
+		if (helpx < (int)x - 40 || helpx > (int)x+75){
+			plats = 0;
+		}
+		y = py.gravity(y, plats);
+		
+		
 		return actDist;
 	}
 
