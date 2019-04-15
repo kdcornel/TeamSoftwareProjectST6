@@ -19,7 +19,7 @@ public class Player {
 	private Animation manStand;
 	private Animation manUpR;
 	private Animation manUpL;
-	private float playerSpeed = 300.0f;
+	private float playerSpeed = 250.0f;
 	private float attackSpeed = 600.0f;
 	public static float playerX = 0;
 	private float playerY = 10;

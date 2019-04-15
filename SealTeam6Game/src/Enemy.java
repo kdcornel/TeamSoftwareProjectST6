@@ -75,6 +75,12 @@ public class Enemy {
        return pnts;
    }
    
+   public void coin(){
+	   r = new Texture(Gdx.files.internal("Assets/Coin.png"));
+	   right = new Animation(new TextureRegion(r), 4, 40);
+   }
+   
+   
    public void enemyHound(){
 	   r = new Texture(Gdx.files.internal("Assets/Hellhound Right.png"));
 	   l = new Texture(Gdx.files.internal("Assets/Hellhound Left.png"));

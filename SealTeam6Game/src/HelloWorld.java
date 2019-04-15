@@ -18,7 +18,7 @@ public class HelloWorld extends ApplicationAdapter {
 
 	private int[] platArr = {0,0, 3,3, 2,2, 1,1, 5,6, 2,3, 4,2, 5,2};
 	private int[] coinArr = {50,50, 100,100, 150,30};
-	private int[][] grid = Platform.tileGrid();
+	private int[][] grid = Physics.tileGrid();
 	private String result;
 	private String scoreboard = "Score: ";
 	public Player player;
@@ -176,12 +176,12 @@ public class HelloWorld extends ApplicationAdapter {
 		
 
 		for (int i = 0; i < coinArr.length; i+=2){
-			batch1.draw(coin, coinArr[i], coinArr[i+1]);
+			batchMain.draw(coin, coinArr[i], coinArr[i+1]);
 		}
 		//Trying to draw coin animation here
 
 		if (!player.isDead()){
-			batch1.draw(player.getTexture(), (int) player.x(), (int) player.y());
+			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
 
 		if (!player.isDead()){
 
@@ -219,6 +219,9 @@ public class HelloWorld extends ApplicationAdapter {
 		//batch1.end();
 		
 		//camera.update();
+			
+		}
+		
 		batchMain.end();
 	}
 
