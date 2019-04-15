@@ -5,7 +5,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.audio.Music;
@@ -42,12 +41,13 @@ public class HelloWorld extends ApplicationAdapter {
 	Texture platform;
 
 	Texture coin;
-	TextureRegion coinRegion;
+	Animation coinRegion;
 	//TODO remove if not needed for coin animation
 
 	Texture bkgTexture1;
 	public static TextureRegion region1;
 	public static TextureRegion region2;
+	public static TextureRegion region3;
 	public static TextureRegion introFont;
 	public static TextureRegion tutorialArrows;
 	boolean init = false;
@@ -79,7 +79,7 @@ public class HelloWorld extends ApplicationAdapter {
 		menuMusic.setVolume(0.05f);
 		player = new Player();
 		Texture death = new Texture(Gdx.files.internal("Assets/Blackout.png"));
-		blackout = new Animation(new TextureRegion(death), 19, 35);
+		blackout = new Animation(new TextureRegion(death), 19, 50);
 		enemy1 = new Enemy(1);
 		player.setPlats(platArr, platArr.length);
 	}
@@ -102,19 +102,22 @@ public class HelloWorld extends ApplicationAdapter {
 	public void initialize() {
 		Texture bkgTexture1 = new Texture(Gdx.files.internal("Assets/LowerResBkg2.jpg"));
 		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/snoop.jpg"));
+		Texture bkgTexture3 = new Texture(Gdx.files.internal("Assets/2phones.png"));
 		Texture font1 = new Texture(Gdx.files.internal("Assets/IntroFont.png"));
 		Texture arrows = new Texture(Gdx.files.internal("Assets/arrows.png"));
 		region1 = new TextureRegion(bkgTexture1, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		region2 = new TextureRegion(bkgTexture2, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		region3 = new TextureRegion(bkgTexture3, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		introFont = new TextureRegion(font1, 0, 0, 1459, 91);
 		tutorialArrows = new TextureRegion(arrows, 0, 0, 696, 564);
+		blackout.reset();
 		
 		// Sprite bkgSprite = new Sprite(bkgTexture);
 		fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
 		fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
 		platform = new Texture(Gdx.files.internal("Assets/platform.png"));
 		coin = new Texture(Gdx.files.internal("Assets/Coin.png"));
-		coinRegion = new TextureRegion(coin, 0, 0);
+		coinRegion = new Animation(new TextureRegion(coin), 4, 35);
 		//TODO get coin animation working
 	}
 	
@@ -124,16 +127,16 @@ public class HelloWorld extends ApplicationAdapter {
 			initialize();
 			init = true;
 		}
-		if (player.isDead()){
-			deathCount++;
-			if (deathCount > 100){
-				deathCount = 0;
-				player.save();
-				enemy1.reset();
-				enemy1.eSwitch();
-				blackout.reset();
-			}
-		}
+//		if (player.isDead()){
+//			deathCount++;
+//			if (deathCount > 100){
+//				deathCount = 0;
+//				player.save();
+//				enemy1.reset();
+//				enemy1.eSwitch();
+//				blackout.reset();
+//			}
+//		}
 		player.cTp();
 		player.getPlayerInput(grid, py, testStatus, elapsed_time);
 		
@@ -148,7 +151,7 @@ public class HelloWorld extends ApplicationAdapter {
 				killCount = 0;
 			}
 		}
-		float xyz = enemy1.getEnemyInput(player.x());
+		float xyz = enemy1.getEnemyInput(player.x(), py, player.getPlats());
 		// platformY();
 		
 		//batch1.begin();
@@ -168,24 +171,32 @@ public class HelloWorld extends ApplicationAdapter {
 		
 		// Changes level on player location
 		Player.playerX = lv.changeScene(batchMain, Player.playerX, pY, platform);
-
-		for (int i = 0; i < platArr.length; i+=2){
-			batchMain.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
-		}
-		
-
-		for (int i = 0; i < coinArr.length; i+=2){
-			batchMain.draw(coin, coinArr[i], coinArr[i+1]);
-		}
+//
+//		for (int i = 0; i < platArr.length; i+=2){
+//			batchMain.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
+//		}
+//		
+//
+//		coinRegion.update(0.5f);
+//		for (int i = 0; i < coinArr.length; i+=2){
+//			batchMain.draw(coinRegion.getFrame(), coinArr[i], coinArr[i+1]);
+//		}
 		//Trying to draw coin animation here
 
-		if (!player.isDead()){
-			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
 
 		if (!player.isDead()){
 
-			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y() + 10);
+			
+			for (int i = 0; i < platArr.length; i+=2){
+				batchMain.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
+			}
+			
 
+			coinRegion.update(0.5f);
+			for (int i = 0; i < coinArr.length; i+=2){
+				batchMain.draw(coinRegion.getFrame(), coinArr[i], coinArr[i+1]);
+			}
+			
 
 			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
 
@@ -223,18 +234,26 @@ public class HelloWorld extends ApplicationAdapter {
 	                }
 	            }
 	        } else {
+	        	deathCount++;
+				if (deathCount > 100){
+					deathCount = 0;
+					player.save();
+					enemy1.reset();
+					enemy1.eSwitch();
+					blackout.reset();
+				}
 	            if (blackout.count() < 18){
 	            blackout.update(0.5f);
-	            }
+	            } 
 	            batchMain.draw(blackout.getFrame(), 0, 0);
 	            result = scoreboard.concat(Integer.toString(enemy1.pnts()));
-	            font.draw(batchMain, result, 350, 250);
+	            font.draw(batchMain, result, 1000, 500);
 	        }
 		//batch1.end();
 		
 		//camera.update();
 			
-		}
+		
 		
 		batchMain.end();
 	}

@@ -1,4 +1,6 @@
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -42,9 +44,9 @@ public class Enemy {
    }
    
    public void reset(){
-	   alive = true;
-	   x = 650;
-	   //y = 0;
+       alive = true;
+       x = ThreadLocalRandom.current().nextInt(300,1900);
+       //y = 0;
    }
    
    public void kill(){
@@ -86,7 +88,7 @@ public class Enemy {
 	   l = new Texture(Gdx.files.internal("Assets/Hellhound Left.png"));
 	   left = new Animation(new TextureRegion(l), 4, 40);
 	   right = new Animation(new TextureRegion(r), 4, 40);
-	   y = 0;
+	   y = ThreadLocalRandom.current().nextInt(0,1000);
    }
    
    public void enemySpider(){
@@ -94,7 +96,7 @@ public class Enemy {
 	   l = new Texture(Gdx.files.internal("Assets/Spider Left.png"));
 	   left = new Animation(new TextureRegion(l), 8, 40);
 	   right = new Animation(new TextureRegion(r), 8, 40);
-	   y = -15;
+	   y = ThreadLocalRandom.current().nextInt(0,1000);
    }
    
    public void eSwitch(){
@@ -142,9 +144,13 @@ public class Enemy {
 		return death;
 	}
 	
-	public float getEnemyInput(float playerX) {
+	public float getEnemyInput(float playerX, Physics py, int plats) {
 		float absDist = x - playerX;
 		float actDist = x - playerX;
+		
+		
+		y = py.gravity(y, plats); 
+		
 		if (absDist < 0) {
 			absDist = absDist * -1;
 		}

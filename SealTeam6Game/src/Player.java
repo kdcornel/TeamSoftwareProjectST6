@@ -22,8 +22,6 @@ public class Player {
 
 	private float playerSpeed = 200.0f;
 
-	private float playerSpeed = 250.0f;
-
 	private float attackSpeed = 600.0f;
 	public static float playerX = 0;
 	private float playerY = 10;
@@ -316,6 +314,10 @@ public class Player {
 	
 		elapsed_time += Gdx.graphics.getDeltaTime();
 
+	}
+	
+	public int getPlats(){
+		return plats;
 	}
 	
 	public void getAttack(Boolean testStatus) {
