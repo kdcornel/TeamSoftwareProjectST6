@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Music;
 public class Enemy {
    private float x = 650;
    private float y = 0;
+   private int pnts = 0;
    private int marker;
    private float speed = 150f;
    private boolean alive = true;
@@ -70,6 +71,10 @@ public class Enemy {
 	   y = z;
    }
    
+   public int pnts() {
+       return pnts;
+   }
+   
    public void enemyHound(){
 	   r = new Texture(Gdx.files.internal("Assets/Hellhound Right.png"));
 	   l = new Texture(Gdx.files.internal("Assets/Hellhound Left.png"));
@@ -111,6 +116,9 @@ public class Enemy {
 	public void getEvAcollision(float attackX, float attackY) {
 		if (x - 25 <= attackX && x + 25 >= attackX) {
 			if (y - 50 <= attackY + 17 && y + 40 >= attackY + 17) {
+			    if (alive) {
+			        pnts++;
+			    }
 				alive = false;
 			}
 		}

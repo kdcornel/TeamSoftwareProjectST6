@@ -5,6 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.audio.Music;
@@ -17,6 +18,8 @@ public class HelloWorld extends ApplicationAdapter {
 
 	private int[] platArr = {0,0, 3,3, 2,2, 1,1, 5,6, 2,3, 4,2, 5,2};
 	private int[][] grid = Platform.tileGrid();
+	private String result;
+	private String scoreboard = "Score: ";
 	public Player player;
 //	public int platHeight;
 //	public boolean abovePlat;
@@ -46,6 +49,7 @@ public class HelloWorld extends ApplicationAdapter {
 	int deathCount = 0;
 	int killCount = 0;
 	static LwjglApplication app;
+	//private Batch batch1;
 
 	//Boolean for JUnit tests
 	public boolean testStatus = false;
@@ -91,7 +95,7 @@ public class HelloWorld extends ApplicationAdapter {
 	}
 	
 	public void initialize() {
-		Texture bkgTexture1 = new Texture(Gdx.files.internal("Assets/LowerResBkg.jpg"));
+		Texture bkgTexture1 = new Texture(Gdx.files.internal("Assets/LowerResBkg2.jpg"));
 		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/snoop.jpg"));
 		Texture font1 = new Texture(Gdx.files.internal("Assets/IntroFont.png"));
 		Texture arrows = new Texture(Gdx.files.internal("Assets/arrows.png"));
@@ -123,7 +127,7 @@ public class HelloWorld extends ApplicationAdapter {
 			}
 		}
 		player.cTp();
-		player.getPlayerInput(grid, py, testStatus, elapsed_time, camera);
+		player.getPlayerInput(grid, py, testStatus, elapsed_time);
 		
 		player.getPlayerInput(grid, py, testStatus, elapsed_time);
 		player.life(enemy1.getEvPcollision(player.x(), player.y(), player.isDead()));
@@ -139,8 +143,8 @@ public class HelloWorld extends ApplicationAdapter {
 		float xyz = enemy1.getEnemyInput(player.x());
 		// platformY();
 		
-		batch1.begin();
-		batch1.draw(region, 0, 0);
+		//batch1.begin();
+		//batch1.draw(region, 0, 0);
 		
 //		for(int i = 0; i < 4; i+=2){
 //			if ((int)player.x() > platArr[i]*75 && (int)player.x() < platArr[i]*75+75){
@@ -162,8 +166,7 @@ public class HelloWorld extends ApplicationAdapter {
 		}
 		
 		if (!player.isDead()){
-			batch1.draw(player.getTexture(), (int) player.x(), (int) player.y());
-			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y() + 10);
+			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
 		if (enemy1.pulse()) {
 			batchMain.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY());
 		}
@@ -187,10 +190,12 @@ public class HelloWorld extends ApplicationAdapter {
 			blackout.update(0.5f);
 			}
 			batchMain.draw(blackout.getFrame(), 0, 0);
+			result = scoreboard.concat(Integer.toString(enemy1.pnts()));
+            font.draw(batchMain, result, 350, 250);
 		}
-		batch1.end();
+		//batch1.end();
 		
-		camera.update();
+		//camera.update();
 		batchMain.end();
 	}
 
