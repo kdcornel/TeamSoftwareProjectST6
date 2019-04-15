@@ -21,8 +21,7 @@ public class HelloWorld extends ApplicationAdapter {
 	private String result;
 	private String scoreboard = "Score: ";
 	public Player player;
-//	public int platHeight;
-//	public boolean abovePlat;
+	
 	public Enemy enemy1;
 	public static int worldWidth = 1920;
 	public static int worldHeight = 1000;
@@ -132,7 +131,7 @@ public class HelloWorld extends ApplicationAdapter {
 		player.getPlayerInput(grid, py, testStatus, elapsed_time);
 		player.life(enemy1.getEvPcollision(player.x(), player.y(), player.isDead()));
 		
-		enemy1.getEvAcollision(player.ax(), player.ay());
+		enemy1.getEvAcollision(Attack.curx, Attack.starty);
 		if (!enemy1.pulse()){
 			killCount++;
 			if (killCount > 100){
@@ -171,28 +170,43 @@ public class HelloWorld extends ApplicationAdapter {
 			batchMain.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY());
 		}
 
-		if (player.isAttacking()) {
-			if (player.attackSpeed() > 0) {
-					batchMain.draw(fireball1, (int) player.ax(), (int) player.ay());
-				} else {
-					batchMain.draw(fireball2, (int) player.ax(), (int) player.ay());
-				}
-				float absDist = player.ax() - player.start();
-				if (absDist < 0) {
-					absDist = absDist * -1;
-				}
-				if (absDist > 500) {
-					player.NotAttacking();
-				}
-			}
-		} else {
-			if (blackout.count() < 18){
-			blackout.update(0.5f);
-			}
-			batchMain.draw(blackout.getFrame(), 0, 0);
-			result = scoreboard.concat(Integer.toString(enemy1.pnts()));
-            font.draw(batchMain, result, 350, 250);
-		}
+//		if (player.isAttacking()) {
+//			if (player.attackSpeed() > 0) {
+//					batchMain.draw(fireball1, (int) player.ax(), (int) player.ay());
+//				} else {
+//					batchMain.draw(fireball2, (int) player.ax(), (int) player.ay());
+//				}
+//				float absDist = player.ax() - player.start();
+//				if (absDist < 0) {
+//					absDist = absDist * -1;
+//				}
+//				if (absDist > 500) {
+//					player.NotAttacking();
+//				}
+//			}
+//		} else {
+//			if (blackout.count() < 18){
+//			blackout.update(0.5f);
+//			}
+//			batchMain.draw(blackout.getFrame(), 0, 0);
+//			result = scoreboard.concat(Integer.toString(enemy1.pnts()));
+//            font.draw(batchMain, result, 350, 250);
+//		}
+	      if (Attack.attacking()) {
+	            if (Attack.dir == 0) {
+	                    batchMain.draw(fireball2, (int) Attack.curx, (int) Attack.starty);
+	                } else {
+	                    batchMain.draw(fireball1, (int) Attack.curx, (int) Attack.starty);
+	                }
+	            }
+	        } else {
+	            if (blackout.count() < 18){
+	            blackout.update(0.5f);
+	            }
+	            batchMain.draw(blackout.getFrame(), 0, 0);
+	            result = scoreboard.concat(Integer.toString(enemy1.pnts()));
+	            font.draw(batchMain, result, 350, 250);
+	        }
 		//batch1.end();
 		
 		//camera.update();

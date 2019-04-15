@@ -17,7 +17,7 @@ public class Player {
 	private Animation manStand;
 	private Animation manUpR;
 	private Animation manUpL;
-	private float playerSpeed = 300.0f;
+	private float playerSpeed = 200.0f;
 	private float attackSpeed = 600.0f;
 	public static float playerX = 0;
 	private float playerY = 10;
@@ -42,6 +42,7 @@ public class Player {
 	private boolean jumped = false;	
 	private boolean down = false;
 	private boolean attacking = false;
+	private int dir = 1;
 	
 	int x;
 	int y;
@@ -197,8 +198,8 @@ public class Player {
 				previous = 6;
 			}
 			jumped = true;
-			jumping = 10;
-			justJumped = 15;
+			jumping = 15;
+			justJumped = 60;
 		}
 		if (Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
 			// goombaY -= Gdx.graphics.getDeltaTime() * goombaSpeed;
@@ -219,15 +220,17 @@ public class Player {
 			currentAnim = 2;
 			previous = 2;
 			runAnim = 2;
+			dir = 0;
 		}
 		if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
 			playerX += Gdx.graphics.getDeltaTime() * playerSpeed;
 			currentAnim = 1;
 			previous = 6;
 			runAnim = 1;
+			dir = 1;
 		}
 		if (Gdx.input.isKeyPressed(Keys.SPACE) || attacking == true) {
-			getAttack(testStatus);
+			Attack.start(playerX, playerY, dir);
 		}
 		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 			Gdx.app.exit();
