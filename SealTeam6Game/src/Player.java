@@ -1,3 +1,4 @@
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,7 +21,7 @@ public class Player {
 	private Animation manUpL;
 	private float playerSpeed = 300.0f;
 	private float attackSpeed = 600.0f;
-	private float playerX = 0;
+	public static float playerX = 0;
 	private float playerY = 10;
 	private Texture man1;
 	private Texture man2;
@@ -47,6 +48,11 @@ public class Player {
 	
 	int x;
 	int y;
+	int health = 5;
+	int maxHealth = 5;
+	int immunityFrames = 20;
+	
+	Levels lv = new Levels();
 	
 	public void setPlats(int[]fuck, int me){
 		platArr = fuck;
@@ -64,12 +70,46 @@ public class Player {
 	public Boolean isDead(){
 	return dead;
 }
+	public void setHealth( int health, boolean attacked ) {
+        this.health = health;
+        if (attacked) {
+            tookDamage = true;
+        }
+    }
+	
+	private boolean tookDamage = false;
+    private int immunity = 0;
+    private boolean immune = false;
+    public void damageImmunity() {
+        if ( tookDamage == true ) {
+            immunity = immunityFrames;
+            tookDamage = false;
+            immune = true;
+        }
+        if ( immunity == 0 ) {
+            tookDamage = false;
+            immune = false;
+        }
+        if ( immunity > 0 ) {
+            immunity--;
+        }
+        
+    }
+    
+    public boolean immune() {
+        return immune;
+    }
+    
+    
+	
+	
 
 	public float attackSpeed(){
 	return attackSpeed;
 }
 
 	public void save(){
+	health = maxHealth;
 	dead = false;
 	playerX = 0;
 	playerY = 10;
@@ -124,7 +164,7 @@ public class Player {
 		attackY = playerY + 5;
 	}
 	
-	public void getPlayerInput(int[][] grid, Physics py, Boolean testStatus, float elapsed_time, OrthographicCamera camera) {
+	public void getPlayerInput(int[][] grid, Physics py, Boolean testStatus, float elapsed_time) {
 		// Action Listeners for dpad key presses
 		if (jumping > 0) {
 			if (runAnim == 1) {
@@ -200,13 +240,7 @@ public class Player {
 			currentAnim = 7;
 			previous = 7;
 		}
-		
-		if (testStatus == true)
-			return;
 
-		
-		
-		
 		if ((int)playerY <= plats){
 			if (jumping > 0){
 				jumping--;
@@ -228,12 +262,16 @@ public class Player {
 			}
 		}
 
-		if (playerX <= 0) {
+		if (playerX <= 0 && lv.currentScene == 1) {
 			playerX -= playerX;
 		}
+		
+		//Removed for level transitions
+		/*
 		if (playerX >= worldWidth - 70) {
 			playerX -= Gdx.graphics.getDeltaTime() * playerSpeed;
 		}
+		*/
 		
 		for(int i = 0; i < platCount; i+=2){
 			if ((int)playerX >= platArr[i] * platform.getWidth() * .25f && (int)playerX <= platArr[i]*platform.getWidth() * .25f+platform.getWidth() * .25f){
@@ -267,10 +305,8 @@ public class Player {
 		//playerY = py.platCollisionY(grid, 75, 50, playerX, playerY);	
 		playerY = py.gravity(playerY,plats);
 	
-
 		elapsed_time += Gdx.graphics.getDeltaTime();
 
-		camera.position.x = playerX;
 	}
 	
 	public void getAttack(Boolean testStatus) {

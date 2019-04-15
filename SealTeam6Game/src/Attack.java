@@ -39,8 +39,5 @@ public class Attack {
 		starty = y;
 		curx = startx;
 		dir = d;
-		
-		
-		
 	}
 }
