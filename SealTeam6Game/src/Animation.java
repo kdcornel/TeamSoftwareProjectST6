@@ -8,7 +8,7 @@ public class Animation {
     private float maxFrameTime;
     private float currentFrameTime;
     private int frameCount;
-    private int frame;
+    private int frame = 0;
 
 
     public Animation(TextureRegion region, int frameCount, float cycleTime){

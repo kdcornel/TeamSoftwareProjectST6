@@ -1,4 +1,6 @@
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,10 +14,13 @@ public class Enemy {
    private float speed = 150f;
    private boolean alive = true;
    private Texture l;
+   private int helpx;
    private Texture r;
    private Animation left;
    private Animation right;
    private Music manHit;
+   private int plats;
+   Texture platform = new Texture(Gdx.files.internal("Assets/platform.png"));
    
    public Enemy(int k){
 	   
@@ -42,9 +47,9 @@ public class Enemy {
    }
    
    public void reset(){
-	   alive = true;
-	   x = 650;
-	   //y = 0;
+       alive = true;
+       x = ThreadLocalRandom.current().nextInt(0,750);
+       y = ThreadLocalRandom.current().nextInt(0,1000);
    }
    
    public void kill(){
@@ -86,7 +91,7 @@ public class Enemy {
 	   l = new Texture(Gdx.files.internal("Assets/Hellhound Left.png"));
 	   left = new Animation(new TextureRegion(l), 4, 40);
 	   right = new Animation(new TextureRegion(r), 4, 40);
-	   y = 0;
+	   y = ThreadLocalRandom.current().nextInt(0,1000);
    }
    
    public void enemySpider(){
@@ -94,7 +99,7 @@ public class Enemy {
 	   l = new Texture(Gdx.files.internal("Assets/Spider Left.png"));
 	   left = new Animation(new TextureRegion(l), 8, 40);
 	   right = new Animation(new TextureRegion(r), 8, 40);
-	   y = -15;
+	   y = ThreadLocalRandom.current().nextInt(0,1000);
    }
    
    public void eSwitch(){
@@ -142,9 +147,12 @@ public class Enemy {
 		return death;
 	}
 	
-	public float getEnemyInput(float playerX) {
+	public float getEnemyInput(float playerX, Physics py, int[] platArr) {
 		float absDist = x - playerX;
 		float actDist = x - playerX;
+		int platCount = platArr.length;
+		 
+		
 		if (absDist < 0) {
 			absDist = absDist * -1;
 		}
@@ -160,6 +168,26 @@ public class Enemy {
 				x -= Gdx.graphics.getDeltaTime() * speed;
 			}
 		}
+		
+		
+		for(int i = 0; i < platCount; i+=2){
+			if ((int)x >= platArr[i] * platform.getWidth() * .25f && (int)x <= platArr[i]*platform.getWidth() * .25f+platform.getWidth() * .25f){
+				if ((int)y >= platArr[i+1]*platform.getHeight() * .5f + platform.getHeight() * .5f){
+					plats = (int)(platArr[i+1]*platform.getHeight() * .5f+platform.getHeight() * .5f);
+					helpx = (int) (platArr[i] * platform.getWidth() * .25f);
+//					
+				}
+			}
+		}
+		
+//		
+		
+		if (helpx < (int)x - 40 || helpx > (int)x+75){
+			plats = 0;
+		}
+		y = py.gravity(y, plats);
+		
+		
 		return actDist;
 	}
 

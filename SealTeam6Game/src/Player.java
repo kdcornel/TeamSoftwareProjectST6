@@ -316,6 +316,10 @@ public class Player {
 
 	}
 	
+	public int getPlats(){
+		return plats;
+	}
+	
 	public void getAttack(Boolean testStatus) {
 		if (attacking == false) {
 			attackX = playerX;

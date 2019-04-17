@@ -18,25 +18,31 @@ public class Levels {
 		// Forward transition
 		if (playerX >= 1840)
 		{
+			if (currentScene < 3){
 			prevTwice = false;
 			currentScene++;
 			prevScene++;
 			playerX = 0;
+			} else {playerX = 1840;}
 		}
 		// Backwards transition
 		if (playerX < 0 && prevTwice == false)
 		{
 			prevTwice = true;
+			if (currentScene > 1){
 			currentScene--;
 			prevScene++;
 			playerX = 1800;
+			} else {playerX = 0;}
 		}
 		// Double backwards transition
 		if (playerX < 0 && prevTwice == true)
 		{
-			currentScene--;
-			prevScene--;
-			playerX = 1800;
+			if (currentScene > 1){
+				currentScene--;
+				prevScene--;
+				playerX = 1800;
+				} else {playerX = 0;}
 		}
 		// First level
 		if (currentScene == 1)
@@ -56,7 +62,7 @@ public class Levels {
 		// Third level
 		if (currentScene == 3)
 		{
-			batchMain.draw(HelloWorld.region1, 0, 0);
+			batchMain.draw(HelloWorld.region3, 0, 0);
 			batchMain.draw(platform, 300, pY);
 		}
 		return playerX;
