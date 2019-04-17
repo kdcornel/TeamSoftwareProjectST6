@@ -149,20 +149,6 @@ public class HelloWorld extends ApplicationAdapter {
 			}
 		}
 		float xyz = enemy1.getEnemyInput(player.x());
-		// platformY();
-		
-		//batch1.begin();
-		//batch1.draw(region, 0, 0);
-		
-//		for(int i = 0; i < 4; i+=2){
-//			if ((int)player.x() > platArr[i]*75 && (int)player.x() < platArr[i]*75+75){
-//				if ((int)player.y() > platArr[i+1]*50+50){
-//					abovePlat = true;
-//					platHeight = platArr[i+1]*50+50;
-//					player.setPlat(platHeight);
-//				}
-//			}
-//		}
 		
 		batchMain.begin();
 		
@@ -179,63 +165,27 @@ public class HelloWorld extends ApplicationAdapter {
 		}
 		//Trying to draw coin animation here
 
-		if (!player.isDead()){
+		if (!player.isDead()) {
 			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
-
-		if (!player.isDead()){
-
-			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y() + 10);
-
-
-			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
+		}
 
 		if (enemy1.pulse()) {
 			batchMain.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY());
 		}
-
-//		if (player.isAttacking()) {
-//			if (player.attackSpeed() > 0) {
-//					batchMain.draw(fireball1, (int) player.ax(), (int) player.ay());
-//				} else {
-//					batchMain.draw(fireball2, (int) player.ax(), (int) player.ay());
-//				}
-//				float absDist = player.ax() - player.start();
-//				if (absDist < 0) {
-//					absDist = absDist * -1;
-//				}
-//				if (absDist > 500) {
-//					player.NotAttacking();
-//				}
-//			}
-//		} else {
-//			if (blackout.count() < 18){
-//			blackout.update(0.5f);
-//			}
-//			batchMain.draw(blackout.getFrame(), 0, 0);
-//			result = scoreboard.concat(Integer.toString(enemy1.pnts()));
-//            font.draw(batchMain, result, 350, 250);
-//		}
-	      if (Attack.attacking()) {
-	            if (Attack.dir == 0) {
-	                    batchMain.draw(fireball2, (int) Attack.curx, (int) Attack.starty);
-	                } else {
-	                    batchMain.draw(fireball1, (int) Attack.curx, (int) Attack.starty);
-	                }
-	            }
+	    if (Attack.attacking()) {
+	        if (Attack.dir == 0) {
+	            batchMain.draw(fireball2, (int) Attack.curx, (int) Attack.starty);
 	        } else {
-	            if (blackout.count() < 18){
-	            blackout.update(0.5f);
-	            }
-	            batchMain.draw(blackout.getFrame(), 0, 0);
-	            result = scoreboard.concat(Integer.toString(enemy1.pnts()));
-	            font.draw(batchMain, result, 350, 250);
+	            batchMain.draw(fireball1, (int) Attack.curx, (int) Attack.starty);
 	        }
-		//batch1.end();
-		
-		//camera.update();
-			
-		}
-		
+	    } else {
+	        if (blackout.count() < 18){
+	            blackout.update(0.5f);
+	        }
+	        batchMain.draw(blackout.getFrame(), 0, 0);
+	        result = scoreboard.concat(Integer.toString(enemy1.pnts()));
+	        font.draw(batchMain, result, 350, 250);
+	    }
 		batchMain.end();
 	}
 
