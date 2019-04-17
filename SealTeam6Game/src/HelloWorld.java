@@ -152,8 +152,6 @@ public class HelloWorld extends ApplicationAdapter {
 				killCount = 0;
 			}
 		}
-		float xyz = enemy1.getEnemyInput(player.x());
-
 		float xyz = enemy1.getEnemyInput(player.x(), py, platArr);
 		
 		batchMain.begin();
@@ -208,10 +206,9 @@ public class HelloWorld extends ApplicationAdapter {
 	                } else {
 	                    batchMain.draw(fireball1, (int) Attack.curx, (int) Attack.starty);
 	                }
-	            }
 	        } else {	
 	            if (blackout.count() < 18){
-	            blackout.update(0.5f);
+	                blackout.update(0.5f);
 	            } 
 	            batchMain.draw(blackout.getFrame(), 0, 0);
 	            result = scoreboard.concat(Integer.toString(enemy1.pnts()));
