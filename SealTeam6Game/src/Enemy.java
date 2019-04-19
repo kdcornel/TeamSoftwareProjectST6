@@ -9,7 +9,7 @@ import com.badlogic.gdx.audio.Music;
 public class Enemy {
    private float x = 650;
    private float y = 0;
-   private int pnts = 0;
+   public static int pnts = 0;
    private int marker;
    private float speed = 150f;
    private boolean alive = true;

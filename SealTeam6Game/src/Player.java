@@ -10,7 +10,7 @@ public class Player {
 	private int plats = 0;
 	private boolean platYes = false;
 	private int[] platArr;
-	private int[] coinArr = {50,50, 100,100, 150,30};
+	private int[] coinArr = {50,50, 100,10, 150,10, 200,10, 225,10, 300,10};
 	private Texture coin = new Texture(Gdx.files.internal("Assets/Coin.png"));
 	private int platCount;
 	private Animation manRight;
@@ -31,8 +31,8 @@ public class Player {
 	private Texture man4;
 	private Texture man5;
 	private Texture man6;
-	private int worldHeight = 500;
-	private int worldWidth = 750;
+	private int worldHeight = 1920;
+	private int worldWidth = 1000;
 	private int currentAnim = 1;
 	private int prevAnim = 1;
 	private int runAnim = 1;
@@ -49,7 +49,7 @@ public class Player {
 
 	private int dir = 1;
 
-	private int score = 0;
+	private int score = Enemy.pnts;
 	
 	int x;
 	int y;
@@ -169,7 +169,7 @@ public class Player {
 		attackY = playerY + 5;
 	}
 	
-	public void getPlayerInput(int[][] grid, Physics py, Boolean testStatus, float elapsed_time) {
+	public void getPlayerInput(Physics py, Boolean testStatus, float elapsed_time) {
 		// Action Listeners for dpad key presses
 		if (jumping > 0) {
 			if (runAnim == 1) {
@@ -259,7 +259,7 @@ public class Player {
 		
 		
 		if (playerY >= worldHeight || playerY <= 0) {
-			playerY -= playerY;
+			//playerY -= playerY;
 			if (jumped == true) {
 				if (jumping > 0) {
 					jumping--;
@@ -291,18 +291,9 @@ public class Player {
 			}
 		}
 		
-//		for(int i = 0; i < coinArr.length; i+=2){
-//			if (playerX == coinArr[i] * coin.getWidth()){
-//				if (playerY == coinArr[i+1] * coin.getHeight()){
-//					score++;
-//					if (score > 1) {System.out.println(score);}
-//					coinArr[i] = 69;
-//					coinArr[i+1] = 420;
-//				}
-//			}
-//		}
+		getCoin();
 		
-		//Dont delet this! Just WIP for coin tracking
+		
 		
 		if ((int)playerX < x - 40 || (int)playerX > x+75){
 			plats = 0;
@@ -314,6 +305,24 @@ public class Player {
 	
 		elapsed_time += Gdx.graphics.getDeltaTime();
 
+	}
+	
+	public void getCoin(){
+		for(int i = 0; i < coinArr.length; i+=2){
+			int coinW = coinArr[i] + 20;
+			int coinH = coinArr[i+1] + 30;
+			if (playerX >= coinArr[i] -20 && playerX <= coinW){
+				if (playerY >= coinArr[i+1] - 30 && playerY <= coinH){
+					Enemy.pnts++;
+					if (Enemy.pnts >= 1) {System.out.println(Enemy.pnts);}
+					coinArr[i] = 69;
+					coinArr[i+1] = 420;
+					HelloWorld.coinArr[i] = 69420;
+					HelloWorld.coinArr[i+1] = 42069;
+				}
+			}
+		}
+		
 	}
 	
 	public int getPlats(){
