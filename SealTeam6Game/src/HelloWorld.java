@@ -159,8 +159,10 @@ public class HelloWorld extends ApplicationAdapter {
 		// Changes level on player location
 		Player.playerX = lv.changeScene(batchMain, Player.playerX, pY, platform);
 //
-
-
+		for (int i = 0; i < coinArr.length; i+=2){
+			batchMain.draw(coin, coinArr[i], coinArr[i+1]);
+		}
+		//Trying to draw coin animation here
 
 		if (!player.isDead()){
 
@@ -177,10 +179,26 @@ public class HelloWorld extends ApplicationAdapter {
 			
 
 			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
+		}
 
 		if (enemy1.pulse()) {
 			batchMain.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY());
 		}
+
+	    if (Attack.attacking()) {
+	        if (Attack.dir == 0) {
+	            batchMain.draw(fireball2, (int) Attack.curx, (int) Attack.starty);
+	        } else {
+	            batchMain.draw(fireball1, (int) Attack.curx, (int) Attack.starty);
+	        }
+	    } else {
+	        if (blackout.count() < 18){
+	            blackout.update(0.5f);
+	        }
+	        batchMain.draw(blackout.getFrame(), 0, 0);
+	        result = scoreboard.concat(Integer.toString(enemy1.pnts()));
+	        font.draw(batchMain, result, 350, 250);
+	    }
 
 	      if (Attack.attacking()) {
 	            if (Attack.dir == 0) {
@@ -188,10 +206,9 @@ public class HelloWorld extends ApplicationAdapter {
 	                } else {
 	                    batchMain.draw(fireball1, (int) Attack.curx, (int) Attack.starty);
 	                }
-	            }
 	        } else {	
 	            if (blackout.count() < 18){
-	            blackout.update(0.5f);
+	                blackout.update(0.5f);
 	            } 
 	            batchMain.draw(blackout.getFrame(), 0, 0);
 	            result = scoreboard.concat(Integer.toString(enemy1.pnts()));
@@ -200,8 +217,6 @@ public class HelloWorld extends ApplicationAdapter {
 		
 		//camera.update();
 			
-		
-		
 		batchMain.end();
 	
 	}
