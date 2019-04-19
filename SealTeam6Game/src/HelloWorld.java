@@ -191,7 +191,7 @@ public class HelloWorld extends ApplicationAdapter {
 	        } else {
 	            batchMain.draw(fireball1, (int) Attack.curx, (int) Attack.starty);
 	        }
-	    } else {
+	    } else if ( player.isDead() ){
 	        if (blackout.count() < 18){
 	            blackout.update(0.5f);
 	        }
@@ -199,21 +199,6 @@ public class HelloWorld extends ApplicationAdapter {
 	        result = scoreboard.concat(Integer.toString(enemy1.pnts()));
 	        font.draw(batchMain, result, 350, 250);
 	    }
-
-	      if (Attack.attacking()) {
-	            if (Attack.dir == 0) {
-	                    batchMain.draw(fireball2, (int) Attack.curx, (int) Attack.starty);
-	                } else {
-	                    batchMain.draw(fireball1, (int) Attack.curx, (int) Attack.starty);
-	                }
-	        } else {	
-	            if (blackout.count() < 18){
-	                blackout.update(0.5f);
-	            } 
-	            batchMain.draw(blackout.getFrame(), 0, 0);
-	            result = scoreboard.concat(Integer.toString(enemy1.pnts()));
-	            font.draw(batchMain, result, 950, 500);
-	        }
 		
 		//camera.update();
 			
