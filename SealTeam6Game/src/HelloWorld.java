@@ -16,7 +16,7 @@ public class HelloWorld extends ApplicationAdapter {
 	}
 
 	private int[] platArr = {0,0, 3,3, 2,2, 1,1, 5,6, 2,3, 4,2, 5,2};
-	private int[] coinArr = {50,50, 100,100, 150,30};
+	public static int[] coinArr = {50,50, 100,10, 150,10, 200,10, 225,10, 300,10};
 	private int[][] grid = Physics.tileGrid();
 	String result;
 	private String scoreboard = "Score: ";
@@ -139,9 +139,9 @@ public class HelloWorld extends ApplicationAdapter {
 			}
 		}
 		player.cTp();
-		player.getPlayerInput(grid, py, testStatus, elapsed_time);
+		player.getPlayerInput(py, testStatus, elapsed_time);
 		
-		player.getPlayerInput(grid, py, testStatus, elapsed_time);
+		player.getPlayerInput(py, testStatus, elapsed_time);
 		player.life(enemy1.getEvPcollision(player.x(), player.y(), player.isDead()));
 		
 		enemy1.getEvAcollision(Attack.curx, Attack.starty);
