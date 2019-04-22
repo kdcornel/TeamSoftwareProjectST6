@@ -80,6 +80,7 @@ public class HelloWorld extends ApplicationAdapter {
 		player = new Player();
 		enemy1 = new Enemy(1);
 		player.setPlats(platArr, platArr.length);
+		player.setCoins(coinArr);
 	}
 
 	@Override
@@ -118,7 +119,6 @@ public class HelloWorld extends ApplicationAdapter {
 		platform = new Texture(Gdx.files.internal("Assets/platform.png"));
 		coin = new Texture(Gdx.files.internal("Assets/Coin.png"));
 		coinRegion = new Animation(new TextureRegion(coin), 4, 35);
-		//TODO get coin animation working
 	}
 	
 	@Override
@@ -158,11 +158,7 @@ public class HelloWorld extends ApplicationAdapter {
 		
 		// Changes level on player location
 		Player.playerX = lv.changeScene(batchMain, Player.playerX, pY, platform);
-//
-		for (int i = 0; i < coinArr.length; i+=2){
-			batchMain.draw(coin, coinArr[i], coinArr[i+1]);
-		}
-		//Trying to draw coin animation here
+
 
 		if (!player.isDead()){
 
@@ -191,7 +187,7 @@ public class HelloWorld extends ApplicationAdapter {
 	        } else {
 	            batchMain.draw(fireball1, (int) Attack.curx, (int) Attack.starty);
 	        }
-	    } else {
+	    } else if(player.isDead()){
 	        if (blackout.count() < 18){
 	            blackout.update(0.5f);
 	        }
@@ -199,21 +195,6 @@ public class HelloWorld extends ApplicationAdapter {
 	        result = scoreboard.concat(Integer.toString(enemy1.pnts()));
 	        font.draw(batchMain, result, 350, 250);
 	    }
-
-	      if (Attack.attacking()) {
-	            if (Attack.dir == 0) {
-	                    batchMain.draw(fireball2, (int) Attack.curx, (int) Attack.starty);
-	                } else {
-	                    batchMain.draw(fireball1, (int) Attack.curx, (int) Attack.starty);
-	                }
-	        } else {	
-	            if (blackout.count() < 18){
-	                blackout.update(0.5f);
-	            } 
-	            batchMain.draw(blackout.getFrame(), 0, 0);
-	            result = scoreboard.concat(Integer.toString(enemy1.pnts()));
-	            font.draw(batchMain, result, 950, 500);
-	        }
 		
 		//camera.update();
 			

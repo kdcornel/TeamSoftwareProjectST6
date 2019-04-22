@@ -10,7 +10,8 @@ public class Player {
 	private int plats = 0;
 	private boolean platYes = false;
 	private int[] platArr;
-	private int[] coinArr = {50,50, 100,10, 150,10, 200,10, 225,10, 300,10};
+	private static int[] coinArr;
+	private static final int[] startCoinArr = coinArr;
 	private Texture coin = new Texture(Gdx.files.internal("Assets/Coin.png"));
 	private int platCount;
 	private Animation manRight;
@@ -62,6 +63,10 @@ public class Player {
 	public void setPlats(int[]fuck, int me){
 		platArr = fuck;
 		platCount = me;
+	}
+	
+	public void setCoins(int[] coins){
+		coinArr = coins;
 	}
 	
 	public void kill(){
@@ -324,6 +329,7 @@ public class Player {
 		}
 		
 	}
+	
 	
 	public int getPlats(){
 		return plats;
