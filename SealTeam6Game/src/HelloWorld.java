@@ -118,12 +118,12 @@ public class HelloWorld extends ApplicationAdapter {
 		// Sprite bkgSprite = new Sprite(bkgTexture);
 		fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
 		fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
-		platform = new Texture(Gdx.files.internal("Assets/Platform2_SpriteSheet.png"));
-		//platform = new Texture(Gdx.files.internal("Assets/platform.png"));
+		//platform = new Texture(Gdx.files.internal("Assets/Platform2_SpriteSheet.png"));
+		platform = new Texture(Gdx.files.internal("Assets/platform2.png"));
 		coin = new Texture(Gdx.files.internal("Assets/Coin.png"));
 		coinRegion = new Animation(new TextureRegion(coin), 4, 35);
 
-		platformRegion = new Animation(new TextureRegion(platform), 36, 35);
+		//platformRegion = new Animation(new TextureRegion(platform), 36, 35);
 		//TODO get coin animation working 
 	}
 	
@@ -146,7 +146,16 @@ public class HelloWorld extends ApplicationAdapter {
 		}
 		player.cTp();
 		player.getPlayerInput(py, testStatus, elapsed_time);
-		player.life(enemy1.getEvPcollision(player.x(), player.y(), player.isDead()));
+		player.damageImmunity();
+		if (enemy1.getEvPcollision(player.x(), player.y(), player.isDead())) {
+			if ( !player.immune() ) {
+				player.setHealth(player.health-1, true);
+			}
+		}
+		if ( player.health == 0 ) {
+			player.kill();
+			System.out.println("The player is dead");
+		}
 		
 		enemy1.getEvAcollision(Attack.curx, Attack.starty);
 		if (!enemy1.pulse()){
@@ -171,10 +180,6 @@ public class HelloWorld extends ApplicationAdapter {
 			
 			for (int i = 0; i < platArr.length; i+=2){
 				batchMain.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
-				batchMain.draw(platformRegion.getFrame(), platArr[i]*150f, platArr[i+1]*50f, 106.5f, 90f);
-				System.out.println("Xheight: " + platform.getWidth()*.25f);
-				System.out.println("Yheight: " + platform.getHeight()*.5f);
-				
 			}
 			
 
@@ -197,8 +202,6 @@ public class HelloWorld extends ApplicationAdapter {
 	        } else {
 	            batchMain.draw(fireball1, (int) Attack.curx, (int) Attack.starty);
 	        }
-
-	    } else if(player.isDead()){
 
 	    } else if ( player.isDead() ){
 	        if (blackout.count() < 18){

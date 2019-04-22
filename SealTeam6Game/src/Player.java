@@ -84,6 +84,7 @@ public class Player {
         this.health = health;
         if (attacked) {
             tookDamage = true;
+            System.out.println("The player took damage");
         }
     }
 	
@@ -99,9 +100,11 @@ public class Player {
         if ( immunity == 0 ) {
             tookDamage = false;
             immune = false;
+            System.out.println("The player is no longer immune");
         }
         if ( immunity > 0 ) {
             immunity--;
+            System.out.println("The player is immune");
         }
         
     }
