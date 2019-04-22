@@ -15,7 +15,8 @@ public class HelloWorld extends ApplicationAdapter {
 		createApplication();
 	}
 
-	private int[] platArr = {0,0, 3,3, 2,2, 1,1, 5,6, 2,3, 4,2, 5,2};
+	private int[] platArr = {0,0, 3,3, 2,2, 1,1, 5,6, 2,3, 4,2, 5,2, 12,12, 12,8, 11,7, 9,6, 9,4, 3,12, 4,6, 3,5, 3,7, 6,4, 6,9, 8,2 };
+	
 	public static int[] coinArr = {50,50, 100,10, 150,10, 200,10, 225,10, 300,10};
 	private int[][] grid = Physics.tileGrid();
 	String result;
@@ -39,6 +40,7 @@ public class HelloWorld extends ApplicationAdapter {
 	Texture fireball1;
 	Texture fireball2;
 	Texture platform;
+	Animation platformRegion;
 
 	Texture coin;
 	Animation coinRegion;
@@ -99,7 +101,7 @@ public class HelloWorld extends ApplicationAdapter {
 	
 	public void initialize() {
 		Texture death = new Texture(Gdx.files.internal("Assets/Blackout.png"));
-		Texture bkgTexture1 = new Texture(Gdx.files.internal("Assets/LowerResBkg2.jpg"));
+		Texture bkgTexture1 = new Texture(Gdx.files.internal("Assets/869.jpg"));
 		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/snoop.jpg"));
 		Texture bkgTexture3 = new Texture(Gdx.files.internal("Assets/2phones.png"));
 		Texture font1 = new Texture(Gdx.files.internal("Assets/IntroFont.png"));
@@ -115,9 +117,11 @@ public class HelloWorld extends ApplicationAdapter {
 		// Sprite bkgSprite = new Sprite(bkgTexture);
 		fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
 		fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
-		platform = new Texture(Gdx.files.internal("Assets/platform.png"));
+		platform = new Texture(Gdx.files.internal("Assets/Platform2_SpriteSheet.png"));
+		//platform = new Texture(Gdx.files.internal("Assets/platform.png"));
 		coin = new Texture(Gdx.files.internal("Assets/Coin.png"));
 		coinRegion = new Animation(new TextureRegion(coin), 4, 35);
+		platformRegion = new Animation(new TextureRegion(platform), 36, 35);
 		//TODO get coin animation working
 	}
 	
@@ -140,8 +144,6 @@ public class HelloWorld extends ApplicationAdapter {
 		}
 		player.cTp();
 		player.getPlayerInput(py, testStatus, elapsed_time);
-		
-		player.getPlayerInput(py, testStatus, elapsed_time);
 		player.life(enemy1.getEvPcollision(player.x(), player.y(), player.isDead()));
 		
 		enemy1.getEvAcollision(Attack.curx, Attack.starty);
@@ -158,10 +160,7 @@ public class HelloWorld extends ApplicationAdapter {
 		
 		// Changes level on player location
 		Player.playerX = lv.changeScene(batchMain, Player.playerX, pY, platform);
-//
-		for (int i = 0; i < coinArr.length; i+=2){
-			batchMain.draw(coin, coinArr[i], coinArr[i+1]);
-		}
+
 		//Trying to draw coin animation here
 
 		if (!player.isDead()){
@@ -169,6 +168,10 @@ public class HelloWorld extends ApplicationAdapter {
 			
 			for (int i = 0; i < platArr.length; i+=2){
 				batchMain.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
+				batchMain.draw(platformRegion.getFrame(), platArr[i]*150f, platArr[i+1]*50f, 106.5f, 90f);
+				System.out.println("Xheight: " + platform.getWidth()*.25f);
+				System.out.println("Yheight: " + platform.getHeight()*.5f);
+				
 			}
 			
 
