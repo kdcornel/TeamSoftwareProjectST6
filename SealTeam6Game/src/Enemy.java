@@ -84,6 +84,9 @@ public class Enemy {
    public int pnts() {
        return pnts;
    }
+   public void setPnts(int x){
+	   pnts = x;
+   }
    
    public void coin(){
 	   r = new Texture(Gdx.files.internal("Assets/Coin.png"));

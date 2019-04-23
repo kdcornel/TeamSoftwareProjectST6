@@ -15,9 +15,7 @@ public class HelloWorld extends ApplicationAdapter {
 		createApplication();
 	}
 
-	private int[] platArr;// = {0,0, 3,3, 2,2, 1,1, 5,6, 2,3, 4,2, 5,2, 12,12, 12,8, 11,7, 9,6, 9,4, 3,12, 4,6, 3,5, 3,7, 6,4, 6,9, 8,2 };
-	
-	//public static int[] coinArr = {50,50, 100,10, 150,10, 200,10, 225,10, 300,10};
+	private int[] platArr;
 	private int[][] grid = Physics.tileGrid();
 	String result;
 	private String scoreboard = "Score: ";
@@ -153,6 +151,8 @@ public class HelloWorld extends ApplicationAdapter {
 				enemy2.reset();
 				enemy2.eSwitch();
 				blackout.reset();
+				enemy1.setPnts(0);
+				enemy2.setPnts(0);
 			}
 		}
 		player.cTp();

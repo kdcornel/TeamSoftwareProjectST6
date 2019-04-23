@@ -281,12 +281,7 @@ public class Player {
 			playerX -= playerX;
 		}
 		
-		//Removed for level transitions
-		/*
-		if (playerX >= worldWidth - 70) {
-			playerX -= Gdx.graphics.getDeltaTime() * playerSpeed;
-		}
-		*/
+
 		platYes = false;
 		for(int i = 0; i < platCount; i+=2){
 			if ((int)playerX >= platArr[i] * platform.getWidth() * .25f - 40 && (int)playerX <= platArr[i]*platform.getWidth() * .25f+platform.getWidth() * .25f-10){
@@ -300,16 +295,7 @@ public class Player {
 		}
 		
 		getCoin();
-		
-//		if (playerX < x - 40){
-//			if (platArr[y+1] != platArr[y-1])
-//			{plats = 0;}
-//		}
-//		
-//		if (playerX > x + 90){
-//			if (platArr[y+1] != platArr[y-1])
-//			{plats = 0;}
-//		}
+
 		
 		if ((int)playerX < x - 40 || (int)playerX > x+80){
 			if (platYes == false){
@@ -317,8 +303,6 @@ public class Player {
 			}
 		}
 		
-		
-		//playerY = py.platCollisionY(grid, 75, 50, playerX, playerY);	
 		playerY = py.gravity(playerY,plats);
 	
 		elapsed_time += Gdx.graphics.getDeltaTime();
@@ -335,8 +319,6 @@ public class Player {
 					if (Enemy.pnts >= 1) {System.out.println(Enemy.pnts);}
 					coinArr[i] = 6900;
 					coinArr[i+1] = 4200;
-					//HelloWorld.setCoins(i, 69420);//[i] = 69420;
-					//HelloWorld.setCoins(i+1, 42069);//coinArr[i+1] = 42069;
 				}
 			}
 		}
