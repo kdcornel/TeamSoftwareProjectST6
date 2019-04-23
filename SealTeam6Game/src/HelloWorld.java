@@ -252,7 +252,7 @@ public class HelloWorld extends ApplicationAdapter {
 	            	}
 	            }
 	        }
-	        batchMain.draw(blackout.getFrame(), 0, 0);
+	        batchMain.draw(blackout.getFrame(), 0, 0, blackout.getFrame().getRegionWidth() * 2.7f, blackout.getFrame().getRegionHeight() * 2f);
 	        result = scoreboard.concat(Integer.toString(enemy1.pnts()));
 	        font.draw(batchMain, result, 950, 500);
 		}
