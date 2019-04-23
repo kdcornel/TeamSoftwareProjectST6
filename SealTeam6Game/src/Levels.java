@@ -91,7 +91,7 @@ public class Levels {
 		{
 			firstScene = false;
 			batchMain.draw(HelloWorld.region1, 0, 0);
-			//batchMain.draw(HelloWorld.introFont, 400, 550);
+			batchMain.draw(HelloWorld.introFont, 400, 550);
 			//batchMain.draw(HelloWorld.tutorialArrows, 0, 0);
 			
 		}

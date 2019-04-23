@@ -150,6 +150,8 @@ public class HelloWorld extends ApplicationAdapter {
 				player.save();
 				enemy1.reset();
 				enemy1.eSwitch();
+				enemy2.reset();
+				enemy2.eSwitch();
 				blackout.reset();
 			}
 		}
@@ -219,10 +221,18 @@ public class HelloWorld extends ApplicationAdapter {
 		
 
 		if (enemy1.pulse()) {
-			batchMain.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY());
+			if ( enemy1.getMarker() == 0 ) {
+				batchMain.draw(enemy1.animate(abc), (int) enemy1.getX(), (int) enemy1.getY()-15);
+			} else {
+				batchMain.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY()-5);
+			}
 		}
 		if (enemy2.pulse()) {
-			batchMain.draw(enemy2.animate(abc), (int) enemy2.getX(), (int) enemy2.getY());
+			if ( enemy2.getMarker() == 0 ) {
+				batchMain.draw(enemy2.animate(abc), (int) enemy2.getX(), (int) enemy2.getY()-15);
+			} else {
+				batchMain.draw(enemy2.animate(xyz), (int) enemy2.getX(), (int) enemy2.getY()-5);
+			}
 		}
 
 	    if (Attack.attacking()) {

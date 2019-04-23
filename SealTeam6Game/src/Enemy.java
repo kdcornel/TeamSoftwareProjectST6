@@ -22,6 +22,10 @@ public class Enemy {
    private int plats;
    Texture platform = new Texture(Gdx.files.internal("Assets/platform.png"));
    
+   public int getMarker() {
+	   return marker;
+   }
+   
    public Enemy(int k){
 	   
 	   manHit = Gdx.audio.newMusic(Gdx.files.internal("Assets/HitPlayer.wav"));
