@@ -317,8 +317,15 @@ public class Player {
 				if (playerY >= coinArr[i+1] - 30 && playerY <= coinH){
 					Enemy.pnts++;
 					if (Enemy.pnts >= 1) {System.out.println(Enemy.pnts);}
+
+					coinArr[i] += 6900;
+					coinArr[i+1] += 6900;
+					//HelloWorld.setCoins(i, 69420);//[i] = 69420;
+					//HelloWorld.setCoins(i+1, 42069);//coinArr[i+1] = 42069;
+
 					coinArr[i] = 6900;
 					coinArr[i+1] = 4200;
+
 				}
 			}
 		}
