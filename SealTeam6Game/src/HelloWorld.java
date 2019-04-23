@@ -106,7 +106,7 @@ public class HelloWorld extends ApplicationAdapter {
 	public void initialize() {
 		Texture death = new Texture(Gdx.files.internal("Assets/Blackout.png"));
 		Texture bkgTexture1 = new Texture(Gdx.files.internal("Assets/869.jpg"));
-		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/snoop.jpg"));
+		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/LowerResBkg2.jpg"));
 		Texture bkgTexture3 = new Texture(Gdx.files.internal("Assets/2phones.png"));
 		Texture font1 = new Texture(Gdx.files.internal("Assets/IntroFont.png"));
 		Texture arrows = new Texture(Gdx.files.internal("Assets/arrows.png"));
