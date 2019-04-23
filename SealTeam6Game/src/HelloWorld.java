@@ -246,6 +246,11 @@ public class HelloWorld extends ApplicationAdapter {
 	    } else if ( player.isDead() ){
 	        if (blackout.count() < 18){
 	            blackout.update(0.5f);
+	            for (int i = 0; i < coinArr.length; i++){
+	            	if (coinArr[i] > 2000){
+	            		coinArr[i] -= 6900;
+	            	}
+	            }
 	        }
 	        batchMain.draw(blackout.getFrame(), 0, 0);
 	        result = scoreboard.concat(Integer.toString(enemy1.pnts()));
