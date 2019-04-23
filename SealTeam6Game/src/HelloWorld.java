@@ -24,6 +24,7 @@ public class HelloWorld extends ApplicationAdapter {
 	public Player player;
 	
 	public Enemy enemy1;
+	public Enemy enemy2;
 	public static int worldWidth = 1920;
 	public static int worldHeight = 1000;
 	private Music menuMusic;
@@ -82,6 +83,7 @@ public class HelloWorld extends ApplicationAdapter {
 		menuMusic.setVolume(0.05f);
 		player = new Player();
 		enemy1 = new Enemy(1);
+		enemy2 = new Enemy(2);
 		platArr = lv.changePlats();
 		coinArr = lv.changeCoins();
 		player.setPlats(platArr, platArr.length);
@@ -154,7 +156,7 @@ public class HelloWorld extends ApplicationAdapter {
 		player.cTp();
 		player.getPlayerInput(py, testStatus, elapsed_time);
 		player.damageImmunity();
-		if (enemy1.getEvPcollision(player.x(), player.y(), player.isDead())) {
+		if (enemy1.getEvPcollision(player.x(), player.y(), player.isDead()) || enemy2.getEvPcollision(player.x(), player.y(), player.isDead())) {
 			if ( !player.immune() ) {
 				player.setHealth(player.health-1, true);
 			}
@@ -173,6 +175,17 @@ public class HelloWorld extends ApplicationAdapter {
 			}
 		}
 		float xyz = enemy1.getEnemyInput(player.x(), py, platArr);
+		
+		enemy2.getEvAcollision(Attack.curx, Attack.starty);
+		if (!enemy2.pulse()){
+			killCount++;
+			if (killCount > 100){
+				enemy2.reset();
+				killCount = 0;
+			}
+		}
+		
+		float abc = enemy2.getEnemyInput(player.x(), py, platArr);
 		
 		batchMain.begin();
 		
@@ -207,6 +220,9 @@ public class HelloWorld extends ApplicationAdapter {
 
 		if (enemy1.pulse()) {
 			batchMain.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY());
+		}
+		if (enemy2.pulse()) {
+			batchMain.draw(enemy2.animate(abc), (int) enemy2.getX(), (int) enemy2.getY());
 		}
 
 	    if (Attack.attacking()) {

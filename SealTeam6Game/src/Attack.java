@@ -27,6 +27,7 @@ public class Attack {
 		
 		if (absDist > 500){
 			attacking = false;
+			curx = -10;
 		}
 		
 		return attacking;
