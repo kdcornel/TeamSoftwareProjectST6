@@ -15,9 +15,9 @@ public class HelloWorld extends ApplicationAdapter {
 		createApplication();
 	}
 
-	private int[] platArr = {0,0, 3,3, 2,2, 1,1, 5,6, 2,3, 4,2, 5,2, 12,12, 12,8, 11,7, 9,6, 9,4, 3,12, 4,6, 3,5, 3,7, 6,4, 6,9, 8,2 };
+	private int[] platArr;// = {0,0, 3,3, 2,2, 1,1, 5,6, 2,3, 4,2, 5,2, 12,12, 12,8, 11,7, 9,6, 9,4, 3,12, 4,6, 3,5, 3,7, 6,4, 6,9, 8,2 };
 	
-	public static int[] coinArr = {50,50, 100,10, 150,10, 200,10, 225,10, 300,10};
+	//public static int[] coinArr = {50,50, 100,10, 150,10, 200,10, 225,10, 300,10};
 	private int[][] grid = Physics.tileGrid();
 	String result;
 	private String scoreboard = "Score: ";
@@ -33,6 +33,7 @@ public class HelloWorld extends ApplicationAdapter {
 	float elapsed_time = 0f;
 	Physics py = new Physics();
 	Levels lv = new Levels();
+	int[] coinArr = lv.changeCoins();
 	int pY = -20;
 	int pSpeed = 1;
 	Texture bkgTexture;
@@ -81,6 +82,8 @@ public class HelloWorld extends ApplicationAdapter {
 		menuMusic.setVolume(0.05f);
 		player = new Player();
 		enemy1 = new Enemy(1);
+		platArr = lv.changePlats();
+		coinArr = lv.changeCoins();
 		player.setPlats(platArr, platArr.length);
 		player.setCoins(coinArr);
 	}
@@ -118,7 +121,7 @@ public class HelloWorld extends ApplicationAdapter {
 		// Sprite bkgSprite = new Sprite(bkgTexture);
 		fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
 		fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
-		platform = new Texture(Gdx.files.internal("Assets/Platform2_SpriteSheet.png"));
+		platform = new Texture(Gdx.files.internal("Assets/platform.png"));
 		//platform = new Texture(Gdx.files.internal("Assets/platform.png"));
 		coin = new Texture(Gdx.files.internal("Assets/Coin.png"));
 		coinRegion = new Animation(new TextureRegion(coin), 4, 35);
@@ -134,6 +137,8 @@ public class HelloWorld extends ApplicationAdapter {
 			init = true;
 		}
 		
+//		platArr = lv.changePlats();
+//		coinArr = lv.changeCoins();
 		if (player.isDead()){
 			deathCount++;
 			if (deathCount > 100){
@@ -162,7 +167,10 @@ public class HelloWorld extends ApplicationAdapter {
 		
 		// Changes level on player location
 		Player.playerX = lv.changeScene(batchMain, Player.playerX, pY, platform);
-
+		platArr = lv.changePlats();
+		coinArr = lv.changeCoins();
+		player.setCoins(coinArr);
+		player.setPlats(platArr, platArr.length);
 
 		//Trying to draw coin animation here 
 
@@ -171,7 +179,7 @@ public class HelloWorld extends ApplicationAdapter {
 			
 			for (int i = 0; i < platArr.length; i+=2){
 				batchMain.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
-				batchMain.draw(platformRegion.getFrame(), platArr[i]*150f, platArr[i+1]*50f, 106.5f, 90f);
+				//batchMain.draw(platformRegion.getFrame(), platArr[i]*150f, platArr[i+1]*50f, 106.5f, 90f);
 				System.out.println("Xheight: " + platform.getWidth()*.25f);
 				System.out.println("Yheight: " + platform.getHeight()*.5f);
 				
@@ -185,7 +193,7 @@ public class HelloWorld extends ApplicationAdapter {
 			
 
 			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
-		}
+		
 
 		if (enemy1.pulse()) {
 			batchMain.draw(enemy1.animate(xyz), (int) enemy1.getX(), (int) enemy1.getY());
@@ -197,20 +205,18 @@ public class HelloWorld extends ApplicationAdapter {
 	        } else {
 	            batchMain.draw(fireball1, (int) Attack.curx, (int) Attack.starty);
 	        }
-
-	    } else if(player.isDead()){
-
-	    } else if ( player.isDead() ){
+	    } 
+		}else{
 	        if (blackout.count() < 18){
 	            blackout.update(0.5f);
 	        }
 	        batchMain.draw(blackout.getFrame(), 0, 0);
 	        result = scoreboard.concat(Integer.toString(enemy1.pnts()));
 	        font.draw(batchMain, result, 350, 250);
-	    }
+		}
 		
 		//camera.update();
-			
+		
 		batchMain.end();
 	
 	}
@@ -220,6 +226,10 @@ public class HelloWorld extends ApplicationAdapter {
 	
 	@Override
 	public void resize(int width, int height) {
+	}
+	
+	public void setCoins(int i, int x){
+		coinArr[i] = x;
 	}
 
 	@Override

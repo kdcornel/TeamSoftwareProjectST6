@@ -8,6 +8,48 @@ public class Levels {
 	boolean firstScene = true;
 	boolean prevTwice = false;
 	
+	private int[] platArr1 = {1,1,2,1,6,1,7,1,10,1,11,1,13,1,14,1,3,3,5,3,8,3,12,3,15,3,2,5,4,5,5,5,9,5,16,5,3,7,4,7,6,7,11,7,17,7,7,9,8,9,9,9};
+	private int[] platArr2 = {3,1,7,1,11,1,15,1,4,2,8,2,12,2,13,3};
+	private int[] platArr3 = {4,2,8,2,12,2,4,4,8,4,12,4,4,6,8,6,12,6,4,8,8,8,12,8,4,10,8,10,12,10};
+	
+	
+	private int[] coinArr1 = {50,50, 100,100, 150,30};
+	private int[] coinArr2 = {200,50, 400,100, 600,30};
+	private int[] coinArr3 = {300, 100, 400, 200, 1200, 600};
+	
+	public int[] changePlats(){
+		if (currentScene == 0){
+		return platArr1;
+		}
+		if (currentScene == 1){
+			return platArr1;
+			}
+		if (currentScene == 2){
+			return platArr2;
+			}
+		if (currentScene == 3){
+			return platArr3;
+			}
+		return platArr1;
+	}
+	
+	
+	public int[] changeCoins(){
+		if (currentScene == 0){
+		return coinArr1;
+		}
+		if (currentScene == 1){
+			return coinArr1;
+			}
+		if (currentScene == 2){
+			return coinArr2;
+			}
+		if (currentScene == 3){
+			return coinArr3;
+			} else
+		return coinArr1;
+	}
+	
 	public float changeScene(SpriteBatch batchMain, float playerX, int pY, Texture platform)
 	{
 		// Only on start scene
@@ -57,13 +99,13 @@ public class Levels {
 		if (currentScene == 2)
 		{
 			batchMain.draw(HelloWorld.region2, 0, 0);
-			batchMain.draw(platform, 150, pY);
+			//batchMain.draw(platform, 150, pY);
 		}
 		// Third level
 		if (currentScene == 3)
 		{
 			batchMain.draw(HelloWorld.region3, 0, 0);
-			batchMain.draw(platform, 300, pY);
+			//batchMain.draw(platform, 300, pY);
 		}
 		return playerX;
 	}

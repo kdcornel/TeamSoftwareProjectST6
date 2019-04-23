@@ -211,7 +211,7 @@ public class Player {
 			}
 			jumped = true;
 			jumping = 15;
-			justJumped = 60;
+			justJumped = 30;
 		}
 		if (Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
 			// goombaY -= Gdx.graphics.getDeltaTime() * goombaSpeed;
@@ -284,24 +284,34 @@ public class Player {
 			playerX -= Gdx.graphics.getDeltaTime() * playerSpeed;
 		}
 		*/
-		
+		platYes = false;
 		for(int i = 0; i < platCount; i+=2){
-			if ((int)playerX >= platArr[i] * platform.getWidth() * .25f && (int)playerX <= platArr[i]*platform.getWidth() * .25f+platform.getWidth() * .25f){
-				if ((int)playerY >= platArr[i+1]*platform.getHeight() * .5f + platform.getHeight() * .5f){
+			if ((int)playerX >= platArr[i] * platform.getWidth() * .25f - 40 && (int)playerX <= platArr[i]*platform.getWidth() * .25f+platform.getWidth() * .25f-10){
+				if ((int)playerY >= platArr[i+1]*platform.getHeight() * .5f + platform.getHeight() * .5f - 15){
 					plats = (int)(platArr[i+1]*platform.getHeight() * .5f+platform.getHeight() * .5f);
 					platYes = true;
 					x = (int) (platArr[i] * platform.getWidth() * .25f);
-//					y = platArr[i+1]*50+50;
+					y = i;
 				}
 			}
 		}
 		
 		getCoin();
 		
+//		if (playerX < x - 40){
+//			if (platArr[y+1] != platArr[y-1])
+//			{plats = 0;}
+//		}
+//		
+//		if (playerX > x + 90){
+//			if (platArr[y+1] != platArr[y-1])
+//			{plats = 0;}
+//		}
 		
-		
-		if ((int)playerX < x - 40 || (int)playerX > x+75){
+		if ((int)playerX < x - 40 || (int)playerX > x+80){
+			if (platYes == false){
 			plats = 0;
+			}
 		}
 		
 		
@@ -320,10 +330,10 @@ public class Player {
 				if (playerY >= coinArr[i+1] - 30 && playerY <= coinH){
 					Enemy.pnts++;
 					if (Enemy.pnts >= 1) {System.out.println(Enemy.pnts);}
-					coinArr[i] = 69;
-					coinArr[i+1] = 420;
-					HelloWorld.coinArr[i] = 69420;
-					HelloWorld.coinArr[i+1] = 42069;
+					coinArr[i] = 6900;
+					coinArr[i+1] = 4200;
+					//HelloWorld.setCoins(i, 69420);//[i] = 69420;
+					//HelloWorld.setCoins(i+1, 42069);//coinArr[i+1] = 42069;
 				}
 			}
 		}
