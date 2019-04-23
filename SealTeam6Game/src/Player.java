@@ -320,11 +320,6 @@ public class Player {
 
 					coinArr[i] += 6900;
 					coinArr[i+1] += 6900;
-					//HelloWorld.setCoins(i, 69420);//[i] = 69420;
-					//HelloWorld.setCoins(i+1, 42069);//coinArr[i+1] = 42069;
-
-					coinArr[i] = 6900;
-					coinArr[i+1] = 4200;
 
 				}
 			}
