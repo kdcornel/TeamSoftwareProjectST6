@@ -107,7 +107,7 @@ public class HelloWorld extends ApplicationAdapter {
 		Texture death = new Texture(Gdx.files.internal("Assets/Blackout.png"));
 		Texture bkgTexture1 = new Texture(Gdx.files.internal("Assets/869.jpg"));
 		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/LowerResBkg2.jpg"));
-		Texture bkgTexture3 = new Texture(Gdx.files.internal("Assets/2phones.png"));
+		Texture bkgTexture3 = new Texture(Gdx.files.internal("Assets/spookyBackground.jpg"));
 		Texture font1 = new Texture(Gdx.files.internal("Assets/IntroFont.png"));
 		Texture arrows = new Texture(Gdx.files.internal("Assets/arrows.png"));
 		region1 = new TextureRegion(bkgTexture1, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -121,9 +121,6 @@ public class HelloWorld extends ApplicationAdapter {
 		// Sprite bkgSprite = new Sprite(bkgTexture);
 		fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
 		fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
-		platform = new Texture(Gdx.files.internal("Assets/platform.png"));
-		//platform = new Texture(Gdx.files.internal("Assets/platform.png"));
-		//platform = new Texture(Gdx.files.internal("Assets/Platform2_SpriteSheet.png"));
 		platform = new Texture(Gdx.files.internal("Assets/platform2.png"));
 		coin = new Texture(Gdx.files.internal("Assets/Coin.png"));
 		coinRegion = new Animation(new TextureRegion(coin), 4, 35);
