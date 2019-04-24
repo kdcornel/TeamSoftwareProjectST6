@@ -227,10 +227,12 @@ public class HelloWorld extends ApplicationAdapter {
 			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
 			
 			for ( int i = 0; i < 5; i++) {
-				if ( i < player.health ) {
-					batchMain.draw(heart, 10 + (75 * i), 800);
+				if ( i == player.health-1 ) {
+					batchMain.draw(heart, 10 + (50 * i), 700, heart.getWidth()*2f, heart.getWidth()*2f);
+				}else if ( i < player.health-1 ) {
+					batchMain.draw(heart, 10 + (50 * i), 700, heart.getWidth()*1.5f, heart.getWidth()*1.5f);
 				} else {
-					batchMain.draw(broken, 10 + (75 * i), 800);
+					batchMain.draw(broken, 10 + (55 * i), 700, heart.getWidth()*1.5f, heart.getWidth()*1.5f);
 				}
 			}
 		
