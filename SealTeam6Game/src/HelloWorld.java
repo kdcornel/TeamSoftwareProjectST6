@@ -23,6 +23,10 @@ public class HelloWorld extends ApplicationAdapter {
 	
 	public Enemy enemy1;
 	public Enemy enemy2;
+	public Enemy enemy3;
+	public Enemy enemy4;
+	public Enemy enemy5;
+	public Enemy enemy6;
 	public static int worldWidth = 1920;
 	public static int worldHeight = 1000;
 	private Music menuMusic;
@@ -86,6 +90,10 @@ public class HelloWorld extends ApplicationAdapter {
 		player = new Player();
 		enemy1 = new Enemy(1);
 		enemy2 = new Enemy(2);
+		enemy3 = new Enemy(2);
+		enemy4 = new Enemy(2);
+		enemy5 = new Enemy(2);
+		enemy6 = new Enemy(2);
 		platArr = lv.changePlats();
 		coinArr = lv.changeCoins();
 		player.setPlats(platArr, platArr.length);
@@ -110,7 +118,7 @@ public class HelloWorld extends ApplicationAdapter {
 	public void initialize() {
 		Texture death = new Texture(Gdx.files.internal("Assets/Blackout.png"));
 		Texture bkgTexture1 = new Texture(Gdx.files.internal("Assets/869.jpg"));
-		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/LowerResBkg2.jpg"));
+		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/870.png"));
 		Texture bkgTexture3 = new Texture(Gdx.files.internal("Assets/spookyBackground.jpg"));
 		Texture font1 = new Texture(Gdx.files.internal("Assets/IntroFont.png"));
 		Texture arrows = new Texture(Gdx.files.internal("Assets/arrows.png"));
@@ -127,7 +135,6 @@ public class HelloWorld extends ApplicationAdapter {
 		// Sprite bkgSprite = new Sprite(bkgTexture);
 		fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
 		fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
-
 		
 		heart = new Texture(Gdx.files.internal("Assets/Heart_full.png"));
 		broken = new Texture(Gdx.files.internal("Assets/Heart_empty.png"));
@@ -141,6 +148,11 @@ public class HelloWorld extends ApplicationAdapter {
 
 		//platformRegion = new Animation(new TextureRegion(platform), 36, 35);
 		//TODO get coin animation working 
+		
+		enemy3.kill();
+		enemy4.kill();
+		enemy5.kill();
+		enemy6.kill();
 	}
 	
 	@Override
@@ -150,6 +162,7 @@ public class HelloWorld extends ApplicationAdapter {
 			init = true;
 		}
 		
+
 		if(lv.currentScene==1){
 			platform = new Texture(Gdx.files.internal("Assets/platform2.png"));
 		}
@@ -168,6 +181,10 @@ public class HelloWorld extends ApplicationAdapter {
 	
 		
 		
+
+//		platArr = lv.changePlats();
+//		coinArr = lv.changeCoins();
+
 		if (player.isDead()){
 			deathCount++;
 			if (deathCount > 200){
@@ -185,7 +202,9 @@ public class HelloWorld extends ApplicationAdapter {
 		player.cTp();
 		player.getPlayerInput(py, testStatus, elapsed_time);
 		player.damageImmunity();
-		if (enemy1.getEvPcollision(player.x(), player.y(), player.isDead()) || enemy2.getEvPcollision(player.x(), player.y(), player.isDead())) {
+		if (enemy1.getEvPcollision(player.x(), player.y(), player.isDead()) || enemy2.getEvPcollision(player.x(), player.y(), player.isDead())
+				|| enemy3.getEvPcollision(player.x(), player.y(), player.isDead()) || enemy4.getEvPcollision(player.x(), player.y(), player.isDead())
+						|| enemy5.getEvPcollision(player.x(), player.y(), player.isDead()) || enemy6.getEvPcollision(player.x(), player.y(), player.isDead())) {
 			if ( !player.immune() ) {
 				player.setHealth(player.health-1, true);
 			}
@@ -215,6 +234,46 @@ public class HelloWorld extends ApplicationAdapter {
 		}
 		
 		float abc = enemy2.getEnemyInput(player.x(), py, platArr);
+		if (Levels.currentScene == 3)
+		{
+			enemy3.getEvAcollision(Attack.curx, Attack.starty);
+			if (!enemy3.pulse()){
+				killCount++;
+				if (killCount > 100){
+					enemy3.reset();
+					killCount = 0;
+				}
+			}
+			enemy4.getEvAcollision(Attack.curx, Attack.starty);
+			if (!enemy4.pulse()){
+				killCount++;
+				if (killCount > 100){
+					enemy4.reset();
+					killCount = 0;
+				}
+			}
+			enemy5.getEvAcollision(Attack.curx, Attack.starty);
+			if (!enemy5.pulse()){
+				killCount++;
+				if (killCount > 100){
+					enemy5.reset();
+					killCount = 0;
+				}
+			}
+			enemy6.getEvAcollision(Attack.curx, Attack.starty);
+			if (!enemy6.pulse()){
+				killCount++;
+				if (killCount > 100){
+					enemy6.reset();
+					killCount = 0;
+				}
+			}
+		}
+		
+		float bcd = enemy3.getEnemyInput(player.x(), py, platArr);
+		float cde = enemy4.getEnemyInput(player.x(), py, platArr);
+		float def = enemy5.getEnemyInput(player.x(), py, platArr);
+		float efg = enemy6.getEnemyInput(player.x(), py, platArr);
 		
 		batchMain.begin();
 		
@@ -228,8 +287,6 @@ public class HelloWorld extends ApplicationAdapter {
 		//Trying to draw coin animation here 
 
 		if (!player.isDead()){
-
-			
 			for (int i = 0; i < platArr.length; i+=2){
 				batchMain.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
 			}
@@ -244,16 +301,13 @@ public class HelloWorld extends ApplicationAdapter {
 			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
 			
 			for ( int i = 0; i < 5; i++) {
-				if ( i == player.health-1 ) {
-					batchMain.draw(heart, 10 + (50 * i), 700, heart.getWidth()*2f, heart.getWidth()*2f);
-				}else if ( i < player.health-1 ) {
-					batchMain.draw(heart, 10 + (50 * i), 700, heart.getWidth()*1.5f, heart.getWidth()*1.5f);
+				if ( i < player.health ) {
+					batchMain.draw(heart, 10 + (75 * i), 800);
 				} else {
-					batchMain.draw(broken, 10 + (55 * i), 700, heart.getWidth()*1.5f, heart.getWidth()*1.5f);
+					batchMain.draw(broken, 10 + (75 * i), 800);
 				}
 			}
 		
-
 		if (enemy1.pulse()) {
 			if ( enemy1.getMarker() == 0 ) {
 				batchMain.draw(enemy1.animate(abc), (int) enemy1.getX(), (int) enemy1.getY()-15);
@@ -266,6 +320,21 @@ public class HelloWorld extends ApplicationAdapter {
 				batchMain.draw(enemy2.animate(abc), (int) enemy2.getX(), (int) enemy2.getY()-15);
 			} else {
 				batchMain.draw(enemy2.animate(xyz), (int) enemy2.getX(), (int) enemy2.getY()-5);
+			}
+		}
+		if (Levels.currentScene == 3)
+		{
+			if (enemy3.pulse()) {
+				batchMain.draw(enemy3.animate(bcd), (int) enemy3.getX(), (int) enemy3.getY());
+			}
+			if (enemy4.pulse()) {
+				batchMain.draw(enemy4.animate(cde), (int) enemy4.getX(), (int) enemy4.getY());
+			}
+			if (enemy5.pulse()) {
+				batchMain.draw(enemy5.animate(def), (int) enemy5.getX(), (int) enemy5.getY());
+			}
+			if (enemy6.pulse()) {
+				batchMain.draw(enemy6.animate(efg), (int) enemy6.getX(), (int) enemy6.getY());
 			}
 		}
 
