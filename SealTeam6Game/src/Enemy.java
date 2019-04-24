@@ -43,8 +43,18 @@ public class Enemy {
 		   l = new Texture(Gdx.files.internal("Assets/Spider Left.png"));
 		   left = new Animation(new TextureRegion(l), 8, 35);
 		   right = new Animation(new TextureRegion(r), 8, 35);
-		   x = 900;
 		   marker = 0;
+		   
+		   if (k == 2)
+			   x = 900;
+		   if (k == 3)
+			   x = 1100;
+		   if (k == 4)
+			   x = 1150;
+		   if (k == 5)
+			   x = 1200;
+		   if (k == 6)
+			   x = 1350;
 	   }
    }
    
