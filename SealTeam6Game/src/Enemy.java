@@ -20,6 +20,7 @@ public class Enemy {
    private Animation right;
    private Music manHit;
    private int plats;
+   private Boolean platYes;
    Texture platform = new Texture(Gdx.files.internal("Assets/platform.png"));
    
    public int getMarker() {
@@ -177,10 +178,11 @@ public class Enemy {
 			}
 		}
 		
-		
+		platYes = false;
 		for(int i = 0; i < platCount; i+=2){
 			if ((int)x >= platArr[i] * platform.getWidth() * .25f && (int)x <= platArr[i]*platform.getWidth() * .25f+platform.getWidth() * .25f){
 				if ((int)y >= platArr[i+1]*platform.getHeight() * .5f + platform.getHeight() * .5f){
+					platYes = true;
 					plats = (int)(platArr[i+1]*platform.getHeight() * .5f+platform.getHeight() * .5f);
 					helpx = (int) (platArr[i] * platform.getWidth() * .25f);
 //					
@@ -190,8 +192,9 @@ public class Enemy {
 		
 //		
 		
-		if (helpx < (int)x - 40 || helpx > (int)x+75){
-			plats = 0;
+		if (helpx < (int)x - 40 || helpx > (int)x+80){
+			if(!platYes)
+			{plats = 0;}
 		}
 		y = py.gravity(y, plats);
 		
