@@ -352,10 +352,12 @@ public class HelloWorld extends ApplicationAdapter {
 	            		coinArr[i] -= 6900;
 	            	}
 	            }
+	            
 	        }
 	        batchMain.draw(blackout.getFrame(), 0, 0, blackout.getFrame().getRegionWidth() * 2.7f, blackout.getFrame().getRegionHeight() * 2f);
 	        result = scoreboard.concat(Integer.toString(enemy1.pnts()));
 	        font.draw(batchMain, result, 950, 500);
+	        lv.currentScene = 1;
 		}
 		
 		//camera.update();
