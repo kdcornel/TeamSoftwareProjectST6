@@ -136,8 +136,24 @@ public class HelloWorld extends ApplicationAdapter {
 			init = true;
 		}
 		
-//		platArr = lv.changePlats();
-//		coinArr = lv.changeCoins();
+		if(lv.currentScene==1){
+			platform = new Texture(Gdx.files.internal("Assets/platform2.png"));
+		}
+		
+		if(lv.currentScene==2){
+			platform = new Texture(Gdx.files.internal("Assets/platform.png"));
+		}
+		
+		if(lv.currentScene==3){
+			platform = new Texture(Gdx.files.internal("Assets/platform.png"));
+		}
+		
+		
+		
+		
+		
+		
+		
 		if (player.isDead()){
 			deathCount++;
 			if (deathCount > 100){
