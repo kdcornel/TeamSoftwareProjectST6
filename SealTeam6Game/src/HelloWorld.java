@@ -118,7 +118,7 @@ public class HelloWorld extends ApplicationAdapter {
 	public void initialize() {
 		Texture death = new Texture(Gdx.files.internal("Assets/Blackout.png"));
 		Texture bkgTexture1 = new Texture(Gdx.files.internal("Assets/869.jpg"));
-		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/870.png"));
+		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/LowerResBkg2.jpg"));
 		Texture bkgTexture3 = new Texture(Gdx.files.internal("Assets/spookyBackground.jpg"));
 		Texture font1 = new Texture(Gdx.files.internal("Assets/IntroFont.png"));
 		Texture arrows = new Texture(Gdx.files.internal("Assets/arrows.png"));
@@ -138,10 +138,6 @@ public class HelloWorld extends ApplicationAdapter {
 		
 		heart = new Texture(Gdx.files.internal("Assets/Heart_full.png"));
 		broken = new Texture(Gdx.files.internal("Assets/Heart_empty.png"));
-		
-		platform = new Texture(Gdx.files.internal("Assets/platform.png"));
-		//platform = new Texture(Gdx.files.internal("Assets/platform.png"));
-		//platform = new Texture(Gdx.files.internal("Assets/Platform2_SpriteSheet.png"));
 		platform = new Texture(Gdx.files.internal("Assets/platform2.png"));
 		coin = new Texture(Gdx.files.internal("Assets/Coin.png"));
 		coinRegion = new Animation(new TextureRegion(coin), 4, 35);
@@ -168,7 +164,7 @@ public class HelloWorld extends ApplicationAdapter {
 		}
 		
 		if(lv.currentScene==2){
-			platform = new Texture(Gdx.files.internal("Assets/platform.png"));
+			platform = new Texture(Gdx.files.internal("Assets/platform3.png"));
 		}
 		
 		if(lv.currentScene==3){
@@ -361,10 +357,12 @@ public class HelloWorld extends ApplicationAdapter {
 	            		coinArr[i] -= 6900;
 	            	}
 	            }
+	            
 	        }
 	        batchMain.draw(blackout.getFrame(), 0, 0, blackout.getFrame().getRegionWidth() * 2.7f, blackout.getFrame().getRegionHeight() * 2f);
 	        result = scoreboard.concat(Integer.toString(enemy1.pnts()));
 	        font.draw(batchMain, result, 950, 500);
+	        lv.currentScene = 1;
 		}
 		
 		//camera.update();
