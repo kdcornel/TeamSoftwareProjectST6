@@ -84,8 +84,6 @@ public class Player {
         this.health = health;
         if (attacked) {
             tookDamage = true;
-            System.out.println("The player took damage");
-            System.out.println(health);
         }
     }
 	

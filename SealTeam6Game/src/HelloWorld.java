@@ -268,6 +268,11 @@ public class HelloWorld extends ApplicationAdapter {
 					killCount = 0;
 				}
 			}
+		} else {
+			enemy3.kill();
+			enemy4.kill();
+			enemy5.kill();
+			enemy6.kill();
 		}
 		
 		float bcd = enemy3.getEnemyInput(player.x(), py, platArr);
@@ -327,16 +332,16 @@ public class HelloWorld extends ApplicationAdapter {
 		if (Levels.currentScene == 3)
 		{
 			if (enemy3.pulse()) {
-				batchMain.draw(enemy3.animate(bcd), (int) enemy3.getX(), (int) enemy3.getY());
+				batchMain.draw(enemy3.animate(bcd), (int) enemy3.getX(), (int) enemy3.getY()-15);
 			}
 			if (enemy4.pulse()) {
-				batchMain.draw(enemy4.animate(cde), (int) enemy4.getX(), (int) enemy4.getY());
+				batchMain.draw(enemy4.animate(cde), (int) enemy4.getX(), (int) enemy4.getY()-15);
 			}
 			if (enemy5.pulse()) {
-				batchMain.draw(enemy5.animate(def), (int) enemy5.getX(), (int) enemy5.getY());
+				batchMain.draw(enemy5.animate(def), (int) enemy5.getX(), (int) enemy5.getY()-15);
 			}
 			if (enemy6.pulse()) {
-				batchMain.draw(enemy6.animate(efg), (int) enemy6.getX(), (int) enemy6.getY());
+				batchMain.draw(enemy6.animate(efg), (int) enemy6.getX(), (int) enemy6.getY()-15);
 			}
 		}
 
