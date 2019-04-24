@@ -19,20 +19,17 @@ public class Levels {
 
 	
 	public void genCoins(){
-	for (int i = 0; i < platArr1.length;i++){
-		coinArr1[i] = platArr1[i]*100;
-		i++;
-		coinArr1[i] = platArr1[i]*50;
+	for (int i = 0; i < platArr1.length;i+=2){
+		coinArr1[i]=coinArr1[i]*110;
+		coinArr1[i+1] = coinArr1[i+1]*60;
 	}
-	for (int i = 0; i < platArr2.length;i++){
-		coinArr2[i] = platArr2[i]*100;
-		i++;
-		coinArr2[i] = platArr2[i]*50;
+	for (int i = 0; i < platArr2.length;i+=2){
+		coinArr2[i]=coinArr2[i]*110;
+		coinArr2[i+1] = coinArr2[i+1]*60;
 	}
-	for (int i = 0; i < platArr3.length;i++){
-		coinArr3[i] = platArr3[i]*100;
-		i++;
-		coinArr3[i] = platArr3[i]*50;
+	for (int i = 0; i < platArr3.length;i+=2){
+		coinArr3[i]=coinArr3[i]*110;
+		coinArr3[i+1] = coinArr3[i+1]*60;
 	}
 	}
 	
