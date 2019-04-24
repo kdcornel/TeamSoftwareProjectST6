@@ -115,7 +115,7 @@ public class HelloWorld extends ApplicationAdapter {
 		Texture font1 = new Texture(Gdx.files.internal("Assets/IntroFont.png"));
 		Texture arrows = new Texture(Gdx.files.internal("Assets/arrows.png"));
 		
-		
+		lv.genCoins();
 		region1 = new TextureRegion(bkgTexture1, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		region2 = new TextureRegion(bkgTexture2, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		region3 = new TextureRegion(bkgTexture3, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -165,12 +165,12 @@ public class HelloWorld extends ApplicationAdapter {
 		
 		
 		
-		
+	
 		
 		
 		if (player.isDead()){
 			deathCount++;
-			if (deathCount > 100){
+			if (deathCount > 200){
 				deathCount = 0;
 				player.save();
 				enemy1.reset();
