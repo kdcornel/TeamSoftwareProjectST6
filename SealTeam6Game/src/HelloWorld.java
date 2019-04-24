@@ -228,11 +228,11 @@ public class HelloWorld extends ApplicationAdapter {
 			
 			for ( int i = 0; i < 5; i++) {
 				if ( i == player.health-1 ) {
-					batchMain.draw(heart, 10 + (50 * i), 700, heart.getWidth()*2f, heart.getWidth()*2f);
+					batchMain.draw(heart, 10 + (50 * i), 785, heart.getWidth()*2f, heart.getWidth()*2f);
 				}else if ( i < player.health-1 ) {
-					batchMain.draw(heart, 10 + (50 * i), 700, heart.getWidth()*1.5f, heart.getWidth()*1.5f);
+					batchMain.draw(heart, 10 + (50 * i), 800, heart.getWidth()*1.5f, heart.getWidth()*1.5f);
 				} else {
-					batchMain.draw(broken, 10 + (55 * i), 700, heart.getWidth()*1.5f, heart.getWidth()*1.5f);
+					batchMain.draw(broken, 25 + (50 * i), 800, heart.getWidth()*1.5f, heart.getWidth()*1.5f);
 				}
 			}
 		
