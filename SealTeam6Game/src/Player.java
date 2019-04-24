@@ -315,8 +315,6 @@ public class Player {
 			if (playerX >= coinArr[i] -20 && playerX <= coinW){
 				if (playerY >= coinArr[i+1] - 30 && playerY <= coinH){
 					Enemy.pnts++;
-					if (Enemy.pnts >= 1) {System.out.println(Enemy.pnts);}
-
 					coinArr[i] += 6900;
 					coinArr[i+1] += 6900;
 

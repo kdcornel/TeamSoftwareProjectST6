@@ -23,6 +23,10 @@ public class HelloWorld extends ApplicationAdapter {
 	
 	public Enemy enemy1;
 	public Enemy enemy2;
+	public Enemy enemy3;
+	public Enemy enemy4;
+	public Enemy enemy5;
+	public Enemy enemy6;
 	public static int worldWidth = 1920;
 	public static int worldHeight = 1000;
 	private Music menuMusic;
@@ -86,6 +90,10 @@ public class HelloWorld extends ApplicationAdapter {
 		player = new Player();
 		enemy1 = new Enemy(1);
 		enemy2 = new Enemy(2);
+		enemy3 = new Enemy(2);
+		enemy4 = new Enemy(2);
+		enemy5 = new Enemy(2);
+		enemy6 = new Enemy(2);
 		platArr = lv.changePlats();
 		coinArr = lv.changeCoins();
 		player.setPlats(platArr, platArr.length);
@@ -115,7 +123,7 @@ public class HelloWorld extends ApplicationAdapter {
 		Texture font1 = new Texture(Gdx.files.internal("Assets/IntroFont.png"));
 		Texture arrows = new Texture(Gdx.files.internal("Assets/arrows.png"));
 		
-		
+		lv.genCoins();
 		region1 = new TextureRegion(bkgTexture1, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		region2 = new TextureRegion(bkgTexture2, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		region3 = new TextureRegion(bkgTexture3, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -140,6 +148,11 @@ public class HelloWorld extends ApplicationAdapter {
 
 		//platformRegion = new Animation(new TextureRegion(platform), 36, 35);
 		//TODO get coin animation working 
+		
+		enemy3.kill();
+		enemy4.kill();
+		enemy5.kill();
+		enemy6.kill();
 	}
 	
 	@Override
@@ -149,11 +162,32 @@ public class HelloWorld extends ApplicationAdapter {
 			init = true;
 		}
 		
+
+		if(lv.currentScene==1){
+			platform = new Texture(Gdx.files.internal("Assets/platform2.png"));
+		}
+		
+		if(lv.currentScene==2){
+			platform = new Texture(Gdx.files.internal("Assets/platform.png"));
+		}
+		
+		if(lv.currentScene==3){
+			platform = new Texture(Gdx.files.internal("Assets/platform.png"));
+		}
+		
+		
+		
+		
+	
+		
+		
+
 //		platArr = lv.changePlats();
 //		coinArr = lv.changeCoins();
+
 		if (player.isDead()){
 			deathCount++;
-			if (deathCount > 100){
+			if (deathCount > 200){
 				deathCount = 0;
 				player.save();
 				enemy1.reset();
@@ -168,7 +202,9 @@ public class HelloWorld extends ApplicationAdapter {
 		player.cTp();
 		player.getPlayerInput(py, testStatus, elapsed_time);
 		player.damageImmunity();
-		if (enemy1.getEvPcollision(player.x(), player.y(), player.isDead()) || enemy2.getEvPcollision(player.x(), player.y(), player.isDead())) {
+		if (enemy1.getEvPcollision(player.x(), player.y(), player.isDead()) || enemy2.getEvPcollision(player.x(), player.y(), player.isDead())
+				|| enemy3.getEvPcollision(player.x(), player.y(), player.isDead()) || enemy4.getEvPcollision(player.x(), player.y(), player.isDead())
+						|| enemy5.getEvPcollision(player.x(), player.y(), player.isDead()) || enemy6.getEvPcollision(player.x(), player.y(), player.isDead())) {
 			if ( !player.immune() ) {
 				player.setHealth(player.health-1, true);
 			}
@@ -198,6 +234,46 @@ public class HelloWorld extends ApplicationAdapter {
 		}
 		
 		float abc = enemy2.getEnemyInput(player.x(), py, platArr);
+		if (Levels.currentScene == 3)
+		{
+			enemy3.getEvAcollision(Attack.curx, Attack.starty);
+			if (!enemy3.pulse()){
+				killCount++;
+				if (killCount > 100){
+					enemy3.reset();
+					killCount = 0;
+				}
+			}
+			enemy4.getEvAcollision(Attack.curx, Attack.starty);
+			if (!enemy4.pulse()){
+				killCount++;
+				if (killCount > 100){
+					enemy4.reset();
+					killCount = 0;
+				}
+			}
+			enemy5.getEvAcollision(Attack.curx, Attack.starty);
+			if (!enemy5.pulse()){
+				killCount++;
+				if (killCount > 100){
+					enemy5.reset();
+					killCount = 0;
+				}
+			}
+			enemy6.getEvAcollision(Attack.curx, Attack.starty);
+			if (!enemy6.pulse()){
+				killCount++;
+				if (killCount > 100){
+					enemy6.reset();
+					killCount = 0;
+				}
+			}
+		}
+		
+		float bcd = enemy3.getEnemyInput(player.x(), py, platArr);
+		float cde = enemy4.getEnemyInput(player.x(), py, platArr);
+		float def = enemy5.getEnemyInput(player.x(), py, platArr);
+		float efg = enemy6.getEnemyInput(player.x(), py, platArr);
 		
 		batchMain.begin();
 		
@@ -211,8 +287,6 @@ public class HelloWorld extends ApplicationAdapter {
 		//Trying to draw coin animation here 
 
 		if (!player.isDead()){
-
-			
 			for (int i = 0; i < platArr.length; i+=2){
 				batchMain.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
 			}
@@ -236,7 +310,6 @@ public class HelloWorld extends ApplicationAdapter {
 				}
 			}
 		
-
 		if (enemy1.pulse()) {
 			if ( enemy1.getMarker() == 0 ) {
 				batchMain.draw(enemy1.animate(abc), (int) enemy1.getX(), (int) enemy1.getY()-15);
@@ -249,6 +322,21 @@ public class HelloWorld extends ApplicationAdapter {
 				batchMain.draw(enemy2.animate(abc), (int) enemy2.getX(), (int) enemy2.getY()-15);
 			} else {
 				batchMain.draw(enemy2.animate(xyz), (int) enemy2.getX(), (int) enemy2.getY()-5);
+			}
+		}
+		if (Levels.currentScene == 3)
+		{
+			if (enemy3.pulse()) {
+				batchMain.draw(enemy3.animate(bcd), (int) enemy3.getX(), (int) enemy3.getY());
+			}
+			if (enemy4.pulse()) {
+				batchMain.draw(enemy4.animate(cde), (int) enemy4.getX(), (int) enemy4.getY());
+			}
+			if (enemy5.pulse()) {
+				batchMain.draw(enemy5.animate(def), (int) enemy5.getX(), (int) enemy5.getY());
+			}
+			if (enemy6.pulse()) {
+				batchMain.draw(enemy6.animate(efg), (int) enemy6.getX(), (int) enemy6.getY());
 			}
 		}
 
