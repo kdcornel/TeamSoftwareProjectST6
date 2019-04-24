@@ -37,10 +37,14 @@ public class HelloWorld extends ApplicationAdapter {
 	int pSpeed = 1;
 	Texture bkgTexture;
 	TextureRegion region;
+	
 	Texture fireball1;
 	Texture fireball2;
 	Texture platform;
 	Animation platformRegion;
+	
+	Texture heart;
+	Texture broken;
 
 	Texture coin;
 	Animation coinRegion;
@@ -106,10 +110,12 @@ public class HelloWorld extends ApplicationAdapter {
 	public void initialize() {
 		Texture death = new Texture(Gdx.files.internal("Assets/Blackout.png"));
 		Texture bkgTexture1 = new Texture(Gdx.files.internal("Assets/869.jpg"));
-		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/LowerResBkg2.jpg"));
-		Texture bkgTexture3 = new Texture(Gdx.files.internal("Assets/2phones.png"));
+		Texture bkgTexture2 = new Texture(Gdx.files.internal("Assets/870.png"));
+		Texture bkgTexture3 = new Texture(Gdx.files.internal("Assets/spookyBackground.jpg"));
 		Texture font1 = new Texture(Gdx.files.internal("Assets/IntroFont.png"));
 		Texture arrows = new Texture(Gdx.files.internal("Assets/arrows.png"));
+		
+		
 		region1 = new TextureRegion(bkgTexture1, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		region2 = new TextureRegion(bkgTexture2, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		region3 = new TextureRegion(bkgTexture3, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -121,6 +127,10 @@ public class HelloWorld extends ApplicationAdapter {
 		// Sprite bkgSprite = new Sprite(bkgTexture);
 		fireball1 = new Texture(Gdx.files.internal("Assets/fireball_0.png"));
 		fireball2 = new Texture(Gdx.files.internal("Assets/fireball_1.png"));
+		
+		heart = new Texture(Gdx.files.internal("Assets/Heart_full.png"));
+		broken = new Texture(Gdx.files.internal("Assets/Heart_empty.png"));
+		
 		platform = new Texture(Gdx.files.internal("Assets/platform.png"));
 		//platform = new Texture(Gdx.files.internal("Assets/platform.png"));
 		//platform = new Texture(Gdx.files.internal("Assets/Platform2_SpriteSheet.png"));
@@ -163,9 +173,9 @@ public class HelloWorld extends ApplicationAdapter {
 				player.setHealth(player.health-1, true);
 			}
 		}
+		
 		if ( player.health == 0 ) {
 			player.kill();
-			System.out.println("The player is dead");
 		}
 		
 		enemy1.getEvAcollision(Attack.curx, Attack.starty);
@@ -205,9 +215,6 @@ public class HelloWorld extends ApplicationAdapter {
 			
 			for (int i = 0; i < platArr.length; i+=2){
 				batchMain.draw(platform,  platArr[i]* platform.getWidth() * .25f, platArr[i+1] * platform.getHeight() * .5f, platform.getWidth() * .25f, platform.getHeight() * .5f);
-				//batchMain.draw(platformRegion.getFrame(), platArr[i]*150f, platArr[i+1]*50f, 106.5f, 90f);
-				System.out.println("Xheight: " + platform.getWidth()*.25f);
-				System.out.println("Yheight: " + platform.getHeight()*.5f);
 			}
 			
 
@@ -218,6 +225,14 @@ public class HelloWorld extends ApplicationAdapter {
 			
 
 			batchMain.draw(player.getTexture(), (int) player.x(), (int) player.y());
+			
+			for ( int i = 0; i < 5; i++) {
+				if ( i < player.health ) {
+					batchMain.draw(heart, 10 + (75 * i), 800);
+				} else {
+					batchMain.draw(broken, 10 + (75 * i), 800);
+				}
+			}
 		
 
 		if (enemy1.pulse()) {
